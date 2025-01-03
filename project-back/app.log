@@ -1,0 +1,2749 @@
+Exception on /registro [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 516, in _resolve_name
+    rval = d[token]
+           ~^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\_collections.py", line 345, in __missing__
+    self[key] = val = self.creator(key)
+                      ~~~~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 484, in _access_cls
+    return self.fallback[key]
+           ~~~~~~~~~~~~~^^^^^
+KeyError: 'Category'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 87, in registro
+    if User.query.filter_by(username=username).first():
+       ^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2722, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2399, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4215, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4256, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2416, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 589, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1642, in do_init
+    self._setup_entity()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1854, in _setup_entity
+    self._clsregistry_resolve_name(argument)(),
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 520, in _resolve_name
+    self._raise_for_name(name, err)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\clsregistry.py", line 501, in _raise_for_name
+    raise exc.InvalidRequestError(
+    ...<5 lines>...
+    ) from err
+sqlalchemy.exc.InvalidRequestError: When initializing mapper Mapper[User(users)], expression 'Category' failed to locate a name ('Category'). If this is a class name, consider adding this relationship() to the <class 'Modelos.User'> class after both dependent classes have been defined.
+Exception on /getCategorias [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+TypeError: getCategorias() missing 1 required positional argument: 'decoded'
+Exception on /getCategorias [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 113, in getCategorias
+    userId = decoded['user_id']
+             ^^^^^^^
+NameError: name 'decoded' is not defined
+Exception on /getCategorias [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 939, in finalize_request
+    response = self.make_response(rv)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1212, in make_response
+    raise TypeError(
+    ...<3 lines>...
+    )
+TypeError: The view function for 'getCategorias' did not return a valid response. The function either returned None or ended without a return statement.
+Exception on /getCategorias [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 939, in finalize_request
+    response = self.make_response(rv)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1212, in make_response
+    raise TypeError(
+    ...<3 lines>...
+    )
+TypeError: The view function for 'getCategorias' did not return a valid response. The function either returned None or ended without a return statement.
+Exception on /getCategorias [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 939, in finalize_request
+    response = self.make_response(rv)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1212, in make_response
+    raise TypeError(
+    ...<3 lines>...
+    )
+TypeError: The view function for 'getCategorias' did not return a valid response. The function either returned None or ended without a return statement.
+Exception on /getCategorias [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 939, in finalize_request
+    response = self.make_response(rv)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1212, in make_response
+    raise TypeError(
+    ...<3 lines>...
+    )
+TypeError: The view function for 'getCategorias' did not return a valid response. The function either returned None or ended without a return statement.
+Exception on /getCategorias [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 116, in getCategorias
+    return jsonify({
+           ~~~~~~~^^
+            'categorias': categorias
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+        }), 200
+        ^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Categoria is not JSON serializable
+Exception on /getCategorias [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 119, in getCategorias
+    return jsonify({
+           ~~~~~~~^^
+            'categorias': categoriaGlobales
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        }), 200
+        ^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Categoria is not JSON serializable
+Exception on /getCategorias [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 118, in getCategorias
+    return jsonify({
+           ~~~~~~~^^
+            'categorias': categoriaGlobales
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        }), 200
+        ^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Categoria is not JSON serializable
+Exception on /getCategorias [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 119, in getCategorias
+    'categorias': jsonify(categoriaGlobales)
+                  ~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\W11\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Categoria is not JSON serializable
+Exception on /getCategorias [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 117, in getCategorias
+    'descripcion': categoria.descripcion
+                   ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Categoria' object has no attribute 'descripcion'
+Exception on /login [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 60, in login
+    user = User.query.filter_by(username=username).first()
+           ^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2722, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2399, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4215, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4256, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2416, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 589, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1647, in do_init
+    self._generate_backref()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2075, in _generate_backref
+    raise sa_exc.ArgumentError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.ArgumentError: Error creating backref 'categoria' on relationship 'Categoria.presupuestos': property of that name exists on mapper 'Mapper[Presupuesto(presupuestos)]'
+Exception on /login [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 60, in login
+    user = User.query.filter_by(username=username).first()
+           ^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2722, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2399, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4215, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4252, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Categoria(categorias)]'. Original exception was: Error creating backref 'categoria' on relationship 'Categoria.presupuestos': property of that name exists on mapper 'Mapper[Presupuesto(presupuestos)]'
+Exception on /getPresupuesto [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 221, in getPresupuesto
+    'presupuesto_restante': presupuesto.presupuesto_inicial - presupuesto.gasto_total  # Si tienes un campo para el gasto total
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Presupuesto' object has no attribute 'gasto_total'
+Exception on /getPresupuesto [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 221, in getPresupuesto
+    'presupuesto_restante': presupuesto.presupuesto_inicial - presupuesto.gasto_total  # Si tienes un campo para el gasto total
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Presupuesto' object has no attribute 'gasto_total'
+Exception on /getPresupuesto [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 221, in getPresupuesto
+    'presupuesto_restante': presupuesto.presupuesto_inicial - presupuesto.gasto_total  # Si tienes un campo para el gasto total
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Presupuesto' object has no attribute 'gasto_total'
+Exception on /registro [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 87, in registro
+    if User.query.filter_by(username=username).first():
+       ^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2722, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2399, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4215, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4256, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2416, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 589, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1647, in do_init
+    self._generate_backref()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2075, in _generate_backref
+    raise sa_exc.ArgumentError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.ArgumentError: Error creating backref 'presupuestos' on relationship 'Presupuesto.user': property of that name exists on mapper 'Mapper[User(users)]'
+Exception on /registro [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 87, in registro
+    if User.query.filter_by(username=username).first():
+       ^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2722, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2399, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4215, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4252, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Presupuesto(presupuesto)]'. Original exception was: Error creating backref 'presupuestos' on relationship 'Presupuesto.user': property of that name exists on mapper 'Mapper[User(users)]'
+Exception on /setPresupuesto [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.IntegrityError: (1048, "Column 'presupuesto_restante' cannot be null")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 194, in setPresupuesto
+    db.session.commit()
+    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\scoping.py", line 597, in commit
+    return self._proxied.commit()
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2028, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 1313, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 1288, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 4352, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 4487, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 4448, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.IntegrityError: (pymysql.err.IntegrityError) (1048, "Column 'presupuesto_restante' cannot be null")
+[SQL: INSERT INTO presupuestos (user_id, categoria_id, porcentaje, presupuesto_inicial, presupuesto_restante) VALUES (%(user_id)s, %(categoria_id)s, %(porcentaje)s, %(presupuesto_inicial)s, %(presupuesto_restante)s)]
+[parameters: {'user_id': 1, 'categoria_id': 5, 'porcentaje': 20, 'presupuesto_inicial': 0.0, 'presupuesto_restante': None}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 239, in generarRegistro
+    categoria = Categoria.query.filter_by(nombre=categoria_nombre, user_id=userId).first()
+                                                                           ^^^^^^
+UnboundLocalError: cannot access local variable 'userId' where it is not associated with a value
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 243, in generarRegistro
+    presupuesto = Presupuesto.query.filter_by(user_id=userId, categoria_id=categoria.id).first()
+                                                                           ^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'id'
+Exception on /login [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 60, in login
+    user = User.query.filter_by(username=username).first()
+           ^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2722, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2399, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4215, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4256, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2416, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 589, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1647, in do_init
+    self._generate_backref()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2075, in _generate_backref
+    raise sa_exc.ArgumentError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.ArgumentError: Error creating backref 'categoria' on relationship 'Categoria.presupuestos': property of that name exists on mapper 'Mapper[Presupuesto(presupuestos)]'
+Exception on /registro [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 88, in registro
+    if User.query.filter_by(username=username).first():
+       ^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2722, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2399, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4215, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4256, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2416, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 589, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1647, in do_init
+    self._generate_backref()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2075, in _generate_backref
+    raise sa_exc.ArgumentError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.ArgumentError: Error creating backref 'categoria' on relationship 'Categoria.presupuestos': property of that name exists on mapper 'Mapper[Presupuesto(presupuestos)]'
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 247, in generarRegistro
+    if cantidad > presupuesto.presupuesto_restante:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'presupuesto_restante'
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 247, in generarRegistro
+    if cantidad > presupuesto.presupuesto_restante:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'presupuesto_restante'
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 247, in generarRegistro
+    if cantidad > presupuesto.presupuesto_restante:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'presupuesto_restante'
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 247, in generarRegistro
+    if cantidad > presupuesto.presupuesto_restante:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'presupuesto_restante'
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 247, in generarRegistro
+    if cantidad > presupuesto.presupuesto_restante:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'presupuesto_restante'
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 247, in generarRegistro
+    if cantidad > presupuesto.presupuesto_restante:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'presupuesto_restante'
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 247, in generarRegistro
+    if cantidad > presupuesto.presupuesto_restante:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'presupuesto_restante'
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 247, in generarRegistro
+    if cantidad > presupuesto.presupuesto_restante:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'presupuesto_restante'
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 247, in generarRegistro
+    if cantidad > presupuesto.presupuesto_restante:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'presupuesto_restante'
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 247, in generarRegistro
+    if cantidad > presupuesto.presupuesto_restante:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'presupuesto_restante'
+Exception on /generarRegistro [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 51, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 247, in generarRegistro
+    if cantidad > presupuesto.presupuesto_restante:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'presupuesto_restante'
+Exception on /login [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 60, in login
+    user = User.query.filter_by(username=username).first()
+           ^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2722, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2399, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4215, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4256, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2416, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 589, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1647, in do_init
+    self._generate_backref()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2075, in _generate_backref
+    raise sa_exc.ArgumentError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.ArgumentError: Error creating backref 'user' on relationship 'User.presupuestos': property of that name exists on mapper 'Mapper[Presupuesto(presupuestos)]'
+Exception on /login [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 60, in login
+    user = User.query.filter_by(username=username).first()
+           ^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2722, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2399, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4215, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4256, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2416, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 589, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1647, in do_init
+    self._generate_backref()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2075, in _generate_backref
+    raise sa_exc.ArgumentError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.ArgumentError: Error creating backref 'categoria' on relationship 'Categoria.presupuestos': property of that name exists on mapper 'Mapper[Presupuesto(presupuestos)]'
+Exception on /login [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 60, in login
+    user = User.query.filter_by(username=username).first()
+           ^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2722, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2399, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4215, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4256, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2416, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 589, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1647, in do_init
+    self._generate_backref()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2075, in _generate_backref
+    raise sa_exc.ArgumentError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.ArgumentError: Error creating backref 'presupuestos' on relationship 'Presupuesto.user': property of that name exists on mapper 'Mapper[User(users)]'
+Exception on /registro [POST]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 88, in registro
+    if User.query.filter_by(username=username).first():
+       ^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+           ~~~~~~~~~~~~~~~^
+        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 275, in __init__
+    self._set_entities(entities)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    coercions.expect(
+    ~~~~~~~~~~~~~~~~^
+        roles.ColumnsClauseRole,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        post_inspect=True,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
+    insp._post_inspect
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+                                           ~~~~~~~~~^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2722, in _post_inspect
+    self._check_configure()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2399, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4215, in _configure_registries
+    _do_configure_registries(registries, cascade)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4256, in _do_configure_registries
+    mapper._post_configure_properties()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2416, in _post_configure_properties
+    prop.init()
+    ~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\interfaces.py", line 589, in init
+    self.do_init()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 1647, in do_init
+    self._generate_backref()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\relationships.py", line 2075, in _generate_backref
+    raise sa_exc.ArgumentError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.ArgumentError: Error creating backref 'registros' on relationship 'Registro.user': property of that name exists on mapper 'Mapper[User(users)]'
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 199, in _key_not_found
+    self._key_fallback(key, None)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 138, in _key_fallback
+    raise KeyError(key) from err
+KeyError: 'categoria'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 368, in registros_por_categoria
+    "categoria": row.categoria,
+                 ^^^^^^^^^^^^^
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 66, in sqlalchemy.cyextension.resultproxy.BaseRow.__getattr__
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 63, in sqlalchemy.cyextension.resultproxy.BaseRow._get_by_key_impl
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 201, in _key_not_found
+    raise AttributeError(ke.args[0]) from ke
+AttributeError: categoria
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 199, in _key_not_found
+    self._key_fallback(key, None)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 138, in _key_fallback
+    raise KeyError(key) from err
+KeyError: 'categoria'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 368, in registros_por_categoria
+    "categoria": row.categoria,
+                 ^^^^^^^^^^^^^
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 66, in sqlalchemy.cyextension.resultproxy.BaseRow.__getattr__
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 63, in sqlalchemy.cyextension.resultproxy.BaseRow._get_by_key_impl
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 201, in _key_not_found
+    raise AttributeError(ke.args[0]) from ke
+AttributeError: categoria
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 199, in _key_not_found
+    self._key_fallback(key, None)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 138, in _key_fallback
+    raise KeyError(key) from err
+KeyError: 'categoria'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 368, in registros_por_categoria
+    "categoria": row.categoria,
+                 ^^^^^^^^^^^^^
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 66, in sqlalchemy.cyextension.resultproxy.BaseRow.__getattr__
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 63, in sqlalchemy.cyextension.resultproxy.BaseRow._get_by_key_impl
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 201, in _key_not_found
+    raise AttributeError(ke.args[0]) from ke
+AttributeError: categoria
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 199, in _key_not_found
+    self._key_fallback(key, None)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 138, in _key_fallback
+    raise KeyError(key) from err
+KeyError: 'categoria'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 375, in registros_por_categoria
+    "categoria": row.categoria,
+                 ^^^^^^^^^^^^^
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 66, in sqlalchemy.cyextension.resultproxy.BaseRow.__getattr__
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 63, in sqlalchemy.cyextension.resultproxy.BaseRow._get_by_key_impl
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 201, in _key_not_found
+    raise AttributeError(ke.args[0]) from ke
+AttributeError: categoria
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 199, in _key_not_found
+    self._key_fallback(key, None)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 138, in _key_fallback
+    raise KeyError(key) from err
+KeyError: 'categoria'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 392, in registros_por_categoria
+    "categoria": row.categoria,
+                 ^^^^^^^^^^^^^
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 66, in sqlalchemy.cyextension.resultproxy.BaseRow.__getattr__
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 63, in sqlalchemy.cyextension.resultproxy.BaseRow._get_by_key_impl
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 201, in _key_not_found
+    raise AttributeError(ke.args[0]) from ke
+AttributeError: categoria
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1055, "Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'finanzas.categorias.nombre' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 384, in registros_por_categoria
+    ).all()
+      ~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2673, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2362, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2247, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\context.py", line 305, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1055, "Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'finanzas.categorias.nombre' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by")
+[SQL: SELECT categorias.nombre AS categoria, registros.user_id AS registros_user_id, registros.categoria_id AS registros_categoria_id, sum(registros.cantidad) AS total_cantidad, presupuestos.porcentaje AS presupuestos_porcentaje, presupuestos.presupuesto_inicial AS presupuestos_presupuesto_inicial, presupuestos.presupuesto_restante AS presupuestos_presupuesto_restante 
+FROM registros INNER JOIN presupuestos ON registros.categoria_id = presupuestos.categoria_id AND registros.user_id = presupuestos.user_id, categorias 
+WHERE registros.user_id = %(user_id_1)s GROUP BY registros.user_id, registros.categoria_id, presupuestos.porcentaje, presupuestos.presupuesto_inicial, presupuestos.presupuesto_restante]
+[parameters: {'user_id_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1055, "Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'finanzas.categorias.nombre' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 384, in registros_por_categoria
+    ).all()
+      ~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2673, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2362, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2247, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\context.py", line 305, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1055, "Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'finanzas.categorias.nombre' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by")
+[SQL: SELECT categorias.nombre AS categoria, registros.user_id AS registros_user_id, registros.categoria_id AS registros_categoria_id, sum(registros.cantidad) AS total_cantidad, presupuestos.porcentaje AS presupuestos_porcentaje, presupuestos.presupuesto_inicial AS presupuestos_presupuesto_inicial, presupuestos.presupuesto_restante AS presupuestos_presupuesto_restante 
+FROM registros INNER JOIN presupuestos ON registros.categoria_id = presupuestos.categoria_id AND registros.user_id = presupuestos.user_id, categorias 
+WHERE registros.user_id = %(user_id_1)s GROUP BY registros.user_id, registros.categoria_id, presupuestos.porcentaje, presupuestos.presupuesto_inicial, presupuestos.presupuesto_restante]
+[parameters: {'user_id_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1055, "Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'finanzas.categorias.nombre' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 384, in registros_por_categoria
+    ).all()
+      ~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2673, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2362, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2247, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\context.py", line 305, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1055, "Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'finanzas.categorias.nombre' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by")
+[SQL: SELECT categorias.nombre AS categoria, registros.user_id AS registros_user_id, registros.categoria_id AS registros_categoria_id, sum(registros.cantidad) AS total_cantidad, presupuestos.porcentaje AS presupuestos_porcentaje, presupuestos.presupuesto_inicial AS presupuestos_presupuesto_inicial, presupuestos.presupuesto_restante AS presupuestos_presupuesto_restante 
+FROM registros INNER JOIN presupuestos ON registros.categoria_id = presupuestos.categoria_id AND registros.user_id = presupuestos.user_id, categorias 
+WHERE registros.user_id = %(user_id_1)s GROUP BY registros.user_id, registros.categoria_id, presupuestos.porcentaje, presupuestos.presupuesto_inicial, presupuestos.presupuesto_restante]
+[parameters: {'user_id_1': 3}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1055, "Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'finanzas.categorias.nombre' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 384, in registros_por_categoria
+    ).all()
+      ~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2673, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2362, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2247, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\context.py", line 305, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1055, "Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'finanzas.categorias.nombre' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by")
+[SQL: SELECT categorias.nombre AS categoria, registros.user_id AS registros_user_id, registros.categoria_id AS registros_categoria_id, sum(registros.cantidad) AS total_cantidad, presupuestos.porcentaje AS presupuestos_porcentaje, presupuestos.presupuesto_inicial AS presupuestos_presupuesto_inicial, presupuestos.presupuesto_restante AS presupuestos_presupuesto_restante 
+FROM registros INNER JOIN presupuestos ON registros.categoria_id = presupuestos.categoria_id AND registros.user_id = presupuestos.user_id, categorias 
+WHERE registros.user_id = %(user_id_1)s GROUP BY registros.user_id, registros.categoria_id, presupuestos.porcentaje, presupuestos.presupuesto_inicial, presupuestos.presupuesto_restante]
+[parameters: {'user_id_1': 3}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1054, "Unknown column 'categorias.nombre' in 'group statement'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 384, in registros_por_categoria
+    ).all()
+      ~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2673, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2362, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2247, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\context.py", line 305, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1054, "Unknown column 'categorias.nombre' in 'group statement'")
+[SQL: SELECT registros.user_id AS registros_user_id, registros.categoria_id AS registros_categoria_id, sum(registros.cantidad) AS total_cantidad, presupuestos.porcentaje AS presupuestos_porcentaje, presupuestos.presupuesto_inicial AS presupuestos_presupuesto_inicial, presupuestos.presupuesto_restante AS presupuestos_presupuesto_restante 
+FROM registros INNER JOIN presupuestos ON registros.categoria_id = presupuestos.categoria_id AND registros.user_id = presupuestos.user_id 
+WHERE registros.user_id = %(user_id_1)s GROUP BY registros.user_id, registros.categoria_id, categorias.nombre, presupuestos.porcentaje, presupuestos.presupuesto_inicial, presupuestos.presupuesto_restante]
+[parameters: {'user_id_1': 3}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1054, "Unknown column 'categorias.nombre' in 'group statement'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 384, in registros_por_categoria
+    ).all()
+      ~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2673, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2362, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\session.py", line 2247, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\orm\context.py", line 305, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 563, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 825, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 1199, in read
+    first_packet = self.connection._read_packet()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\connections.py", line 775, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1054, "Unknown column 'categorias.nombre' in 'group statement'")
+[SQL: SELECT registros.user_id AS registros_user_id, registros.categoria_id AS registros_categoria_id, sum(registros.cantidad) AS total_cantidad, presupuestos.porcentaje AS presupuestos_porcentaje, presupuestos.presupuesto_inicial AS presupuestos_presupuesto_inicial, presupuestos.presupuesto_restante AS presupuestos_presupuesto_restante 
+FROM registros INNER JOIN presupuestos ON registros.categoria_id = presupuestos.categoria_id AND registros.user_id = presupuestos.user_id 
+WHERE registros.user_id = %(user_id_1)s GROUP BY registros.user_id, registros.categoria_id, categorias.nombre, presupuestos.porcentaje, presupuestos.presupuesto_inicial, presupuestos.presupuesto_restante]
+[parameters: {'user_id_1': 3}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 199, in _key_not_found
+    self._key_fallback(key, None)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\cursor.py", line 824, in _key_fallback
+    raise exc.NoSuchColumnError(
+    ...<2 lines>...
+    ) from err
+sqlalchemy.exc.NoSuchColumnError: Could not locate column in row for column 'categoria'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 394, in registros_por_categoria
+    "categoria": row.categoria,
+                 ^^^^^^^^^^^^^
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 66, in sqlalchemy.cyextension.resultproxy.BaseRow.__getattr__
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 63, in sqlalchemy.cyextension.resultproxy.BaseRow._get_by_key_impl
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 201, in _key_not_found
+    raise AttributeError(ke.args[0]) from ke
+AttributeError: Could not locate column in row for column 'categoria'
+Exception on /getRegistrosPorCategoria [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 199, in _key_not_found
+    self._key_fallback(key, None)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\cursor.py", line 824, in _key_fallback
+    raise exc.NoSuchColumnError(
+    ...<2 lines>...
+    ) from err
+sqlalchemy.exc.NoSuchColumnError: Could not locate column in row for column 'categoria'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 394, in registros_por_categoria
+    "categoria": row.categoria,
+                 ^^^^^^^^^^^^^
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 66, in sqlalchemy.cyextension.resultproxy.BaseRow.__getattr__
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 63, in sqlalchemy.cyextension.resultproxy.BaseRow._get_by_key_impl
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 201, in _key_not_found
+    raise AttributeError(ke.args[0]) from ke
+AttributeError: Could not locate column in row for column 'categoria'

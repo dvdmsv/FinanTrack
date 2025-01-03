@@ -1,0 +1,48 @@
+<h1 class="display-3">Saldo de <strong>{{ username }}</strong> {{ saldo | currency : "EUR" }}</h1>
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <caption>Resumen de Gastos por Categoría</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Categoría</th>
+                    <th scope="col">Total Cantidad</th>
+                    <th scope="col">Porcentaje Presupuesto</th>
+                    <th scope="col">Presupuesto Inicial</th>
+                    <th scope="col">Presupuesto Restante</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(registro of registrosPorCategoria; track registro){
+                <tr>
+                    <td>{{ registro.categoria }}</td>
+                    <td>{{ registro.total_cantidad | currency : "EUR" }}</td>
+                    <td>
+                        {{
+                        registro.presupuesto && registro.presupuesto.porcentaje !== null
+                        ? registro.presupuesto.porcentaje + " %"
+                        : "N/A"
+                        }}
+                    </td>
+                    <td>
+                        {{
+                        registro.presupuesto &&
+                        registro.presupuesto.presupuesto_inicial !== null
+                        ? (registro.presupuesto.presupuesto_inicial | currency : "EUR")
+                        : "N/A"
+                        }}
+                    </td>
+                    <td>
+                        {{
+                        registro.presupuesto &&
+                        registro.presupuesto.presupuesto_restante !== null
+                        ? (registro.presupuesto.presupuesto_restante | currency : "EUR")
+                        : "N/A"
+                        }}
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
