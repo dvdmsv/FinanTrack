@@ -33,3 +33,15 @@ export interface RegistroPorCategoria {
 export interface RegistroPorCategoriaResponse {
   categorias: RegistroPorCategoria[];
 }
+
+export interface Registro {
+  cantidad: number;
+  categoria: string;
+  concepto: string;
+  fecha: string;
+  tipo: string
+}
+
+export interface RegistroUserResponse {
+  registros: Registro[];
+}

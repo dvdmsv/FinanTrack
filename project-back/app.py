@@ -323,18 +323,28 @@ def getRegistrosUser(decoded):
         return {'message': 'Usuario no encontrado'}, 404
     
     # Obtener los registros asociados al usuario
-    registros = Registro.query.filter_by(user_id=userId).all()
-    
+    # registros = Registro.query.filter_by(user_id=userId).all()
+    registros = db.session.query(
+        Registro.cantidad,
+        Registro.concepto,
+        Registro.tipo,
+        Registro.fecha,
+        Categoria.nombre.label('categoria')  # Añadimos el nombre de la categoría
+    ).join(
+        Categoria, Categoria.id == Registro.categoria_id  # Realizamos el JOIN entre Registro y Categoria
+    ).filter(
+        Registro.user_id == userId # Filtramos por el user_id
+    ).all()
+        
     # Convertir los registros a un formato que se pueda retornar
     registros_data = []
     for registro in registros:
         registros_data.append({
-            'id': registro.id,
             'cantidad': registro.cantidad,
             'concepto': registro.concepto,
             'tipo': registro.tipo,
-            'fecha': registro.fecha.strftime('%Y-%m-%d %H:%M:%S'),
-            'categoria_id': registro.categoria_id,
+            'fecha': registro.fecha.strftime('%d-%m-%Y %H:%M'),
+            'categoria': registro.categoria
         })
     
     # Retornar los registros en formato JSON

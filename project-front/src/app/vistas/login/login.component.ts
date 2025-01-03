@@ -39,8 +39,7 @@ export class LoginComponent {
             title: 'Logueado correctamente',
             showConfirmButton: false,
             timer: 1500,
-            toast: true,
-            timerProgressBar: true
+            toast: true
           });
         },
         error: error => {

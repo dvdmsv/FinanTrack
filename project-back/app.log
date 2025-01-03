@@ -2747,3 +2747,105 @@ Traceback (most recent call last):
   File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 201, in _key_not_found
     raise AttributeError(ke.args[0]) from ke
 AttributeError: Could not locate column in row for column 'categoria'
+Exception on /getRegistrosUser [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 199, in _key_not_found
+    self._key_fallback(key, None)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 138, in _key_fallback
+    raise KeyError(key) from err
+KeyError: 'id'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 343, in getRegistrosUser
+    'id': registro.id,
+          ^^^^^^^^^^^
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 66, in sqlalchemy.cyextension.resultproxy.BaseRow.__getattr__
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 63, in sqlalchemy.cyextension.resultproxy.BaseRow._get_by_key_impl
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 201, in _key_not_found
+    raise AttributeError(ke.args[0]) from ke
+AttributeError: id
+Exception on /getRegistrosUser [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 199, in _key_not_found
+    self._key_fallback(key, None)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 138, in _key_fallback
+    raise KeyError(key) from err
+KeyError: 'id'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 343, in getRegistrosUser
+    'id': registro.id,
+          ^^^^^^^^^^^
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 66, in sqlalchemy.cyextension.resultproxy.BaseRow.__getattr__
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 63, in sqlalchemy.cyextension.resultproxy.BaseRow._get_by_key_impl
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 201, in _key_not_found
+    raise AttributeError(ke.args[0]) from ke
+AttributeError: id
+Exception on /getRegistrosUser [GET]
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 199, in _key_not_found
+    self._key_fallback(key, None)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 138, in _key_fallback
+    raise KeyError(key) from err
+KeyError: 'nombre'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask_cors\extension.py", line 194, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ~^^^^^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 52, in decorated_function
+    return f(decoded, *args, **kwargs)
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\app.py", line 347, in getRegistrosUser
+    'nombre': registro.nombre
+              ^^^^^^^^^^^^^^^
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 66, in sqlalchemy.cyextension.resultproxy.BaseRow.__getattr__
+  File "lib\\sqlalchemy\\cyextension\\resultproxy.pyx", line 63, in sqlalchemy.cyextension.resultproxy.BaseRow._get_by_key_impl
+  File "C:\Users\W11\Desktop\Desarrollos\proyectoSN\project-back\env\Lib\site-packages\sqlalchemy\engine\result.py", line 201, in _key_not_found
+    raise AttributeError(ke.args[0]) from ke
+AttributeError: nombre

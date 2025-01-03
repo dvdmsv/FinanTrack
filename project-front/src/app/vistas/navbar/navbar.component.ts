@@ -13,11 +13,15 @@ export class NavbarComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   isLogged: boolean = false;
-  username = localStorage.getItem('username');
+  username: string = ""
 
   ngOnInit() {
+    this.userIsLogged();
+  }
+
+  userIsLogged() {
     this.authService.currentUserLoginOn.subscribe({
-      next: (userLogin) => {
+      next: userLogin => {
         this.isLogged = userLogin;
       },
     });
@@ -32,7 +36,6 @@ export class NavbarComponent {
       showConfirmButton: false,
       timer: 1500,
       toast: true,
-      timerProgressBar: true,
     });
   }
 }
