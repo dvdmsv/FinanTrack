@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
@@ -10,7 +11,12 @@ from functools import wraps
 from Modelos import db, User, Categoria, Registro, Presupuesto  # Importa los modelos y la instancia db
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin@localhost/finanzas'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1:33060/finanzas'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin@localhost/finanzas'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+    'DATABASE_URI',
+    'mysql+pymysql://root:root@host.docker.internal:33060/finanzas'
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Inicializar db con la app
@@ -268,8 +274,8 @@ def generarRegistro(decoded):
             presupuesto.presupuesto_restante = presupuesto.presupuesto_inicial
 
         # Verificar que el gasto no exceda el presupuesto restante
-        if cantidad > presupuesto.presupuesto_restante:
-            return jsonify({'error': 'La cantidad excede el presupuesto disponible'}), 400
+        # if cantidad > presupuesto.presupuesto_restante:
+        #     return jsonify({'error': 'La cantidad excede el presupuesto disponible'}), 400
 
         # Actualizar el presupuesto restante
         presupuesto.presupuesto_restante = presupuesto.presupuesto_restante - cantidad
@@ -441,4 +447,4 @@ def getUser(decoded):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Crea las tablas si no existen
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)

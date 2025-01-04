@@ -1,0 +1,31 @@
+name: "FinanTrack"
+services:
+  app:
+    container_name: finanzas-backend
+    build: ./project-back
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: development
+      DATABASE_URI: mysql+pymysql://root:root@host.docker.internal:33060/finanzas
+    networks:
+      - app_network
+    volumes:
+      - .:/app
+
+  mysql:
+    container_name: mysql-db-finanzas
+    ports:
+        - 33060:3306
+    environment:
+        - MYSQL_ROOT_PASSWORD=root
+    image: mysql
+    volumes:
+      - mysql-db-finanzas-data:/var/lib/mysql
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  mysql-db-finanzas-data:
