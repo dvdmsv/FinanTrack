@@ -1,23 +1,35 @@
 .table {
-    margin-top: 20px;
-  }
-  
-  .table th,
-  .table td {
-    text-align: center;
-    vertical-align: middle;
-  }
-  
-  h1 {
-    text-align: center;
-  }
-  
-  caption {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding: 10px; 
-    caption-side: top;
-  }
-  
-  
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+h1 {
+  text-align: center;
+}
+
+caption {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 10px;
+  caption-side: top;
+}
+
+.container-button {
+  margin-top: 50px;
+  text-align: end;
+}
+
+.modal-dialog {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.modal-title {
+  text-align: center;
+}

@@ -45,3 +45,23 @@ export interface Registro {
 export interface RegistroUserResponse {
   registros: Registro[];
 }
+
+export interface Categoria {
+  es_global: boolean;
+  id: number;
+  nombre: string;
+  user_id: number
+}
+
+export interface Categoria {
+  es_global: boolean;
+  id: number;
+  nombre: string;
+  user_id: number;
+}
+
+export interface GetCategoriasResponse {
+  categoriasGlobales: Categoria[];
+  categoriasUnicas: Categoria[];
+}
+

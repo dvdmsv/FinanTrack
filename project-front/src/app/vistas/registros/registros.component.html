@@ -1,32 +1,142 @@
+<div class="container container-button">
+  <!-- Botón para abrir el Modal -->
+  <button
+    type="button"
+    class="btn btn-success"
+    data-bs-toggle="modal"
+    data-bs-target="#registroModal"
+  >
+    Nuevo Registro
+  </button>
+</div>
 <div class="container">
-    <table class="table table-striped table-bordered">
-        <caption>Registro de gastos</caption>
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Tipo</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Concepto</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Cantidad</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for(registro of registros; track registro){
-            <tr>
-                <td>{{ registro.tipo }}</td>
-                <td>
-                    {{ registro.categoria }}
-                </td>
-                <td>
-                    {{ registro.concepto }}
-                </td>
-                <td>
-                    {{ registro.fecha }}
-                </td>
-                <td>{{ registro.cantidad | currency : "EUR" }}</td>
-            </tr>
-            }
-        </tbody>
-    </table>
+  <table class="table table-striped table-bordered">
+    <caption>
+      Registro de gastos
+    </caption>
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Tipo</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Concepto</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(registro of registros; track registro){
+      <tr>
+        <td>{{ registro.tipo }}</td>
+        <td>
+          {{ registro.categoria }}
+        </td>
+        <td>
+          {{ registro.concepto }}
+        </td>
+        <td>
+          {{ registro.fecha }}
+        </td>
+        <td>{{ registro.cantidad | currency : "EUR" }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
 </div>
 
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="registroModal"
+  tabindex="-1"
+  aria-labelledby="registroModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registroModalLabel">Nuevo Registro</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulario dentro del modal -->
+        <form
+          class="registroForm"
+          (ngSubmit)="generarRegistro()"
+          #registroForm="ngForm"
+        >
+          <div class="mb-3">
+            <label for="categorias" class="form-label">Categorias</label>
+            <select
+              class="form-select"
+              id="categorias"
+              required
+              [(ngModel)]="categoria"
+              name="categoria"
+            >
+              <option selected value=""></option>
+              @for(categoria of categorias; track categoria){
+              <option>
+                {{ categoria.nombre }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo</label>
+            <select
+              class="form-select"
+              id="tipo"
+              required
+              [(ngModel)]="tipo"
+              name="tipo"
+            >
+              <option selected value=""></option>
+              <option value="Gasto">Gasto</option>
+              <option value="Ingreso">Ingreso</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="inputNumber" class="form-label">Cantidad</label>
+            <input
+              type="number"
+              class="form-control"
+              id="inputNumber"
+              min="0.01"
+              step=".01"
+              required
+              [(ngModel)]="cantidad"
+              name="cantidad"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="concepto" class="form-label">Concepto</label>
+            <input
+              type="text"
+              class="form-control"
+              id="concepto"
+              required
+              [(ngModel)]="concepto"
+              name="concepto"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="registroForm.invalid"
+          >
+            Guardar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

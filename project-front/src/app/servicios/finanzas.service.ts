@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RegistroPorCategoriaResponse, RegistroUserResponse, SaldoResponse } from '../interfaces/responses';
+import { GetCategoriasResponse, Registro, RegistroPorCategoriaResponse, RegistroUserResponse, SaldoResponse } from '../interfaces/responses';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +21,13 @@ export class FinanzasService {
 
   getRegistrosUser() {
     return this.http.get<RegistroUserResponse>(this.API_URL + "/getRegistrosUser");
+  }
+
+  getCategorias() {
+    return this.http.get<GetCategoriasResponse>(this.API_URL + "/getCategorias");
+  }
+
+  generarRegistro(categoria: string, tipo: string, cantidad: number, concepto: string) {
+    return this.http.post(this.API_URL + "/generarRegistro", {categoria, tipo, cantidad, concepto});
   }
 }
