@@ -12,11 +12,11 @@ from Modelos import db, User, Categoria, Registro, Presupuesto  # Importa los mo
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1:33060/finanzas'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin@localhost/finanzas'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
-    'DATABASE_URI',
-    'mysql+pymysql://root:root@host.docker.internal:33060/finanzas'
-)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin@localhost:33061/finanzas'
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+#     'DATABASE_URI',
+#     'mysql+pymysql://root:root@host.docker.internal:33060/finanzas'
+# )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Inicializar db con la app
@@ -25,10 +25,13 @@ db.init_app(app)
 bcrypt = Bcrypt(app)
 CORS(app, origins="http://localhost:4200", methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type", "Authorization"])
 
-# Configurar logging
-app.logger.setLevel(logging.INFO)  # Nivel de log en INFO
-handler = logging.FileHandler('app.log')  # Log a un archivo
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
 app.logger.addHandler(handler)
+
+app.logger.info("Logger configurado correctamente")
 
 # Generar una clave secreta segura
 SECRET_KEY = secrets.token_urlsafe(64)
@@ -248,9 +251,11 @@ def getPresupuesto(decoded):
 @app.route('/generarRegistro', methods=['POST'])
 @token_required
 def generarRegistro(decoded):
+    
     data = request.json
     userId = decoded['user_id']
-    
+    app.logger.info(request.json)
+
     categoria_nombre = data.get('categoria')
     cantidad = data.get('cantidad')
     concepto = data.get('concepto')
@@ -263,7 +268,7 @@ def generarRegistro(decoded):
     ).first()
 
     if not categoria:
-        return jsonify({'error': 'Categoría no encontrada'}), 400
+        return jsonify({'error': 'Categoría no encontrada', 'info': request.json}), 400
 
     # Buscar el presupuesto del usuario para esa categoría (si existe)
     presupuesto = Presupuesto.query.filter_by(user_id=userId, categoria_id=categoria.id).first()
