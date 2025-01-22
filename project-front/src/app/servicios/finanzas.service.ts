@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GetCategoriasResponse, Registro, RegistroPorCategoriaResponse, RegistroUserResponse, SaldoResponse } from '../interfaces/responses';
+import { GetCategoriasResponse, GetPresupuestosResponse, Registro, RegistroPorCategoriaResponse, RegistroUserResponse, SaldoResponse } from '../interfaces/responses';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,10 @@ export class FinanzasService {
 
   getSaldo() {
     return this.http.get<SaldoResponse>(this.API_URL + "/getSaldo");
+  }
+
+  setSaldo(saldo: number) {
+    return this.http.post(this.API_URL + "/setSaldo", {saldo});
   }
 
   getRegistrosPorCategoria() {
@@ -29,5 +33,17 @@ export class FinanzasService {
 
   generarRegistro(categoria: string, tipo: string, cantidad: number, concepto: string) {
     return this.http.post(this.API_URL + "/generarRegistro", {categoria, tipo, cantidad, concepto});
+  }
+
+  getPresupuestos() {
+    return this.http.get<GetPresupuestosResponse>(this.API_URL + '/getPresupuesto');
+  }
+
+  setPresupuesto(categoria: string, porcentaje: number) {
+    return this.http.post(this.API_URL + '/setPresupuesto',{ categoria, porcentaje });
+  }
+
+  deletePresupuesto(id: number) {
+    return this.http.delete(`${this.API_URL}/deletePresupuesto/${id}`);
   }
 }

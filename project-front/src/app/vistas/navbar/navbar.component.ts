@@ -30,7 +30,7 @@ export class NavbarComponent {
   logout() {
     this.authService.logout();
     Swal.fire({
-      position: 'top-end',
+      position: 'top',
       icon: 'info',
       title: 'Cerrando sesión',
       showConfirmButton: false,

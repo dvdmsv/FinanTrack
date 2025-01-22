@@ -73,6 +73,17 @@ export class RegistrosComponent {
           this.tipo = '';
           this.getRegistrosUser();
         },
+        error: (err) => {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: err.error.error,
+            showConfirmButton: false,
+            timer: 1500,
+            toast: true,
+          });
+        }
+
       });
   }
 }

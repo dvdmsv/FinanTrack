@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand">FinanTrack</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,12 +21,16 @@
             <li>
               <a class="nav-link" [routerLink]="['/registros']">Registros</a>
             </li>
+            <li>
+              <a class="nav-link" [routerLink]="['/presupuestos']">Presupuestos</a>
+            </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                 Ajustes
               </a>
-              <ul class="dropdown-menu bg-primary">
+              <ul class="dropdown-menu">
                 <li><a class="dropdown-item" [routerLink]="['/perfil']">Perfil</a></li>
+                <li><a class="dropdown-item" [routerLink]="['/saldo']">Saldo</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li class="nav-item"><a class="dropdown-item" [routerLink]="['/login']" (click)="logout()">Cerrar sesión</a></li>
               </ul>

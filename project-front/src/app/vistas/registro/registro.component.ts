@@ -35,7 +35,7 @@ export class RegistroComponent {
           this.router.navigateByUrl('dashboard');
           localStorage.setItem('username', this.username);
           Swal.fire({
-            position: 'top-end',
+            position: 'top',
             icon: 'success',
             title: 'registrado correctamente',
             showConfirmButton: false,

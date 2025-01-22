@@ -1,0 +1,20 @@
+<div>
+    <div class="login-form">
+        <form>
+            <div class="mb-3">
+              <label for="nuevoSaldo" class="form-label">Saldo</label>
+              @if (editar) {
+                <input type="text" class="form-control" id="nuevoSaldo" [(ngModel)]="nuevoSaldo" name="nuevoSaldo" required>
+              }
+              @if (!editar) {
+                <p id="saldo">{{ saldo }}</p>
+              }
+            </div>
+            <button class="btn btn-primary" (click)="setEditar()"><i class="bi bi-pencil-square"></i></button>
+            @if (editar) {
+                <button class="btn btn-success" (click)="setSaldo()"><i class="bi bi-floppy"></i></button>
+            }
+        </form>
+    </div>
+  </div>
+  

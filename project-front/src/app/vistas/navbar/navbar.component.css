@@ -1,0 +1,11 @@
+nav, ul {
+    background-color: #3A7CBA;
+}
+
+a {
+    color: white
+}
+
+a:hover {
+    background-color: #3A7CBA;
+}

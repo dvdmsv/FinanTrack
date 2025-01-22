@@ -34,7 +34,7 @@ export class LoginComponent {
           this.router.navigateByUrl('dashboard');
           localStorage.setItem('username', this.username);
           Swal.fire({
-            position: 'top-end',
+            position: 'top',
             icon: 'success',
             title: 'Logueado correctamente',
             showConfirmButton: false,

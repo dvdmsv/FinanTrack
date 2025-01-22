@@ -1,0 +1,15 @@
+input {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+#saldo {
+    padding: 0;
+    margin: 0;
+}
+button {
+    margin: 5px;
+}
+
+

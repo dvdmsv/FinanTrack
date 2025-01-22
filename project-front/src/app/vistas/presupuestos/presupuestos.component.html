@@ -1,0 +1,123 @@
+<!-- Botón para abrir el Modal -->
+<div class="container container-button">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#registroModal"
+  >
+    Nuevo Presupuesto
+  </button>
+</div>
+
+<!-- Tabla de los presupuestos -->
+<div class="container">
+    <table class="table">
+      <caption>
+        Presupuestos
+      </caption>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Categoria</th>
+          <th scope="col">Porcentaje</th>
+          <th scope="col">Presupuesto inicial</th>
+          <th scope="col">Presupuesto restante</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(presupuesto of presupuestos; track presupuesto.categoria){
+        <tr>
+          <td>
+            {{ presupuesto.categoria }}
+          </td>
+          <td>
+            {{ presupuesto.porcentaje }} %
+          </td>
+          <td>
+            {{ presupuesto.presupuesto_inicial | currency : "EUR" }}
+          </td>
+          <td>
+            {{ presupuesto.presupuesto_restante | currency : "EUR" }}
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="eliminar(presupuesto.id)"><i class="bi bi-trash3"></i></button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- Modal -->
+<div
+class="modal fade"
+id="registroModal"
+tabindex="-1"
+aria-labelledby="registroModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="registroModalLabel">Nuevo Registro</h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <!-- Formulario dentro del modal -->
+      <form
+        class="registroForm"
+        (ngSubmit)="setPresupuesto()"
+        #registroForm="ngForm"
+      >
+        <div class="mb-3">
+          <label for="categorias" class="form-label">Categoria</label>
+          <select
+            class="form-select"
+            id="categorias"
+            required
+            [(ngModel)]="categoria"
+            name="categoria"
+          >
+            <option selected value=""></option>
+            @for(categoria of categorias; track categoria){
+            <option>
+              {{ categoria.nombre }}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="inputNumber" class="form-label">Cantidad (% sobre el saldo)</label>
+          <input
+            type="number"
+            class="form-control"
+            id="inputNumber"
+            min="0.01"
+            step=".01"
+            required
+            [(ngModel)]="porcentaje"
+            name="cantidad"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="registroForm.invalid"
+        >
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+

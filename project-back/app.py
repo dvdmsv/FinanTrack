@@ -11,19 +11,21 @@ from functools import wraps
 from Modelos import db, User, Categoria, Registro, Presupuesto  # Importa los modelos y la instancia db
 
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1:33060/finanzas'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin@localhost:33061/finanzas'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@127.0.0.1:33060/finanzas'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin@localhost:33061/finanzas'
+
+# Configuracion para docker
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
 #     'DATABASE_URI',
 #     'mysql+pymysql://root:root@host.docker.internal:33060/finanzas'
 # )
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Inicializar db con la app
 db.init_app(app)
 
 bcrypt = Bcrypt(app)
-CORS(app, origins="http://localhost:4200", methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type", "Authorization"])
+CORS(app, origins=["http://localhost", "http://localhost:4200"], methods=["GET", "POST", "OPTIONS", "DELETE"], allow_headers=["Content-Type", "Authorization"])
 
 handler = logging.StreamHandler()
 handler.setLevel(logging.INFO)
@@ -43,6 +45,8 @@ def before_request():
                'Access-Control-Allow-Headers': 'Content-Type'}
     if request.method.lower() == 'options':
         return jsonify(headers), 200
+    if request.method == 'OPTIONS':
+        return jsonify({'message': 'Preflight check passed'}), 200
 
 def token_required(f):
     @wraps(f)
@@ -171,7 +175,28 @@ def setCategorias(decoded):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Error creating categoria: {str(e)}"}), 500
-    
+
+@app.route('/deletePresupuesto/<int:presupuestoId>', methods=['DELETE'])
+@token_required
+def deletePresupuesto(decoded, presupuestoId):
+    userId = decoded['user_id']
+
+    # Obtener el usuario
+    user = User.query.filter_by(id=userId).first()
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    # Verificar si ya existe un presupuesto para esa categoría y usuario
+    presupuesto_existente = Presupuesto.query.filter_by(user_id=userId, id=presupuestoId).first()
+
+    if presupuesto_existente:
+        db.session.delete(presupuesto_existente)
+        db.session.commit()
+        return jsonify({"message": "Presupuesto eliminado exitosamente"}), 200
+
+    return jsonify({"message": "Presupuesto no encontrado"}), 404
+
+
 @app.route('/setPresupuesto', methods=['POST'])
 @token_required
 def setPresupuesto(decoded):
@@ -226,10 +251,10 @@ def getPresupuesto(decoded):
     if not user:
         return jsonify({"message": "User not found"}), 404
     
-    # Obtener los ººº del usuario
+    # Obtener los presupuestos del usuario
     presupuestos = Presupuesto.query.filter_by(user_id=userId).all()
-    if not presupuestos:
-        return jsonify({"message": "No presupuestos found for this user"}), 404
+    # if not presupuestos:
+    #     return jsonify({"message": "No presupuestos found for this user"}), 404
     
     # Crear la respuesta con los presupuestos
     presupuesto_data = []
@@ -237,6 +262,7 @@ def getPresupuesto(decoded):
         categoria = Categoria.query.filter_by(id=presupuesto.categoria_id).first()
         if categoria:
             presupuesto_data.append({
+                'id': presupuesto.id,
                 'categoria': categoria.nombre,
                 'porcentaje': presupuesto.porcentaje,
                 'presupuesto_inicial': presupuesto.presupuesto_inicial,
@@ -244,7 +270,6 @@ def getPresupuesto(decoded):
             })
     
     return jsonify({
-        'message': 'Presupuestos retrieved successfully',
         'presupuestos': presupuesto_data
     }), 200
 
@@ -279,8 +304,8 @@ def generarRegistro(decoded):
             presupuesto.presupuesto_restante = presupuesto.presupuesto_inicial
 
         # Verificar que el gasto no exceda el presupuesto restante
-        # if cantidad > presupuesto.presupuesto_restante:
-        #     return jsonify({'error': 'La cantidad excede el presupuesto disponible'}), 400
+        if cantidad > presupuesto.presupuesto_restante:
+            return jsonify({'error': 'La cantidad excede el presupuesto disponible'}), 400
 
         # Actualizar el presupuesto restante
         presupuesto.presupuesto_restante = presupuesto.presupuesto_restante - cantidad
@@ -298,8 +323,10 @@ def generarRegistro(decoded):
     try:
         # Actualizar el saldo del usuario
         user = User.query.filter_by(id=userId).first()
-        user.saldo = user.saldo - cantidad
-
+        if tipo == 'Gasto':
+            user.saldo = user.saldo - cantidad
+        if tipo == 'Ingreso': 
+            user.saldo = user.saldo + cantidad
         # Guardar cambios en la base de datos
         db.session.add(registro)
         db.session.commit()
@@ -448,6 +475,14 @@ def getUser(decoded):
             'user': user.username
         }), 200
     return jsonify({'message': 'User not found'}), 404
+
+@app.route('/getUserData', methods=['GET'])
+@token_required
+def getUserData(decoded):
+    return jsonify({
+            'message': 'Token is valid',
+            'user_data': decoded
+        }), 200
     
 if __name__ == '__main__':
     with app.app_context():

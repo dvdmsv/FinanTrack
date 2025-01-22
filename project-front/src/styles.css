@@ -17,3 +17,21 @@
     color: red;
     font-weight: bold;
 }
+
+.btn-primary {
+    background-color: #3C60A8;
+    color: white;
+    border: 0;
+}
+
+.btn-success {
+    background-color: #5DA691;
+    color: white;
+    border: 0;
+}
+
+.btn-danger {
+    background-color: #E86E56;
+    color: white;
+    border: 0;
+}

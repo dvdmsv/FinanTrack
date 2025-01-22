@@ -1,8 +1,9 @@
 name: "FinanTrack"
 services:
-  app:
+  backend:
     container_name: finanzas-backend
-    build: ./project-back
+    build: 
+      context: ./project-back
     ports:
       - "5000:5000"
     environment:
@@ -12,16 +13,33 @@ services:
       - app_network
     volumes:
       - .:/app
+  frontend:
+    container_name: finanzas-frontend
+    build:
+      context: ./project-front
+    ports:
+      - "80:80"
 
   mysql:
     container_name: mysql-db-finanzas
     ports:
-        - 33060:3306
+      - 33060:3306
     environment:
-        - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
     image: mysql
     volumes:
       - mysql-db-finanzas-data:/var/lib/mysql
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=host.docker.internal
+      - PMA_PORT=33060
 
 networks:
   app_network:

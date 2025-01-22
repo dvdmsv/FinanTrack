@@ -18,12 +18,6 @@ export interface SaldoResponse {
   saldo: number;
 }
 
-export interface Presupuesto {
-  porcentaje: number | null;
-  presupuesto_inicial: number | null;
-  presupuesto_restante: number | null;
-}
-
 export interface RegistroPorCategoria {
   categoria: string;
   total_cantidad: number;
@@ -63,5 +57,17 @@ export interface Categoria {
 export interface GetCategoriasResponse {
   categoriasGlobales: Categoria[];
   categoriasUnicas: Categoria[];
+}
+
+export interface Presupuesto {
+  id: number;
+  categoria: string;
+  porcentaje: number;
+  presupuesto_inicial: number;
+  presupuesto_restante: number;
+}
+
+export interface GetPresupuestosResponse {
+  presupuestos: Presupuesto[];
 }
 
