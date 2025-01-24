@@ -5,15 +5,12 @@
 }
 <div class="container">
     <div class="table-responsive">
-        <table class="table table-striped table-bordered">
+        <table class="table">
             <caption>Resumen de Gastos por Categoría</caption>
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Categoría</th>
                     <th scope="col">Total Cantidad</th>
-                    <th scope="col">Porcentaje Presupuesto</th>
-                    <th scope="col">Presupuesto Inicial</th>
-                    <th scope="col">Presupuesto Restante</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,40 +18,6 @@
                 <tr>
                     <td>{{ registro.categoria }}</td>
                     <td>{{ registro.total_cantidad | currency : "EUR" }}</td>
-                    <td>
-                        {{
-                        registro.presupuesto && registro.presupuesto.porcentaje !== null
-                        ? registro.presupuesto.porcentaje + " %"
-                        : "N/A"
-                        }}
-                    </td>
-                    <td>
-                        {{
-                        registro.presupuesto &&
-                        registro.presupuesto.presupuesto_inicial !== null
-                        ? (registro.presupuesto.presupuesto_inicial | currency : "EUR")
-                        : "N/A"
-                        }}
-                    </td>
-                    @if(registro.presupuesto && registro.presupuesto.presupuesto_restante !== null && registro.presupuesto.presupuesto_restante < 0) {
-                        <td style="color: red; font-weight: bold;">
-                            {{
-                            registro.presupuesto &&
-                            registro.presupuesto.presupuesto_restante !== null
-                            ? (registro.presupuesto.presupuesto_restante | currency : "EUR")
-                            : "N/A"
-                            }}
-                        </td>
-                    } @else {
-                        <td>
-                            {{
-                            registro.presupuesto &&
-                            registro.presupuesto.presupuesto_restante !== null
-                            ? (registro.presupuesto.presupuesto_restante | currency : "EUR")
-                            : "N/A"
-                            }}
-                        </td>
-                    }
                 </tr>
                 }
             </tbody>

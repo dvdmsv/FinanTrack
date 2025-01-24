@@ -29,6 +29,7 @@ export interface RegistroPorCategoriaResponse {
 }
 
 export interface Registro {
+  id: number;
   cantidad: number;
   categoria: string;
   concepto: string;

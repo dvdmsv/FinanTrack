@@ -35,6 +35,10 @@ export class FinanzasService {
     return this.http.post(this.API_URL + "/generarRegistro", {categoria, tipo, cantidad, concepto});
   }
 
+  deleteRegistro(id: number) {
+    return this.http.delete(`${this.API_URL}/deleteRegistro/${id}`);
+  }
+
   getPresupuestos() {
     return this.http.get<GetPresupuestosResponse>(this.API_URL + '/getPresupuesto');
   }

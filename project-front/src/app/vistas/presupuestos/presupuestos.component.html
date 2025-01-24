@@ -4,7 +4,7 @@
     type="button"
     class="btn btn-primary"
     data-bs-toggle="modal"
-    data-bs-target="#registroModal"
+    data-bs-target="#registroPresupuesto"
   >
     Nuevo Presupuesto
   </button>
@@ -12,6 +12,7 @@
 
 <!-- Tabla de los presupuestos -->
 <div class="container">
+  <div class="table-responsive">
     <table class="table">
       <caption>
         Presupuestos
@@ -48,20 +49,21 @@
       </tbody>
     </table>
   </div>
+</div>
 
 
   <!-- Modal -->
 <div
 class="modal fade"
-id="registroModal"
+id="registroPresupuesto"
 tabindex="-1"
-aria-labelledby="registroModalLabel"
+aria-labelledby="registroPresupuestoLabel"
 aria-hidden="true"
 >
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="registroModalLabel">Nuevo Registro</h5>
+      <h5 class="modal-title" id="registroPresupuestoLabel">Nuevo Registro</h5>
       <button
         type="button"
         class="btn-close"

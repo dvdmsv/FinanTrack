@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FinanzasService } from '../../servicios/finanzas.service';
 import { Categoria, Registro } from '../../interfaces/responses';
 import { CurrencyPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 
@@ -47,6 +46,12 @@ export class RegistrosComponent {
       error: (err) => {
         console.error('Error al obtener categorías:', err);
       },
+    });
+  }
+
+  eliminar(id: number) {
+    this.finanzasService.deleteRegistro(id).subscribe(()=>{
+      this.getRegistrosUser();
     });
   }
 

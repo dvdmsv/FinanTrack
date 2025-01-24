@@ -363,6 +363,7 @@ def getRegistrosUser(decoded):
     # Obtener los registros asociados al usuario
     # registros = Registro.query.filter_by(user_id=userId).all()
     registros = db.session.query(
+        Registro.id,
         Registro.cantidad,
         Registro.concepto,
         Registro.tipo,
@@ -378,6 +379,7 @@ def getRegistrosUser(decoded):
     registros_data = []
     for registro in registros:
         registros_data.append({
+            'id': registro.id,
             'cantidad': registro.cantidad,
             'concepto': registro.concepto,
             'tipo': registro.tipo,
@@ -387,6 +389,31 @@ def getRegistrosUser(decoded):
     
     # Retornar los registros en formato JSON
     return {'registros': registros_data}, 200
+
+@app.route('/deleteRegistro/<int:registroId>', methods=['DELETE'])
+@token_required
+def deleteRegistro(decoded, registroId):
+    userId = decoded['user_id']
+
+    # Obtener el usuario
+    user = User.query.filter_by(id=userId).first()
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    # Verificar si ya existe un presupuesto para esa categoría y usuario
+    registro_existente = Registro.query.filter_by(user_id=userId, id=registroId).first()
+
+    if registro_existente:
+        # Si el registro que se va a eliminar es un ingreso, se resta del saldo del usuario. Si es un gasto se suma al saldo del usuario
+        if registro_existente.tipo == 'Ingreso':
+            user.saldo = user.saldo - registro_existente.cantidad
+        elif registro_existente.tipo == 'Gasto': 
+            user.saldo = user.saldo + registro_existente.cantidad
+        db.session.delete(registro_existente)
+        db.session.commit()
+        return jsonify({"message": "Registro eliminado exitosamente"}), 200
+
+    return jsonify({"message": "Registro no encontrado"}), 404
 
 @app.route('/getRegistrosPorCategoria', methods=['GET'])
 @token_required

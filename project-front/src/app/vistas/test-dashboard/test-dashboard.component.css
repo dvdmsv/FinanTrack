@@ -1,0 +1,69 @@
+.scroll-container {
+    max-height: 100%; /* Ajusta según lo necesario */
+    overflow-y: auto;
+    padding: 5px; /* Opcional, para dar espacio interno */
+    box-sizing: border-box; /* Asegura que padding no afecte las dimensiones */
+}
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 10px;
+    height: 90vh; /* Asegura que ocupe el alto total de la pantalla */
+    overflow: hidden; /* Evita el desplazamiento global */
+}
+
+.bloque {
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.6);
+    border-radius: 30px;
+    border: 1px solid grey;
+    display: flex;
+    margin: 10px;
+    flex-direction: column;
+    height: 90%; /* Forzar que el tamaño del bloque sea consistente */
+}
+
+.div1 {
+    grid-column: span 4 / span 4;
+    grid-row: span 3 / span 3;
+}
+
+.div2 {
+    grid-column: span 2 / span 2;
+    grid-row: span 3 / span 3;
+    grid-column-start: 3;
+    grid-row-start: 4;
+}
+
+.div3 {
+    grid-column: span 2 / span 2;
+    grid-row: span 3 / span 3;
+    grid-column-start: 1;
+    grid-row-start: 4;
+}
+
+@media only screen and (max-width: 860px) {
+    .parent {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(12, 1fr);
+        gap: 1px;
+    }
+
+    .div1 {
+        grid-column: span 2 / span 2;
+        grid-row: span 4 / span 4;
+    }
+
+    .div2 {
+        grid-column: span 2 / span 2;
+        grid-row: span 4 / span 4;
+        grid-row-start: 5;
+    }
+
+    .div3 {
+        grid-column: span 2 / span 2;
+        grid-row: span 4 / span 4;
+        grid-row-start: 9;
+    }
+}
