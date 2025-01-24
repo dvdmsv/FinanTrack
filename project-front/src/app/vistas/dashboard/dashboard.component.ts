@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FinanzasService } from '../../servicios/finanzas.service';
 import { RegistroPorCategoria } from '../../interfaces/responses';
 import { CurrencyPipe, NgFor } from '@angular/common';
+import { ComunicacionInternaService } from '../../servicios/comunicacion-interna.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,11 +15,12 @@ export class DashboardComponent implements OnInit {
   registrosPorCategoria: RegistroPorCategoria[] = [];
   username = localStorage.getItem('username');
 
-  constructor(private finanzasService: FinanzasService) {}
+  constructor(private finanzasService: FinanzasService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   ngOnInit(): void {
     this.cargarSaldo();
     this.cargarRegistrosPorCategoria();
+    this.refrescarValores();
   }
 
   private cargarSaldo(): void {
@@ -39,6 +41,15 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al obtener registros por categoría:', err);
+      }
+    });
+  }
+
+  private refrescarValores() {
+    this.comunicacionInternaService.refreshData.subscribe(data => {
+      if(data == true){
+        this.cargarSaldo();
+        this.cargarRegistrosPorCategoria();
       }
     });
   }

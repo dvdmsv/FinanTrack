@@ -4,6 +4,7 @@ import { Categoria, Registro } from '../../interfaces/responses';
 import { CurrencyPipe } from '@angular/common';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import { ComunicacionInternaService } from '../../servicios/comunicacion-interna.service';
 
 @Component({
   selector: 'app-registros',
@@ -12,7 +13,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './registros.component.css',
 })
 export class RegistrosComponent {
-  constructor(private finanzasService: FinanzasService) {}
+  constructor(private finanzasService: FinanzasService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   registros: Registro[] = [];
   categorias: Categoria[] = [];
@@ -52,6 +53,7 @@ export class RegistrosComponent {
   eliminar(id: number) {
     this.finanzasService.deleteRegistro(id).subscribe(()=>{
       this.getRegistrosUser();
+      this.comunicacionInternaService.setRefreshData();
     });
   }
 
@@ -77,6 +79,7 @@ export class RegistrosComponent {
           this.concepto = '';
           this.tipo = '';
           this.getRegistrosUser();
+          this.comunicacionInternaService.setRefreshData();
         },
         error: (err) => {
           Swal.fire({

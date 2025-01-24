@@ -4,6 +4,7 @@ import { Categoria, Presupuesto } from '../../interfaces/responses';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { ComunicacionInternaService } from '../../servicios/comunicacion-interna.service';
 
 @Component({
   selector: 'app-presupuestos',
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrl: './presupuestos.component.css'
 })
 export class PresupuestosComponent {
-  constructor(private finanzasService: FinanzasService) {}
+  constructor(private finanzasService: FinanzasService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   presupuestos: Presupuesto[] = [];
   categorias: Categoria[] = [];
@@ -23,13 +24,13 @@ export class PresupuestosComponent {
   ngOnInit() {
     this.getPresupuestos();
     this.getCategorias();
+    this.refrescarValores();
   }
 
   getPresupuestos() {
     this.finanzasService.getPresupuestos().subscribe({
       next: data => {
         this.presupuestos = data.presupuestos;
-        console.log(this.presupuestos);
       }
     });
   }
@@ -72,6 +73,14 @@ export class PresupuestosComponent {
           this.getPresupuestos();
         },
       });
+  }
+
+  private refrescarValores() {
+    this.comunicacionInternaService.refreshData.subscribe(data => {
+      if(data == true){
+        this.getPresupuestos();
+      }
+    });
   }
 
 }
