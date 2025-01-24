@@ -266,7 +266,7 @@ def getPresupuesto(decoded):
                 'categoria': categoria.nombre,
                 'porcentaje': presupuesto.porcentaje,
                 'presupuesto_inicial': presupuesto.presupuesto_inicial,
-                'presupuesto_restante': presupuesto.presupuesto_inicial
+                'presupuesto_restante': presupuesto.presupuesto_restante
             })
     
     return jsonify({
@@ -402,13 +402,20 @@ def deleteRegistro(decoded, registroId):
 
     # Verificar si ya existe un presupuesto para esa categoría y usuario
     registro_existente = Registro.query.filter_by(user_id=userId, id=registroId).first()
+    
+    # Buscar el presupuesto del usuario para esa categoría (si existe)
+    presupuesto_existente = Presupuesto.query.filter_by(user_id=userId, categoria_id=registro_existente.categoria_id).first()
 
     if registro_existente:
         # Si el registro que se va a eliminar es un ingreso, se resta del saldo del usuario. Si es un gasto se suma al saldo del usuario
         if registro_existente.tipo == 'Ingreso':
             user.saldo = user.saldo - registro_existente.cantidad
-        elif registro_existente.tipo == 'Gasto': 
+        elif registro_existente.tipo == 'Gasto':
             user.saldo = user.saldo + registro_existente.cantidad
+
+        if presupuesto_existente:
+            presupuesto_existente.presupuesto_restante = presupuesto_existente.presupuesto_restante + registro_existente.cantidad
+
         db.session.delete(registro_existente)
         db.session.commit()
         return jsonify({"message": "Registro eliminado exitosamente"}), 200
