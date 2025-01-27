@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GetUSerDataResponse, LoginResponse } from '../interfaces/responses';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class AuthService {
     this.currentUserLoginOn.next(this.checkLoginStatus());
   }
 
-  private API_URL = 'http://127.0.0.1:5000';
+  private API_URL = environment.API_URL;
   
   
 
