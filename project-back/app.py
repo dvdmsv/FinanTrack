@@ -1,14 +1,8 @@
 import os
 from flask import Flask, request, jsonify
-from flask_bcrypt import Bcrypt
 from flask_cors import CORS
-from sqlalchemy import func, text
 import logging
-import jwt
-import datetime
-import secrets
-from functools import wraps
-from Modelos import db, User, Categoria, Registro, Presupuesto  # Importa los modelos y la instancia db
+from db import db
 from routes.auth_routes import auth_bp
 from routes.category_routes import category_bp
 from routes.presupuesto_routes import presupuesto_bp
