@@ -48,6 +48,7 @@
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(12, 1fr);
         gap: 1px;
+        height:150vh;
     }
 
     .div1 {

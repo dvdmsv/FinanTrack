@@ -3,14 +3,15 @@
 } @else {
     <h1 class="display-3">Saldo de <strong>{{ username }}</strong> {{ saldo | currency : "EUR" }}</h1>
 }
+<h1 class="display-5">Gastos {{ gastoTotal | currency : "EUR" }}</h1>
 <div class="container">
     <div class="table-responsive">
         <table class="table">
-            <caption>Resumen de Gastos por Categoría</caption>
+            <caption>Resumen de Gastos</caption>
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Categoría</th>
-                    <th scope="col">Total Cantidad</th>
+                    <th scope="col">Cantidad</th>
                 </tr>
             </thead>
             <tbody>

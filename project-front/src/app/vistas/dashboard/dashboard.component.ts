@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   saldo: number = 0;
   registrosPorCategoria: RegistroPorCategoria[] = [];
   username = localStorage.getItem('username');
+  gastoTotal: number = 0;
 
   constructor(private finanzasService: FinanzasService, private comunicacionInternaService: ComunicacionInternaService) {}
 
@@ -38,6 +39,13 @@ export class DashboardComponent implements OnInit {
     this.finanzasService.getRegistrosPorCategoria().subscribe({
       next: (data) => {
         this.registrosPorCategoria = data.categorias;
+
+        // Obtener el gasto total de todas las categorías
+        this.gastoTotal = 0;
+        this.registrosPorCategoria.forEach(registro => {
+          this.gastoTotal += registro.total_cantidad;
+        });
+        
       },
       error: (err) => {
         console.error('Error al obtener registros por categoría:', err);
