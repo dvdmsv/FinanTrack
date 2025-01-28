@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from Modelos import User
 from db import db
-from utils import token_required
 from flask_bcrypt import Bcrypt
 import jwt
 import datetime

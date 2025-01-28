@@ -1,4 +1,3 @@
-import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import logging
@@ -41,21 +40,6 @@ def before_request():
         return jsonify(headers), 200
     if request.method == 'OPTIONS':
         return jsonify({'message': 'Preflight check passed'}), 200
-
-
-# @app.route('/getUser', methods=['GET'])
-# @token_required
-# def getUser(decoded):
-#     userId = decoded['user_id']
-#     user = User.query.filter_by(id=userId).first()
-#     if user:
-#         return jsonify({
-#             'message': 'Token is valid',
-#             'user': user.username
-#         }), 200
-#     return jsonify({'message': 'User not found'}), 404
-
-
     
 if __name__ == '__main__':
     with app.app_context():

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from Modelos import Categoria, Presupuesto, User, Registro
 from db import db
-from sqlalchemy import func, text
+from sqlalchemy import text
 import datetime
 from utils import token_required
 
