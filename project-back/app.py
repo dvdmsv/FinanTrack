@@ -466,7 +466,7 @@ def registros_por_categoria(decoded):
         ON 
             r.categoria_id = c.id  -- Relacionamos la categoría con la tabla categorias
         WHERE 
-            r.user_id = :user_id
+            r.user_id = :user_id AND r.tipo = 'Gasto'
         GROUP BY 
             r.user_id,
             r.categoria_id,
