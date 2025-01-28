@@ -8,6 +8,7 @@ from routes.category_routes import category_bp
 from routes.presupuesto_routes import presupuesto_bp
 from routes.registro_routes import registro_bp
 from routes.saldo_routes import saldo_bp
+from routes.user_routes import user_bp
 from config import Config
 
 app = Flask(__name__)
@@ -21,6 +22,7 @@ app.register_blueprint(category_bp, url_prefix='/categoria')
 app.register_blueprint(presupuesto_bp, url_prefix='/presupuesto')
 app.register_blueprint(registro_bp, url_prefix='/registro')
 app.register_blueprint(saldo_bp, url_prefix='/saldo')
+app.register_blueprint(user_bp, url_prefix='/user')
 
 handler = logging.StreamHandler()
 handler.setLevel(logging.INFO)
@@ -53,13 +55,7 @@ def before_request():
 #         }), 200
 #     return jsonify({'message': 'User not found'}), 404
 
-# @app.route('/getUserData', methods=['GET'])
-# @token_required
-# def getUserData(decoded):
-#     return jsonify({
-#             'message': 'Token is valid',
-#             'user_data': decoded
-#         }), 200
+
     
 if __name__ == '__main__':
     with app.app_context():

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EmbeddedViewRef, Injectable } from '@angular/core';
 import { GetCategoriasResponse, GetPresupuestosResponse, Registro, RegistroPorCategoriaResponse, RegistroUserResponse, SaldoResponse } from '../interfaces/responses';
 import { environment } from '../../environments/environment.development';
 
@@ -11,44 +11,48 @@ export class FinanzasService {
   constructor(private http: HttpClient) { }
   
   private API_URL = environment.API_URL;
+  private CATEGORIA = environment.CATEGORIA;
+  private PESUPUESTO = environment.PRESUPUESTO
+  private REGISTRO = environment.REGISTRO
+  private SALDO = environment.SALDO
 
   getSaldo() {
-    return this.http.get<SaldoResponse>(this.API_URL + "/getSaldo");
+    return this.http.get<SaldoResponse>(this.API_URL + this.SALDO + "/getSaldo");
   }
 
   setSaldo(saldo: number) {
-    return this.http.post(this.API_URL + "/setSaldo", {saldo});
+    return this.http.post(this.API_URL + this.SALDO + "/setSaldo", {saldo});
   }
 
   getRegistrosPorCategoria() {
-    return this.http.get<RegistroPorCategoriaResponse>(this.API_URL + "/getRegistrosPorCategoria");
+    return this.http.get<RegistroPorCategoriaResponse>(this.API_URL + this.REGISTRO + "/getRegistrosPorCategoria");
   }
 
   getRegistrosUser() {
-    return this.http.get<RegistroUserResponse>(this.API_URL + "/getRegistrosUser");
+    return this.http.get<RegistroUserResponse>(this.API_URL + this.REGISTRO + "/getRegistrosUser");
   }
 
   getCategorias() {
-    return this.http.get<GetCategoriasResponse>(this.API_URL + "/getCategorias");
+    return this.http.get<GetCategoriasResponse>(this.API_URL + this.CATEGORIA + "/getCategorias");
   }
 
   generarRegistro(categoria: string, tipo: string, cantidad: number, concepto: string) {
-    return this.http.post(this.API_URL + "/generarRegistro", {categoria, tipo, cantidad, concepto});
+    return this.http.post(this.API_URL + this.REGISTRO + "/generarRegistro", {categoria, tipo, cantidad, concepto});
   }
 
   deleteRegistro(id: number) {
-    return this.http.delete(`${this.API_URL}/deleteRegistro/${id}`);
+    return this.http.delete(`${this.API_URL}${this.REGISTRO}/deleteRegistro/${id}`);
   }
 
   getPresupuestos() {
-    return this.http.get<GetPresupuestosResponse>(this.API_URL + '/getPresupuesto');
+    return this.http.get<GetPresupuestosResponse>(this.API_URL + this.PESUPUESTO + '/getPresupuesto');
   }
 
   setPresupuesto(categoria: string, porcentaje: number) {
-    return this.http.post(this.API_URL + '/setPresupuesto',{ categoria, porcentaje });
+    return this.http.post(this.API_URL + this.PESUPUESTO + '/setPresupuesto',{ categoria, porcentaje });
   }
 
   deletePresupuesto(id: number) {
-    return this.http.delete(`${this.API_URL}/deletePresupuesto/${id}`);
+    return this.http.delete(`${this.API_URL}${this.PESUPUESTO}/deletePresupuesto/${id}`);
   }
 }

@@ -16,25 +16,27 @@ export class AuthService {
   }
 
   private API_URL = environment.API_URL;
+  private AUTH = environment.AUTH;
+  private USER = environment.USER;
   
   
 
   login(username: string, password: string) {
-    return this.http.post<LoginResponse>(this.API_URL + '/login', {
+    return this.http.post<LoginResponse>(this.API_URL + this.AUTH + '/login', {
       username,
       password,
     });
   }
 
   registro(username: string, password: string) {
-    return this.http.post<LoginResponse>(this.API_URL + '/registro', {
+    return this.http.post<LoginResponse>(this.API_URL + this.AUTH + '/registro', {
       username,
       password
     });
   }
 
   getUserData() {
-    return this.http.get<GetUSerDataResponse>(this.API_URL + '/getUserData');
+    return this.http.get<GetUSerDataResponse>(this.API_URL + this.USER +'/getUserData');
   }
 
   setToken(token: string) {
