@@ -67,7 +67,7 @@ export class RegistrosComponent {
       .subscribe({
         next: (data) => {
           Swal.fire({
-            position: 'top-end',
+            position: 'top',
             icon: 'success',
             title: 'Registrado correctamente',
             showConfirmButton: false,
@@ -83,7 +83,7 @@ export class RegistrosComponent {
         },
         error: (err) => {
           Swal.fire({
-            position: 'top-end',
+            position: 'top',
             icon: 'error',
             title: err.error.error,
             showConfirmButton: false,

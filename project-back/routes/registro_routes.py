@@ -146,6 +146,7 @@ def deleteRegistro(decoded, registroId):
         elif registro_existente.tipo == 'Gasto':
             user.saldo = user.saldo + registro_existente.cantidad
 
+        # Si el registro tiene un presupuesto se suma la cantidad del registro a eliminar a el presupuesto
         if presupuesto_existente:
             presupuesto_existente.presupuesto_restante = presupuesto_existente.presupuesto_restante + registro_existente.cantidad
 

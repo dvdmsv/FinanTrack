@@ -61,7 +61,7 @@ export class PresupuestosComponent {
     .subscribe({
         next: (data) => {
           Swal.fire({
-            position: 'top-end',
+            position: 'top',
             icon: 'success',
             title: 'Registrado correctamente',
             showConfirmButton: false,

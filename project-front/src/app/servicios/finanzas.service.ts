@@ -36,6 +36,18 @@ export class FinanzasService {
     return this.http.get<GetCategoriasResponse>(this.API_URL + this.CATEGORIA + "/getCategorias");
   }
 
+  setCategoria(nombre: string, es_global: boolean) {
+    return this.http.post(this.API_URL + this.CATEGORIA + "/setCategoria", {nombre, es_global})
+  }
+
+  getCategoriasUnicas() {
+    return this.http.get<GetCategoriasResponse>(this.API_URL + this.CATEGORIA + "/getCategoriasUnicas");
+  }
+
+  deleteCategoria(id: number) {
+    return this.http.delete(`${this.API_URL}${this.CATEGORIA}/deleteCategoria/${id}`);
+  }
+
   generarRegistro(categoria: string, tipo: string, cantidad: number, concepto: string) {
     return this.http.post(this.API_URL + this.REGISTRO + "/generarRegistro", {categoria, tipo, cantidad, concepto});
   }

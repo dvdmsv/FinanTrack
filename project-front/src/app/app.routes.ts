@@ -9,6 +9,7 @@ import { RegistrosComponent } from './vistas/registros/registros.component';
 import { PresupuestosComponent } from './vistas/presupuestos/presupuestos.component';
 import { SaldoComponent } from './vistas/saldo/saldo.component';
 import { TestDashboardComponent } from './vistas/test-dashboard/test-dashboard.component';
+import { CategoriasPersonalesComponent } from './vistas/categorias-personales/categorias-personales.component';
 
 export const routes: Routes = [
     { path: '', component:LoginComponent, canActivate: [isLoggedGuard] },
@@ -19,5 +20,6 @@ export const routes: Routes = [
     { path: 'registros', component:RegistrosComponent, canActivate: [authGuard] },
     { path: 'presupuestos', component:PresupuestosComponent, canActivate: [authGuard] },
     { path: 'saldo', component:SaldoComponent, canActivate: [authGuard] },
-    { path: 'test-dashboard', component:TestDashboardComponent, canActivate: [authGuard] }
+    { path: 'test-dashboard', component:TestDashboardComponent, canActivate: [authGuard] },
+    { path: 'categorias-personales', component:CategoriasPersonalesComponent, canActivate: [authGuard] }
 ];
