@@ -10,6 +10,8 @@ import { PresupuestosComponent } from './vistas/presupuestos/presupuestos.compon
 import { SaldoComponent } from './vistas/saldo/saldo.component';
 import { TestDashboardComponent } from './vistas/test-dashboard/test-dashboard.component';
 import { CategoriasPersonalesComponent } from './vistas/categorias-personales/categorias-personales.component';
+import { DonutComponent } from './vistas/graficos/donut/donut.component';
+import { GraficosComponent } from './vistas/graficos/graficos.component';
 
 export const routes: Routes = [
     { path: '', component:LoginComponent, canActivate: [isLoggedGuard] },
@@ -21,5 +23,7 @@ export const routes: Routes = [
     { path: 'presupuestos', component:PresupuestosComponent, canActivate: [authGuard] },
     { path: 'saldo', component:SaldoComponent, canActivate: [authGuard] },
     { path: 'test-dashboard', component:TestDashboardComponent, canActivate: [authGuard] },
-    { path: 'categorias-personales', component:CategoriasPersonalesComponent, canActivate: [authGuard] }
+    { path: 'categorias-personales', component:CategoriasPersonalesComponent, canActivate: [authGuard] },
+    { path: 'graficos', component:GraficosComponent, canActivate: [authGuard] },
+    { path: 'donut', component:DonutComponent, canActivate: [authGuard] }
 ];
