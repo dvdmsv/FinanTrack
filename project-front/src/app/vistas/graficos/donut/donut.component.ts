@@ -23,7 +23,7 @@ export class DonutComponent implements OnInit {
         type: 'donut',
         calloutLabelKey: 'categoria',
         angleKey: 'total_cantidad',
-        innerRadiusRatio: 0.7,
+        innerRadiusRatio: 0.5,
       },
     ],
   };
