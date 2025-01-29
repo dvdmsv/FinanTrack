@@ -3,6 +3,7 @@ import { AgChartOptions } from 'ag-charts-community';
 import { AgCharts } from "ag-charts-angular";
 import { FinanzasService } from '../../../servicios/finanzas.service';
 import { RegistroPorCategoria } from '../../../interfaces/responses';
+import { ComunicacionInternaService } from '../../../servicios/comunicacion-interna.service';
 
 @Component({
   selector: 'app-donut',
@@ -28,10 +29,11 @@ export class DonutComponent implements OnInit {
     ],
   };
 
-  constructor(private finanzasService: FinanzasService) {}
+  constructor(private finanzasService: FinanzasService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   ngOnInit(): void {
     this.cargarRegistrosPorCategoria();
+    this.refrescarValores();
   }
 
   private cargarRegistrosPorCategoria(): void {
@@ -48,6 +50,14 @@ export class DonutComponent implements OnInit {
       error: (err) => {
         console.error('Error al obtener registros por categoría:', err);
       },
+    });
+  }
+
+  private refrescarValores() {
+    this.comunicacionInternaService.refreshData.subscribe(data => {
+      if(data == true){
+        this.cargarRegistrosPorCategoria();
+      }
     });
   }
 }

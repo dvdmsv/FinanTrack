@@ -3,10 +3,11 @@ import { FinanzasService } from '../../servicios/finanzas.service';
 import { RegistroPorCategoria } from '../../interfaces/responses';
 import { CurrencyPipe, NgFor } from '@angular/common';
 import { ComunicacionInternaService } from '../../servicios/comunicacion-interna.service';
+import { DonutComponent } from '../graficos/donut/donut.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, DonutComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })

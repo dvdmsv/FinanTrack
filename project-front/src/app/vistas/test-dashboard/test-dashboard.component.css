@@ -1,3 +1,7 @@
+h1 {
+    text-align: center;
+  }
+
 .scroll-container {
     max-height: 100%; /* Ajusta según lo necesario */
     overflow-y: auto;

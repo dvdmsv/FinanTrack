@@ -1,3 +1,8 @@
+@if(saldo < 0) {
+    <h1 class="display-3">Saldo de <strong>{{ username }}</strong><strong style="color:red"> {{ saldo | currency : "EUR" }}</strong></h1>
+} @else {
+    <h1 class="display-3">Saldo de <strong>{{ username }}</strong> {{ saldo | currency : "EUR" }}</h1>
+}
 <div class="parent">
     <div class="div1 bloque">
         <div class="scroll-container">
