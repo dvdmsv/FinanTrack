@@ -21,8 +21,10 @@ caption {
 }
 
 .container-button {
+  display: flex;
   margin-top: 50px;
-  text-align: end;
+  justify-content: center;
+  gap: 10px;
 }
 
 .modal-dialog {

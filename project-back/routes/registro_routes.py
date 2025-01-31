@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from Modelos import Categoria, Presupuesto, User, Registro
 from db import db
-from sqlalchemy import text
+from sqlalchemy import text, extract
 import datetime
 from utils import token_required
 
@@ -230,3 +230,37 @@ def registros_por_categoria(decoded):
         })
 
     return jsonify(response), 200
+
+@registro_bp.route('/getRegistrosPorMes/<int:mes>', methods=['GET'])
+@token_required
+def getRegistrosPorMes(decoded, mes):
+    user_id = decoded['user_id']
+
+    registros = db.session.query(
+        Registro.id,
+        Registro.cantidad,
+        Registro.concepto,
+        Registro.tipo,
+        Registro.fecha,
+        Categoria.nombre.label('categoria')  # Añadimos el nombre de la categoría
+    ).join(
+        Categoria, Categoria.id == Registro.categoria_id  # Realizamos el JOIN entre Registro y Categoria
+    ).filter(
+        extract('month', Registro.fecha) == mes,
+        Registro.user_id == user_id
+    ).all()
+
+    # Convertir los registros a un formato que se pueda retornar
+    registros_data = []
+    for registro in registros:
+        registros_data.append({
+            'id': registro.id,
+            'cantidad': registro.cantidad,
+            'concepto': registro.concepto,
+            'tipo': registro.tipo,
+            'fecha': registro.fecha.strftime('%d-%m-%Y %H:%M'),
+            'categoria': registro.categoria
+        })
+    
+    # Retornar los registros en formato JSON
+    return {'registros': registros_data}, 200

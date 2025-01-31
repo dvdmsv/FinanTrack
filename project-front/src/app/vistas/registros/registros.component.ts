@@ -23,9 +23,37 @@ export class RegistrosComponent {
   cantidad: number = 0;
   concepto: string = '';
 
+  meses = [
+    { nombre: "Enero", valor: 1 },
+    { nombre: "Febrero", valor: 2 },
+    { nombre: "Marzo", valor: 3 },
+    { nombre: "Abril", valor: 4 },
+    { nombre: "Mayo", valor: 5 },
+    { nombre: "Junio", valor: 6 },
+    { nombre: "Julio", valor: 7 },
+    { nombre: "Agosto", valor: 8 },
+    { nombre: "Septiembre", valor: 9 },
+    { nombre: "Octubre", valor: 10 },
+    { nombre: "Noviembre", valor: 11 },
+    { nombre: "Diciembre", valor: 12 }
+  ];
+
+  mesSeleccionado: number = 0
+
   ngOnInit() {
     this.getRegistrosUser();
     this.getCategorias();
+  }
+
+  getRegistrosPorMes() {
+    if(this.mesSeleccionado == 0){
+      this.getRegistrosUser();
+    }
+    this.finanzasService.getRegistrosPorMes(this.mesSeleccionado).subscribe({
+      next: (data) => {
+        this.registros = data.registros;
+      }
+    })
   }
 
   getRegistrosUser() {

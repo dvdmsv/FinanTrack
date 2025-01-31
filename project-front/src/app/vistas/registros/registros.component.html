@@ -1,5 +1,16 @@
 <!-- Botón para abrir el Modal -->
 <div class="container container-button">
+  <div class="form">
+    <select class="form-select" [(ngModel)]="mesSeleccionado" (change)="getRegistrosPorMes()">
+      <option value="0">Todos</option>
+      @for (mes of meses; track mes.valor) {
+        <option [value]="mes.valor">
+          {{ mes.nombre }}
+        </option>
+      }
+    </select>
+  </div>
+
   <button
     type="button"
     class="btn btn-primary"
@@ -8,6 +19,10 @@
   >
     Nuevo Registro
   </button>
+</div>
+
+<div class="container container-select">
+  
 </div>
 
 <!-- Tabla de los registros -->
@@ -28,7 +43,7 @@
         </tr>
       </thead>
       <tbody>
-        @for(registro of registros; track registro){
+        @for(registro of registros; track registro.id){
         <tr>
           <td>{{ registro.tipo }}</td>
           <td>
@@ -48,6 +63,9 @@
         }
       </tbody>
     </table>
+    @if (registros.length == 0) {
+      <h4 style="text-align: center;">No hay registros</h4>
+    }
   </div>
 </div>
 
