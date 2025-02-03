@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FinanzasService } from '../../servicios/finanzas.service';
 import { RegistroPorCategoria } from '../../interfaces/responses';
 import { CurrencyPipe, NgFor } from '@angular/common';
 import { ComunicacionInternaService } from '../../servicios/comunicacion-interna.service';
 import { DonutComponent } from '../graficos/donut/donut.component';
+import { FinanzasSaldoService } from '../../servicios/finanzas-servicios/finanzas-saldo.service';
+import { FinanzasRegistrosService } from '../../servicios/finanzas-servicios/finanzas-registros.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +18,7 @@ export class DashboardComponent implements OnInit {
   username = localStorage.getItem('username');
   gastoTotal: number = 0;
 
-  constructor(private finanzasService: FinanzasService, private comunicacionInternaService: ComunicacionInternaService) {}
+  constructor(private finanzasRegistrosService: FinanzasRegistrosService,private finanzasSaldoService: FinanzasSaldoService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   ngOnInit(): void {
     this.cargarSaldo();
@@ -26,7 +27,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private cargarSaldo(): void {
-    this.finanzasService.getSaldo().subscribe({
+    this.finanzasSaldoService.getSaldo().subscribe({
       next: (data) => {
         this.saldo = data.saldo;
       },
@@ -37,7 +38,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private cargarRegistrosPorCategoria(): void {
-    this.finanzasService.getRegistrosPorCategoria().subscribe({
+    this.finanzasRegistrosService.getRegistrosPorCategoria().subscribe({
       next: (data) => {
         this.registrosPorCategoria = data.categorias;
 

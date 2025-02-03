@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { FinanzasService } from '../../servicios/finanzas.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { GetPresupuestosResponse, Presupuesto } from '../../interfaces/responses';
+import { FinanzasSaldoService } from '../../servicios/finanzas-servicios/finanzas-saldo.service';
+import { FinanzasPresupuestosService } from '../../servicios/finanzas-servicios/finanzas-presupuestos.service';
 
 @Component({
   selector: 'app-saldo',
@@ -11,7 +12,7 @@ import { GetPresupuestosResponse, Presupuesto } from '../../interfaces/responses
   styleUrl: './saldo.component.css'
 })
 export class SaldoComponent {
-  constructor(private finanzasService:  FinanzasService) {}
+  constructor(private finanzasSaldoService: FinanzasSaldoService, private finanzasPresupuestosService: FinanzasPresupuestosService) {}
 
   saldo: number = 0;
   nuevoSaldo: number = 0;
@@ -24,7 +25,7 @@ export class SaldoComponent {
   }
 
   cargarSaldo(): void {
-    this.finanzasService.getSaldo().subscribe({
+    this.finanzasSaldoService.getSaldo().subscribe({
       next: (data) => {
         this.saldo = data.saldo;
         this.nuevoSaldo = this.saldo;
@@ -37,7 +38,7 @@ export class SaldoComponent {
 
   setSaldo() {
     // Se actualiza el saldo del usuario
-    this.finanzasService.setSaldo(this.nuevoSaldo).subscribe({
+    this.finanzasSaldoService.setSaldo(this.nuevoSaldo).subscribe({
       next: () =>{
         Swal.fire({
             position: 'top',
@@ -49,7 +50,7 @@ export class SaldoComponent {
         });
         // Se actualizan todos los presupuestos en base al saldo del usuario
         this.presupuestos.forEach(presupuesto => {
-          this.finanzasService.setPresupuesto(presupuesto.categoria, presupuesto.porcentaje).subscribe();
+          this.finanzasPresupuestosService.setPresupuesto(presupuesto.categoria, presupuesto.porcentaje).subscribe();
         });
         // Se vuelve a cargar el saldo
         this.cargarSaldo();
@@ -58,7 +59,7 @@ export class SaldoComponent {
   }
 
   getPresupuestos() {
-    this.finanzasService.getPresupuestos().subscribe({
+    this.finanzasPresupuestosService.getPresupuestos().subscribe({
       next: data => {
         this.presupuestos = data.presupuestos;
         console.log(this.presupuestos);

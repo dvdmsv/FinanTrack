@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { DashboardComponent } from "../dashboard/dashboard.component";
 import { RegistrosComponent } from "../registros/registros.component";
 import { PresupuestosComponent } from "../presupuestos/presupuestos.component";
-import { FinanzasService } from '../../servicios/finanzas.service';
 import { ComunicacionInternaService } from '../../servicios/comunicacion-interna.service';
 import { CurrencyPipe } from '@angular/common';
+import { FinanzasSaldoService } from '../../servicios/finanzas-servicios/finanzas-saldo.service';
 
 @Component({
   selector: 'app-test-dashboard',
@@ -17,7 +17,7 @@ export class TestDashboardComponent {
   saldo: number = 0;
   username = localStorage.getItem('username');
 
-  constructor(private finanzasService: FinanzasService, private comunicacionInternaService: ComunicacionInternaService) {}
+  constructor(private finanzasSaldoService: FinanzasSaldoService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   ngOnInit(): void {
     this.cargarSaldo();
@@ -25,7 +25,7 @@ export class TestDashboardComponent {
   }
 
   private cargarSaldo(): void {
-    this.finanzasService.getSaldo().subscribe({
+    this.finanzasSaldoService.getSaldo().subscribe({
       next: (data) => {
         this.saldo = data.saldo;
       },

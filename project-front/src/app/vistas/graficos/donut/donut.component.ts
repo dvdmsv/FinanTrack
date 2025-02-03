@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AgChartOptions } from 'ag-charts-community';
 import { AgCharts } from "ag-charts-angular";
-import { FinanzasService } from '../../../servicios/finanzas.service';
 import { RegistroPorCategoria } from '../../../interfaces/responses';
 import { ComunicacionInternaService } from '../../../servicios/comunicacion-interna.service';
+import { FinanzasRegistrosService } from '../../../servicios/finanzas-servicios/finanzas-registros.service';
 
 @Component({
   selector: 'app-donut',
@@ -29,7 +29,7 @@ export class DonutComponent implements OnInit {
     ],
   };
 
-  constructor(private finanzasService: FinanzasService, private comunicacionInternaService: ComunicacionInternaService) {}
+  constructor(private finanzasRegistrosService: FinanzasRegistrosService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   ngOnInit(): void {
     this.cargarRegistrosPorCategoria();
@@ -37,7 +37,7 @@ export class DonutComponent implements OnInit {
   }
 
   private cargarRegistrosPorCategoria(): void {
-    this.finanzasService.getRegistrosPorCategoria().subscribe({
+    this.finanzasRegistrosService.getRegistrosPorCategoria().subscribe({
       next: (data) => {
         this.registrosPorCategoria = data.categorias;
 

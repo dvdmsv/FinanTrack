@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { FinanzasService } from '../../servicios/finanzas.service';
 import { Categoria, Registro } from '../../interfaces/responses';
 import { CurrencyPipe } from '@angular/common';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { ComunicacionInternaService } from '../../servicios/comunicacion-interna.service';
+import { FinanzasRegistrosService } from '../../servicios/finanzas-servicios/finanzas-registros.service';
+import { FinanzasCategoriasService } from '../../servicios/finanzas-servicios/finanzas-categorias.service';
 
 @Component({
   selector: 'app-registros',
@@ -13,7 +14,7 @@ import { ComunicacionInternaService } from '../../servicios/comunicacion-interna
   styleUrl: './registros.component.css',
 })
 export class RegistrosComponent {
-  constructor(private finanzasService: FinanzasService, private comunicacionInternaService: ComunicacionInternaService) {}
+  constructor(private finanzasCategoriasService: FinanzasCategoriasService, private finanzasRegistrosService: FinanzasRegistrosService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   registros: Registro[] = [];
   categorias: Categoria[] = [];
@@ -49,7 +50,7 @@ export class RegistrosComponent {
     if(this.mesSeleccionado == 0){
       this.getRegistrosUser();
     }
-    this.finanzasService.getRegistrosPorMes(this.mesSeleccionado).subscribe({
+    this.finanzasRegistrosService.getRegistrosPorMes(this.mesSeleccionado).subscribe({
       next: (data) => {
         this.registros = data.registros;
       }
@@ -57,7 +58,7 @@ export class RegistrosComponent {
   }
 
   getRegistrosUser() {
-    this.finanzasService.getRegistrosUser().subscribe({
+    this.finanzasRegistrosService.getRegistrosUser().subscribe({
       next: (data) => {
         this.registros = data.registros;
       },
@@ -65,7 +66,7 @@ export class RegistrosComponent {
   }
 
   getCategorias() {
-    this.finanzasService.getCategorias().subscribe({
+    this.finanzasCategoriasService.getCategorias().subscribe({
       next: (data) => {
         this.categorias = [
           ...data.categoriasGlobales,
@@ -79,7 +80,7 @@ export class RegistrosComponent {
   }
 
   eliminar(id: number) {
-    this.finanzasService.deleteRegistro(id).subscribe(()=>{
+    this.finanzasRegistrosService.deleteRegistro(id).subscribe(()=>{
       this.getRegistrosUser();
       this.comunicacionInternaService.setRefreshData();
     });
@@ -90,7 +91,7 @@ export class RegistrosComponent {
       console.warn('El formulario no está completo');
       return;
     }
-    this.finanzasService
+    this.finanzasRegistrosService
       .generarRegistro(this.categoria, this.tipo, this.cantidad, this.concepto)
       .subscribe({
         next: (data) => {

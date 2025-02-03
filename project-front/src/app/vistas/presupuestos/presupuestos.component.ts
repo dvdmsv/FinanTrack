@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { FinanzasService } from '../../servicios/finanzas.service';
 import { Categoria, Presupuesto } from '../../interfaces/responses';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ComunicacionInternaService } from '../../servicios/comunicacion-interna.service';
+import { FinanzasPresupuestosService } from '../../servicios/finanzas-servicios/finanzas-presupuestos.service';
+import { FinanzasCategoriasService } from '../../servicios/finanzas-servicios/finanzas-categorias.service';
 
 @Component({
   selector: 'app-presupuestos',
@@ -13,7 +14,7 @@ import { ComunicacionInternaService } from '../../servicios/comunicacion-interna
   styleUrl: './presupuestos.component.css'
 })
 export class PresupuestosComponent {
-  constructor(private finanzasService: FinanzasService, private comunicacionInternaService: ComunicacionInternaService) {}
+  constructor(private finanzasCategoriasService: FinanzasCategoriasService, private finanzasPresupuestosService: FinanzasPresupuestosService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   presupuestos: Presupuesto[] = [];
   categorias: Categoria[] = [];
@@ -28,7 +29,7 @@ export class PresupuestosComponent {
   }
 
   getPresupuestos() {
-    this.finanzasService.getPresupuestos().subscribe({
+    this.finanzasPresupuestosService.getPresupuestos().subscribe({
       next: data => {
         this.presupuestos = data.presupuestos;
       }
@@ -36,7 +37,7 @@ export class PresupuestosComponent {
   }
 
   getCategorias() {
-    this.finanzasService.getCategorias().subscribe({
+    this.finanzasCategoriasService.getCategorias().subscribe({
       next: (data) => {
         this.categorias = [
           ...data.categoriasGlobales,
@@ -50,14 +51,14 @@ export class PresupuestosComponent {
   }
 
   eliminar(id: number){
-    this.finanzasService.deletePresupuesto(id).subscribe(()=>{
+    this.finanzasPresupuestosService.deletePresupuesto(id).subscribe(()=>{
       this.getPresupuestos();
     });
     
   }
 
   setPresupuesto() {
-    this.finanzasService.setPresupuesto(this.categoria, this.porcentaje)
+    this.finanzasPresupuestosService.setPresupuesto(this.categoria, this.porcentaje)
     .subscribe({
         next: (data) => {
           Swal.fire({

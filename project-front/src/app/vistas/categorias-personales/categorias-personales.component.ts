@@ -1,8 +1,8 @@
 import { Component, NgModule } from '@angular/core';
-import { FinanzasService } from '../../servicios/finanzas.service';
 import { Categoria } from '../../interfaces/responses';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { FinanzasCategoriasService } from '../../servicios/finanzas-servicios/finanzas-categorias.service';
 
 @Component({
   selector: 'app-categorias-personales',
@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrl: './categorias-personales.component.css'
 })
 export class CategoriasPersonalesComponent {
-  constructor(private finanzasService: FinanzasService) {}
+  constructor(private finanzasCategoriasService: FinanzasCategoriasService) {}
 
   categoriasUnicas: Categoria[] = [];
   nombreCategoria: string = "";
@@ -21,7 +21,7 @@ export class CategoriasPersonalesComponent {
   }
 
   cargarCategorias() {
-    this.finanzasService.getCategoriasUnicas().subscribe({
+    this.finanzasCategoriasService.getCategoriasUnicas().subscribe({
       next: (data) => {
         this.categoriasUnicas = data.categoriasUnicas;
       },
@@ -32,13 +32,13 @@ export class CategoriasPersonalesComponent {
   }
 
   eliminar(id: number) {
-    this.finanzasService.deleteCategoria(id).subscribe(()=>{
+    this.finanzasCategoriasService.deleteCategoria(id).subscribe(()=>{
       this.cargarCategorias();
     })
   }
 
   setCategoria() {
-    this.finanzasService.setCategoria(this.nombreCategoria, false).subscribe({
+    this.finanzasCategoriasService.setCategoria(this.nombreCategoria, false).subscribe({
       next: () =>{
         this.cargarCategorias();
         Swal.fire({
