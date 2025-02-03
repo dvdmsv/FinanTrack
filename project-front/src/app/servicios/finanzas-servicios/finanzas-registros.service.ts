@@ -17,6 +17,10 @@ export class FinanzasRegistrosService {
     return this.http.get<RegistroPorCategoriaResponse>(this.API_URL + this.REGISTRO + "/getRegistrosPorCategoria");
   }
 
+  getRegistrosPorCategoria2(anio: number, mes: number) {
+    return this.http.get<RegistroPorCategoriaResponse>(`${this.API_URL}${this.REGISTRO}/getRegistrosPorCategoria2/${anio}/${mes}`);
+  }
+
   getRegistrosUser() {
     return this.http.get<RegistroUserResponse>(this.API_URL + this.REGISTRO + "/getRegistrosUser");
   }

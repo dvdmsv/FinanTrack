@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { AgChartOptions } from 'ag-charts-community';
 import { AgCharts } from "ag-charts-angular";
 import { RegistroPorCategoria } from '../../../interfaces/responses';
@@ -13,6 +13,9 @@ import { FinanzasRegistrosService } from '../../../servicios/finanzas-servicios/
 })
 export class DonutComponent implements OnInit {
   registrosPorCategoria: RegistroPorCategoria[] = [];
+
+  @Input() anio: number = 0;
+  @Input() mes: number = 0;
 
   public options: AgChartOptions = {
     data: [],
@@ -32,13 +35,25 @@ export class DonutComponent implements OnInit {
   constructor(private finanzasRegistrosService: FinanzasRegistrosService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   ngOnInit(): void {
-    this.cargarRegistrosPorCategoria();
+    this.filtrarRegistros();
     this.refrescarValores();
   }
 
-  private cargarRegistrosPorCategoria(): void {
-    this.finanzasRegistrosService.getRegistrosPorCategoria().subscribe({
-      next: (data) => {
+   // Detecta cambios en anio o mes y actualiza el gráfico automáticamente
+   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['anio'] || changes['mes']) {
+      this.filtrarRegistros();
+    }
+  }
+
+  filtrarRegistros() {
+    this.finanzasRegistrosService.getRegistrosPorCategoria2(this.anio, this.mes)
+      .subscribe((data) => {
+        console.log({
+          'año': this.anio,
+          'mes': this.mes
+        });
+  
         this.registrosPorCategoria = data.categorias;
 
         // Reasignamos el objeto para que Angular detecte el cambio
@@ -46,17 +61,13 @@ export class DonutComponent implements OnInit {
           ...this.options,
           data: this.registrosPorCategoria,
         };
-      },
-      error: (err) => {
-        console.error('Error al obtener registros por categoría:', err);
-      },
-    });
+      });
   }
 
   private refrescarValores() {
     this.comunicacionInternaService.refreshData.subscribe(data => {
       if(data == true){
-        this.cargarRegistrosPorCategoria();
+        this.filtrarRegistros();
       }
     });
   }
