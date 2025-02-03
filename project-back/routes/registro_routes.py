@@ -156,6 +156,67 @@ def deleteRegistro(decoded, registroId):
 
     return jsonify({"message": "Registro no encontrado"}), 404
 
+@registro_bp.route('/getRegistrosPorCategoria2/<int:anio>/<int:mes>', methods=['GET'])
+@token_required
+def registros_por_categoria2(decoded, anio, mes):
+    user_id = decoded['user_id']
+
+    # Escribir una sentencia SQL literal con text()
+    sql = text("""
+        SELECT 
+            r.user_id,
+            r.categoria_id, 
+            c.nombre AS categoria,  -- Se añade el nombre de la categoría
+            SUM(r.cantidad) AS total_cantidad, 
+            p.porcentaje, 
+            p.presupuesto_inicial, 
+            p.presupuesto_restante
+        FROM 
+            registros r
+        LEFT JOIN 
+            presupuestos p  -- Cambiamos a LEFT JOIN para incluir los registros sin presupuesto
+        ON 
+            r.categoria_id = p.categoria_id
+            AND r.user_id = p.user_id  -- Aseguramos que el user_id también coincida en ambas tablas
+        JOIN 
+            categorias c  -- Se hace un JOIN con la tabla de categorías
+        ON 
+            r.categoria_id = c.id  -- Relacionamos la categoría con la tabla categorias
+        WHERE 
+            r.user_id = :user_id AND r.tipo = 'Gasto'
+            AND (:anio = 0 OR EXTRACT(YEAR FROM r.fecha) = :anio)  -- Filtro opcional para el año
+            AND (:mes = 0 OR EXTRACT(MONTH FROM r.fecha) = :mes)  -- Filtro opcional para el mes
+        GROUP BY 
+            r.user_id,
+            r.categoria_id,
+            c.nombre,  -- Añadimos el nombre de la categoría en el GROUP BY
+            p.porcentaje, 
+            p.presupuesto_inicial, 
+            p.presupuesto_restante;
+        """)
+
+    # Ejecutar la consulta con el valor de user_id
+    results = db.session.execute(sql, {'user_id': user_id, 'anio': anio, 'mes': mes}).fetchall()
+
+
+    # Convertir resultados a JSON
+    response = {
+        "categorias": []
+    }
+
+    for row in results:
+        response["categorias"].append({
+            "categoria": row.categoria,
+            "total_cantidad": row.total_cantidad,
+            "presupuesto": {
+                "porcentaje": row.porcentaje,
+                "presupuesto_inicial": row.presupuesto_inicial,
+                "presupuesto_restante": row.presupuesto_restante
+            } if row.porcentaje is not None else None
+        })
+
+    return jsonify(response), 200
+
 @registro_bp.route('/getRegistrosPorCategoria', methods=['GET'])
 @token_required
 def registros_por_categoria(decoded):
