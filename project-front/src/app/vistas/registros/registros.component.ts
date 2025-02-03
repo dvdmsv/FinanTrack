@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Categoria, Registro } from '../../interfaces/responses';
+import { AnioRegistro, Categoria, MesRegistro, Registro } from '../../interfaces/responses';
 import { CurrencyPipe } from '@angular/common';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
@@ -24,7 +24,9 @@ export class RegistrosComponent {
   cantidad: number = 0;
   concepto: string = '';
 
-  meses = [
+  //Lista de meses
+  lista_meses = [
+    { nombre: "Todos", valor: 0 },
     { nombre: "Enero", valor: 1 },
     { nombre: "Febrero", valor: 2 },
     { nombre: "Marzo", valor: 3 },
@@ -39,11 +41,53 @@ export class RegistrosComponent {
     { nombre: "Diciembre", valor: 12 }
   ];
 
+  anios: AnioRegistro[] = [];
+  meses: MesRegistro[] = [];
+
   mesSeleccionado: number = 0
+  anioSeleccionado: number = 0
 
   ngOnInit() {
     this.getRegistrosUser();
     this.getCategorias();
+    this.getAniosRegistros();
+    this.getMesesRegistros();
+  }
+
+  filtrarRegistros() {
+    this.finanzasRegistrosService.filtrarRegistros(this.anioSeleccionado, this.mesSeleccionado).subscribe((data)=>{
+      this.registros = data.registros;
+    })
+  }
+
+  // Resetea los filtros a su valor por defecto
+  resetFiltros() {
+    this.mesSeleccionado = 0;  // "Todos" en el mes
+    this.anioSeleccionado = 0; // "Todos" en el año
+    this.getRegistrosUser();   // Obtener todos los registros
+  }
+
+  getAniosRegistros() {
+    this.finanzasRegistrosService.getAniosRegistros().subscribe((data)=>{
+      this.anios = data.registros;
+    })
+  }
+
+  getMesesRegistros() {
+    this.finanzasRegistrosService.getMesesRegistros(this.anioSeleccionado).subscribe((data)=>{
+      this.meses = data.registros;
+    })
+  }
+
+  getRegistrosPorAnio() {
+    if(this.anioSeleccionado == 0){
+      this.getRegistrosUser();
+    }
+    this.finanzasRegistrosService.getRegistrosPorAnio(this.anioSeleccionado).subscribe({
+      next: (data) => {
+        this.registros = data.registros;
+      }
+    })
   }
 
   getRegistrosPorMes() {

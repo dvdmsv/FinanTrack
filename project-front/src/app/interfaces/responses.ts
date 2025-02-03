@@ -65,3 +65,19 @@ export interface GetPresupuestosResponse {
   presupuestos: Presupuesto[];
 }
 
+export interface AnioRegistro {
+  anio: number;
+}
+
+export interface AniosRegistrosResponse {
+  registros: AnioRegistro[];
+}
+
+export interface MesRegistro {
+  mes: number;
+}
+
+export interface MesesRegistrosResponse {
+  registros: MesRegistro[];
+}
+

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from Modelos import Categoria, Presupuesto, User, Registro
 from db import db
-from sqlalchemy import text, extract
+from sqlalchemy import distinct, text, extract
 import datetime
 from utils import token_required
 
@@ -231,6 +231,48 @@ def registros_por_categoria(decoded):
 
     return jsonify(response), 200
 
+@registro_bp.route('/filtrarRegistros/<int:anio>/<int:mes>', methods=['GET'])
+@token_required
+def filtrarRegistros(decoded, anio, mes):
+    user_id = decoded['user_id']
+
+    query = db.session.query(
+        Registro.id,
+        Registro.cantidad,
+        Registro.concepto,
+        Registro.tipo,
+        Registro.fecha,
+        Categoria.nombre.label('categoria')
+    ).join(
+        Categoria, Categoria.id == Registro.categoria_id
+    ).filter(
+        Registro.user_id == user_id
+    )
+
+    # Aplicar filtros según los parámetros seleccionados
+    if anio > 0:  # Si se selecciona un año
+        query = query.filter(extract('year', Registro.fecha) == anio)
+    
+    if mes > 0:  # Si se selecciona un mes
+        query = query.filter(extract('month', Registro.fecha) == mes)
+
+    registros = query.all()
+
+    registros_data = [
+        {
+            "id": registro.id,
+            "cantidad": registro.cantidad,
+            "concepto": registro.concepto,
+            "tipo": registro.tipo,
+            "fecha": registro.fecha.strftime("%Y-%m-%d"),
+            "categoria": registro.categoria
+        }
+        for registro in registros
+    ]
+
+    return {"registros": registros_data}, 200
+
+
 @registro_bp.route('/getRegistrosPorMes/<int:mes>', methods=['GET'])
 @token_required
 def getRegistrosPorMes(decoded, mes):
@@ -264,3 +306,80 @@ def getRegistrosPorMes(decoded, mes):
     
     # Retornar los registros en formato JSON
     return {'registros': registros_data}, 200
+
+@registro_bp.route('/getRegistrosPorAnio/<int:anio>', methods=['GET'])
+@token_required
+def getRegistrosPorAnyo(decoded, anio):
+    user_id = decoded['user_id']
+
+    registros = db.session.query(
+        Registro.id,
+        Registro.cantidad,
+        Registro.concepto,
+        Registro.tipo,
+        Registro.fecha,
+        Categoria.nombre.label('categoria')  # Añadimos el nombre de la categoría
+    ).join(
+        Categoria, Categoria.id == Registro.categoria_id  # Realizamos el JOIN entre Registro y Categoria
+    ).filter(
+        extract('year', Registro.fecha) == anio,
+        Registro.user_id == user_id
+    ).all()
+
+    # Convertir los registros a un formato que se pueda retornar
+    registros_data = []
+    for registro in registros:
+        registros_data.append({
+            'id': registro.id,
+            'cantidad': registro.cantidad,
+            'concepto': registro.concepto,
+            'tipo': registro.tipo,
+            'fecha': registro.fecha.strftime('%d-%m-%Y %H:%M'),
+            'categoria': registro.categoria
+        })
+    
+    # Retornar los registros en formato JSON
+    return {'registros': registros_data}, 200
+
+# Se obtiene una lista de los años en los que hay registros
+@registro_bp.route('/getAniosRegistros', methods=['GET'])
+@token_required
+def getAniosRegistros(decoded):
+    user_id = decoded['user_id']
+
+    anios = db.session.query(
+        distinct(extract('year', Registro.fecha)).label('anio')
+    ).filter(
+        Registro.user_id == user_id
+    ).order_by('anio').all()
+
+    # Extraer el valor correcto de la tupla
+    registros_data = [{'anio': anio[0]} for anio in anios]
+
+    return {'registros': registros_data}, 200
+
+# Se obtiene una lista de los meses en los que hay registros
+@registro_bp.route('/getMesesRegistros/<int:anio>', methods=['GET'])
+@token_required
+def getMesesRegistros(decoded, anio):
+    user_id = decoded['user_id']
+
+    # Crear la consulta base con el filtro por usuario
+    query = db.session.query(
+        distinct(extract('month', Registro.fecha)).label('mes')
+    ).filter(
+        Registro.user_id == user_id
+    )
+
+    # Aplicar el filtro por año, si el parámetro anio es mayor que 0
+    if anio > 0:
+        query = query.filter(extract('year', Registro.fecha) == anio)
+
+    # Ejecutar la consulta
+    meses = query.order_by('mes').all()
+
+    # Extraer el valor correcto de la tupla
+    registros_data = [{'mes': mes[0]} for mes in meses]
+
+    return {'registros': registros_data}, 200
+
