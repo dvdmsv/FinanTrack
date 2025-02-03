@@ -25,5 +25,6 @@ export const routes: Routes = [
     { path: 'test-dashboard', component:TestDashboardComponent, canActivate: [authGuard] },
     { path: 'categorias-personales', component:CategoriasPersonalesComponent, canActivate: [authGuard] },
     { path: 'graficos', component:GraficosComponent, canActivate: [authGuard] },
-    { path: 'donut', component:DonutComponent, canActivate: [authGuard] }
+    { path: 'donut', component:DonutComponent, canActivate: [authGuard] },
+    { path: '**', component:DashboardComponent, canActivate: [authGuard] }
 ];
