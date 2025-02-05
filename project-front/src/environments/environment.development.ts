@@ -5,5 +5,6 @@ export const environment = {
     PRESUPUESTO: '/presupuesto',
     REGISTRO: '/registro',
     SALDO: '/saldo',
-    USER: '/user'
+    USER: '/user',
+    PDF: '/pdf'
 };

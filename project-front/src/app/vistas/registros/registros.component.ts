@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { ComunicacionInternaService } from '../../servicios/comunicacion-interna.service';
 import { FinanzasRegistrosService } from '../../servicios/finanzas-servicios/finanzas-registros.service';
 import { FinanzasCategoriasService } from '../../servicios/finanzas-servicios/finanzas-categorias.service';
+import { FinanzasPdfService } from '../../servicios/finanzas-servicios/finanzas-pdf.service';
 
 @Component({
   selector: 'app-registros',
@@ -14,7 +15,7 @@ import { FinanzasCategoriasService } from '../../servicios/finanzas-servicios/fi
   styleUrl: './registros.component.css',
 })
 export class RegistrosComponent {
-  constructor(private finanzasCategoriasService: FinanzasCategoriasService, private finanzasRegistrosService: FinanzasRegistrosService, private comunicacionInternaService: ComunicacionInternaService) {}
+  constructor(private finanzasPdfService: FinanzasPdfService,private finanzasCategoriasService: FinanzasCategoriasService, private finanzasRegistrosService: FinanzasRegistrosService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   registros: Registro[] = [];
   categorias: Categoria[] = [];
@@ -61,7 +62,10 @@ export class RegistrosComponent {
   }
 
   generarPDF() {
-    
+    this.finanzasPdfService.generarPDF(this.registros).subscribe((pdf) =>{
+      const pdfURL = window.URL.createObjectURL(pdf);
+      window.open(pdfURL, '_blank'); // Abre en una nueva pestaña
+    });
   }
 
   // Resetea los filtros a su valor por defecto
