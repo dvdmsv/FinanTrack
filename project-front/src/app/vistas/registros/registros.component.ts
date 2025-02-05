@@ -60,6 +60,10 @@ export class RegistrosComponent {
     })
   }
 
+  generarPDF() {
+    
+  }
+
   // Resetea los filtros a su valor por defecto
   resetFiltros() {
     this.mesSeleccionado = 0;  // "Todos" en el mes
