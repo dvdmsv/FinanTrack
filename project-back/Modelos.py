@@ -76,3 +76,20 @@ class Registro(db.Model):
 
     # Relación con la categoría
     categoria = db.relationship('Categoria', backref='registros_categorias', lazy=True)
+
+# Modelo de pagos recurrentes
+class PagoRecurrente(db.Model):
+    __tablename__ = 'pagosrecurrentes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    categoria_id = db.Column(db.Integer, db.ForeignKey('categorias.id'), nullable=False)
+    cantidad = db.Column(db.Float, nullable=False)  # Monto del pago recurrente
+    concepto = db.Column(db.String(255), nullable=False)  # Descripción del pago
+    tipo = db.Column(db.String(50), nullable=False)  # 'Ingreso' o 'Gasto'
+    frecuencia = db.Column(db.String(20), nullable=False)  # 'diario', 'semanal', 'mensual', 'anual'
+    siguiente_pago = db.Column(db.DateTime, nullable=False)  # Fecha del próximo pago automático
+
+    user = db.relationship('User', backref='pagos_recurrentes_users', lazy=True)
+    categoria = db.relationship('Categoria', backref='pagos_recurrentes_categorias', lazy=True)
+

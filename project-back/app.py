@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import logging
+from scheduler import scheduler
 from db import db
 from routes.auth_routes import auth_bp
 from routes.category_routes import category_bp
@@ -9,6 +10,7 @@ from routes.registro_routes import registro_bp
 from routes.saldo_routes import saldo_bp
 from routes.user_routes import user_bp
 from routes.pdf_routes import pdf_bp
+from routes.pago_routes import pago_bp
 from config import Config
 
 app = Flask(__name__)
@@ -24,6 +26,7 @@ app.register_blueprint(registro_bp, url_prefix='/registro')
 app.register_blueprint(saldo_bp, url_prefix='/saldo')
 app.register_blueprint(user_bp, url_prefix='/user')
 app.register_blueprint(pdf_bp, url_prefix='/pdf')
+app.register_blueprint(pago_bp, url_prefix='/pago')
 
 handler = logging.StreamHandler()
 handler.setLevel(logging.INFO)
