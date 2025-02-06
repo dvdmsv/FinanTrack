@@ -89,6 +89,7 @@ class PagoRecurrente(db.Model):
     tipo = db.Column(db.String(50), nullable=False)  # 'Ingreso' o 'Gasto'
     frecuencia = db.Column(db.String(20), nullable=False)  # 'diario', 'semanal', 'mensual', 'anual'
     siguiente_pago = db.Column(db.DateTime, nullable=False)  # Fecha del próximo pago automático
+    estado = db.Column(db.Boolean, default=True, nullable=False) # Estado del pago recurrente, si está activo o no
 
     user = db.relationship('User', backref='pagos_recurrentes_users', lazy=True)
     categoria = db.relationship('Categoria', backref='pagos_recurrentes_categorias', lazy=True)
