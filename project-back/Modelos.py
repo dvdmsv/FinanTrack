@@ -79,7 +79,7 @@ class Registro(db.Model):
 
 # Modelo de pagos recurrentes
 class PagoRecurrente(db.Model):
-    __tablename__ = 'pagosrecurrentes'
+    __tablename__ = 'pagos_recurrentes'
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
