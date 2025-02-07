@@ -49,10 +49,6 @@ export class DonutComponent implements OnInit {
   filtrarRegistros() {
     this.finanzasRegistrosService.getRegistrosPorCategoria2(this.anio, this.mes)
       .subscribe((data) => {
-        console.log({
-          'año': this.anio,
-          'mes': this.mes
-        });
   
         this.registrosPorCategoria = data.categorias;
 

@@ -4,6 +4,7 @@ import { Categoria, Pagos } from '../../interfaces/responses';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FinanzasCategoriasService } from '../../servicios/finanzas-servicios/finanzas-categorias.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pagos-recurrentes',
@@ -45,16 +46,16 @@ export class PagosRecurrentesComponent {
   agregarPagoRecurrente() {
     this.finanzasPagosService.agregarPagoRecurrente(this.categoria, this.tipo, this.cantidad, this.concepto, this.frecuencia, this.fecha, this.estado).subscribe(() => {
       this.getPagosRecurrentes();
+      Swal.fire({
+            position: 'top',
+            icon: 'success',
+            title: 'Creado correctamente',
+            showConfirmButton: false,
+            timer: 1500,
+            toast: true,
+            timerProgressBar: true,
+          });
     });
-    console.log(`
-      Categoría: ${this.categoria}
-      Tipo: ${this.tipo}
-      Cantidad: ${this.cantidad}
-      Concepto: ${this.concepto}
-      Frecuencia: ${this.frecuencia}
-      Fecha: ${this.fecha}
-      Estado: ${this.estado ? 'Activo' : 'Inactivo'}
-    `);
   }
 
   getCategorias() {
