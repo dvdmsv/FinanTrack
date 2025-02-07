@@ -15,7 +15,7 @@ import { FinanzasPdfService } from '../../servicios/finanzas-servicios/finanzas-
   styleUrl: './registros.component.css',
 })
 export class RegistrosComponent {
-  constructor(private finanzasPdfService: FinanzasPdfService,private finanzasCategoriasService: FinanzasCategoriasService, private finanzasRegistrosService: FinanzasRegistrosService, private comunicacionInternaService: ComunicacionInternaService) {}
+  constructor(private finanzasPdfService: FinanzasPdfService, private finanzasCategoriasService: FinanzasCategoriasService, private finanzasRegistrosService: FinanzasRegistrosService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   registros: Registro[] = [];
   categorias: Categoria[] = [];

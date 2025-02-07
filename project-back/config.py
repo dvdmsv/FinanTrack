@@ -9,5 +9,5 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = secrets.token_urlsafe(64)
     CORS_ORIGINS = ["http://localhost", "http://localhost:4200"]
-    METHODS = ["GET", "POST", "OPTIONS", "DELETE"]
+    METHODS = ["GET", "POST", "OPTIONS", "DELETE", "PATCH"]
     HEADERS = ["Content-Type", "Authorization"]

@@ -81,3 +81,18 @@ export interface MesesRegistrosResponse {
   registros: MesRegistro[];
 }
 
+export interface Pagos {
+  categoria: string;
+  concepto: string;
+  estado: boolean;
+  frecuencia: string;
+  id: number;
+  siguiente_pago: string;
+  tipo: string;
+  user_id: number;
+  cantidad: number;
+}
+
+export interface PagosResponse {
+  pagos: Pagos[];
+}

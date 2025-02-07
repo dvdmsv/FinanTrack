@@ -12,6 +12,7 @@ import { TestDashboardComponent } from './vistas/test-dashboard/test-dashboard.c
 import { CategoriasPersonalesComponent } from './vistas/categorias-personales/categorias-personales.component';
 import { DonutComponent } from './vistas/graficos/donut/donut.component';
 import { GraficosComponent } from './vistas/graficos/graficos.component';
+import { PagosRecurrentesComponent } from './vistas/pagos-recurrentes/pagos-recurrentes.component';
 
 export const routes: Routes = [
     { path: '', component:LoginComponent, canActivate: [isLoggedGuard] },
@@ -26,5 +27,6 @@ export const routes: Routes = [
     { path: 'categorias-personales', component:CategoriasPersonalesComponent, canActivate: [authGuard] },
     { path: 'graficos', component:GraficosComponent, canActivate: [authGuard] },
     { path: 'donut', component:DonutComponent, canActivate: [authGuard] },
+    { path: 'pagos-recurrentes', component:PagosRecurrentesComponent, canActivate: [authGuard] },
     { path: '**', component:DashboardComponent, canActivate: [authGuard] }
 ];

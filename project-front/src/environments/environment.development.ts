@@ -6,5 +6,6 @@ export const environment = {
     REGISTRO: '/registro',
     SALDO: '/saldo',
     USER: '/user',
-    PDF: '/pdf'
+    PDF: '/pdf',
+    PAGOS_RECURRENTES: '/pago'
 };

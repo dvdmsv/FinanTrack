@@ -1,90 +1,13 @@
 <!-- Botón para abrir el Modal -->
 <div class="container container-button">
-  <div class="form dropdown1">
-    <select class="form-select" [(ngModel)]="anioSeleccionado" (change)="filtrarRegistros()" (change)="getMesesRegistros()">
-      <option value="0">Todos</option>
-      @for (anio of anios; track anio.anio) {
-        <option [value]="anio.anio">
-          {{ anio.anio }}
-        </option>
-      }
-    </select>
-  </div>
-
-  <div class="form dropdown2">
-    <select class="form-select" [(ngModel)]="mesSeleccionado" (change)="filtrarRegistros()">
-      <option value="0">Todos</option>
-      @for (mes of meses; track mes.mes) {
-        <option [value]="mes.mes">
-          <!-- Se obtiene la N posicion de la lista de meses (que será el nombre del mes) -->
-          {{ lista_meses[mes.mes].nombre }}
-        </option>
-      }
-    </select>
-  </div>
-
-   <!-- Botón de reset -->
-   <button (click)="resetFiltros()" class="btn btn-secondary btn1">
-    Resetear filtros
-  </button>
-
-  <!-- Botón de pdf -->
-  <button (click)="generarPDF()" class="btn btn-secondary btn1">
-    Generar PDF
-  </button>
-
   <button
     type="button"
     class="btn btn-primary btn2"
     data-bs-toggle="modal"
     data-bs-target="#registroModal"
   >
-    Nuevo Registro
+    Nuevo pago
   </button>
-</div>
-
-<!-- Tabla de los registros -->
-<div class="container">
-  <div class="table-responsive">
-    <table class="table">
-      <caption>
-        Registro de gastos
-      </caption>
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Tipo</th>
-          <th scope="col">Categoria</th>
-          <th scope="col">Concepto</th>
-          <th scope="col">Fecha</th>
-          <th scope="col">Cantidad</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(registro of registros; track registro.id){
-        <tr>
-          <td>{{ registro.tipo }}</td>
-          <td>
-            {{ registro.categoria }}
-          </td>
-          <td>
-            {{ registro.concepto }}
-          </td>
-          <td>
-            {{ registro.fecha }}
-          </td>
-          <td>{{ registro.cantidad | currency : "EUR" }}</td>
-          <td>
-            <button class="btn btn-danger" (click)="eliminar(registro.id)"><i class="bi bi-trash3"></i></button>
-          </td>
-        </tr>
-        }
-      </tbody>
-    </table>
-    @if (registros.length == 0) {
-      <h4 style="text-align: center;">No hay registros</h4>
-    }
-  </div>
 </div>
 
 <!-- Modal -->
@@ -110,7 +33,7 @@
         <!-- Formulario dentro del modal -->
         <form
           class="registroForm"
-          (ngSubmit)="generarRegistro()"
+          (ngSubmit)="agregarPagoRecurrente()"
           #registroForm="ngForm"
         >
           <div class="mb-3">
@@ -126,6 +49,24 @@
               @for(categoria of categorias; track categoria){
               <option>
                 {{ categoria.nombre }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="frecuencia" class="form-label">Frecuencia</label>
+            <select
+              class="form-select"
+              id="frecuencia"
+              required
+              [(ngModel)]="frecuencia"
+              name="frecuencia"
+            >
+              <option selected value=""></option>
+              @for(frecuencia of frecuencias; track frecuencia){
+              <option>
+                {{ frecuencia }}
               </option>
               }
             </select>
@@ -172,6 +113,18 @@
             />
           </div>
 
+          <div class="mb-3">
+            <label for="fecha" class="form-label">Fecha de inicio</label>
+            <input
+              type="date"
+              class="form-control"
+              id="fecha"
+              required
+              [(ngModel)]="fecha"
+              name="fecha"
+            />
+          </div>
+
           <button
             type="submit"
             class="btn btn-primary"
@@ -182,5 +135,72 @@
         </form>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Tabla de los registros -->
+<div class="container">
+  <div class="table-responsive">
+    <table class="table">
+      <caption>
+        Pagos recurrentes
+      </caption>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Categoria</th>
+          <th scope="col">Concepto</th>
+          <th scope="col">Frecuencia</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Cantidad</th>
+          <th scope="col">Siguiente pago</th>
+          <th scope="col">Activo</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(pago of pagos; track pago.id){
+        <tr>
+          <td>
+            {{ pago.categoria }}
+          </td>
+          <td>
+            {{ pago.concepto }}
+          </td>
+          <td>
+            {{ pago.frecuencia }}
+          </td>
+          <td>
+            {{ pago.tipo }}
+          </td>
+          <td>
+            {{ pago.cantidad | currency : "EUR" }}
+          </td>
+          <td>
+            {{ pago.siguiente_pago }}
+          </td>
+          <td>
+            <div class="form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="flexSwitchCheckDefault"
+                [checked]="pago.estado"
+                (change)="modificarEstadoPagoRecurrente($event, pago.id)"
+              />
+            </div>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="eliminar(pago.id)">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    @if (pagos.length == 0) {
+    <h4 style="text-align: center">No hay pagos recurrentes</h4>
+    }
   </div>
 </div>
