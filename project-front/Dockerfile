@@ -18,7 +18,8 @@ FROM nginx:alpine
 
 # Copia la salida de Angular al servidor NGINX
 COPY --from=builder /app/dist/project-front/browser /usr/share/nginx/html
-# COPY config/nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Exponer el puerto de NGINX
 EXPOSE 80

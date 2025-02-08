@@ -44,4 +44,4 @@ def procesar_pagos_recurrentes():
 # Configurar el scheduler en segundo plano
 scheduler = BackgroundScheduler()
 scheduler.add_job(procesar_pagos_recurrentes, 'interval', days=1)  # Se ejecuta cada día a la misma hora
-scheduler.start()
+# scheduler.start()

@@ -3,12 +3,12 @@ services:
   backend:
     container_name: finanzas-backend
     build: 
-      context: ./project-back
+      context: /srv/dev-disk-by-uuid-668CD9B48CD97ECD/NAS/Cosas/OMV/proyectoSN/project-back
     ports:
       - "5000:5000"
     environment:
       FLASK_ENV: development
-      DATABASE_URI: mysql+pymysql://root:root@host.docker.internal:33060/finanzas
+      DATABASE_URI: mysql+pymysql://root:root@192.168.1.177:33060/finanzas
     networks:
       - app_network
     volumes:
@@ -16,7 +16,7 @@ services:
   frontend:
     container_name: finanzas-frontend
     build:
-      context: ./project-front
+      context: /srv/dev-disk-by-uuid-668CD9B48CD97ECD/NAS/Cosas/OMV/proyectoSN/project-front
     ports:
       - "80:80"
 
@@ -38,7 +38,7 @@ services:
       - 8080:80
     environment:
       - PMA_ARBITRARY=1
-      - PMA_HOSTS=host.docker.internal
+      - PMA_HOSTS=192.168.1.177
       - PMA_PORT=33060
 
 networks:

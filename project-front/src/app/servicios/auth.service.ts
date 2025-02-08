@@ -15,7 +15,7 @@ export class AuthService {
     this.currentUserLoginOn.next(this.checkLoginStatus());
   }
 
-  private API_URL = environment.API_URL;
+  private API_URL = environment.API_URL_DOCKER;
   private AUTH = environment.AUTH;
   private USER = environment.USER;
   

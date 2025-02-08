@@ -10,7 +10,7 @@ export class FinanzasPagosRecurrentesService {
 
   constructor(private http: HttpClient) { }
   
-  private API_URL = environment.API_URL;
+  private API_URL = environment.API_URL_DOCKER;
   private PAGOS_RECURRENTES = environment.PAGOS_RECURRENTES;
 
   getPagosRecurrentes() {

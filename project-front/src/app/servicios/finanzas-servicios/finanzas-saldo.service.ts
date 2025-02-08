@@ -10,7 +10,7 @@ export class FinanzasSaldoService {
 
   constructor(private http: HttpClient) { }
 
-  private API_URL = environment.API_URL;
+  private API_URL = environment.API_URL_DOCKER;
   private SALDO = environment.SALDO;
 
   getSaldo() {
