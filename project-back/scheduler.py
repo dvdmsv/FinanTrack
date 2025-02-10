@@ -48,4 +48,4 @@ def procesar_pagos_recurrentes():
 
 # Se define el scheduler, pero NO se inicia aquí
 scheduler = BackgroundScheduler()
-scheduler.add_job(procesar_pagos_recurrentes, 'interval', seconds=1)
+scheduler.add_job(procesar_pagos_recurrentes, 'interval', days=1)
