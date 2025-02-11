@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from Modelos import User
 from db import db
+from utils import token_required
 from flask_bcrypt import Bcrypt
 import jwt
 import datetime
@@ -65,3 +66,8 @@ def registro():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Error creating user: {str(e)}"}), 500
+    
+@auth_bp.route('/validToken', methods=['GET', 'OPTIONS'])
+@token_required
+def validToken(decoded):
+    return jsonify({"message": "Token valid"}), 200
