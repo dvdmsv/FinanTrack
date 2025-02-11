@@ -1,25 +1,25 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GetUSerDataResponse, LoginResponse } from '../interfaces/responses';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment.development';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
 
-  currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.currentUserLoginOn.next(this.checkLoginStatus());
   }
 
   private API_URL = environment.API_URL_DOCKER;
   private AUTH = environment.AUTH;
   private USER = environment.USER;
-  
-  
 
   login(username: string, password: string) {
     return this.http.post<LoginResponse>(this.API_URL + this.AUTH + '/login', {
@@ -29,14 +29,23 @@ export class AuthService {
   }
 
   registro(username: string, password: string) {
-    return this.http.post<LoginResponse>(this.API_URL + this.AUTH + '/registro', {
-      username,
-      password
-    });
+    return this.http.post<LoginResponse>(
+      this.API_URL + this.AUTH + '/registro',
+      {
+        username,
+        password,
+      }
+    );
+  }
+
+  validToken() {
+    return this.http.get(this.API_URL + this.AUTH + '/validToken');
   }
 
   getUserData() {
-    return this.http.get<GetUSerDataResponse>(this.API_URL + this.USER +'/getUserData');
+    return this.http.get<GetUSerDataResponse>(
+      this.API_URL + this.USER + '/getUserData'
+    );
   }
 
   setToken(token: string) {
@@ -47,11 +56,20 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  checkLoginStatus(){
+  checkLoginStatus() {
+    // Comprueba si el token es valido, si no lo es procede con el logout
+    this.validToken().subscribe({
+      error: (err) => {
+        this.logout();
+      }
+    })
     return !!this.getToken();
   }
 
   logout() {
+    // Redirigir a la página de login
+    this.router.navigate(['/login']);
+
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     this.currentUserLoginOn.next(false);
