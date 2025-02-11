@@ -10,14 +10,11 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
     saldo = db.Column(db.Float, nullable=False, default=0.0)
 
-    # Relación con categorías
-    categorias = db.relationship('Categoria', backref='users_categorias', lazy=True)
-
-    # Relación con presupuestos
-    presupuestos = db.relationship('Presupuesto', backref='users_presupuestos', lazy=True)
-
-    # Relación con registros
-    registros = db.relationship('Registro', backref='users_registros', lazy=True)
+    # Relaciones
+    categorias = db.relationship('Categoria', back_populates='user', lazy=True, cascade="all, delete")
+    presupuestos = db.relationship('Presupuesto', back_populates='user', lazy=True, cascade="all, delete")
+    registros = db.relationship('Registro', back_populates='user', lazy=True, cascade="all, delete")
+    pagos_recurrentes = db.relationship('PagoRecurrente', back_populates='user', lazy=True, cascade="all, delete")
 
 # Modelo de Categoría
 class Categoria(db.Model):
@@ -28,18 +25,17 @@ class Categoria(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)  # NULL para categorías globales
     es_global = db.Column(db.Boolean, default=False, nullable=False)  # True si es global, False si es personalizada
 
-    # Relación con presupuestos
-    presupuestos = db.relationship('Presupuesto', backref='categorias_presupuestos', lazy=True)
-
-    # Relación con registros
-    registros = db.relationship('Registro', backref='categorias_registros', lazy=True)
+    # Relaciones
+    user = db.relationship('User', back_populates='categorias')
+    presupuestos = db.relationship('Presupuesto', back_populates='categoria', lazy=True, cascade="all, delete")
+    registros = db.relationship('Registro', back_populates='categoria', lazy=True, cascade="all, delete")
 
     def to_dict(self):
         return {
-            'id': self.id,                     # ID de la categoría
-            'nombre': self.nombre,             # Nombre de la categoría
-            'es_global': self.es_global,       # Indicador si es global
-            'user_id': self.user_id            # ID del usuario propietario (None si es global)
+            'id': self.id,
+            'nombre': self.nombre,
+            'es_global': self.es_global,
+            'user_id': self.user_id
         }
 
 # Modelo de Presupuesto
@@ -49,15 +45,13 @@ class Presupuesto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     categoria_id = db.Column(db.Integer, db.ForeignKey('categorias.id'), nullable=False)
-    porcentaje = db.Column(db.Float, nullable=False)  # Porcentaje asignado
-    presupuesto_inicial = db.Column(db.Float, nullable=False)  # Presupuesto asignado inicialmente
-    presupuesto_restante = db.Column(db.Float, nullable=False)  # Presupuesto que queda
+    porcentaje = db.Column(db.Float, nullable=False)
+    presupuesto_inicial = db.Column(db.Float, nullable=False)
+    presupuesto_restante = db.Column(db.Float, nullable=False)
 
-    # Relación con el usuario
-    user = db.relationship('User', backref='presupuestos_users', lazy=True)
-
-    # Relación con la categoría
-    categoria = db.relationship('Categoria', backref='presupuestos_categorias', lazy=True)
+    # Relaciones
+    user = db.relationship('User', back_populates='presupuestos')
+    categoria = db.relationship('Categoria', back_populates='presupuestos')
 
 # Modelo de Registro
 class Registro(db.Model):
@@ -71,26 +65,24 @@ class Registro(db.Model):
     tipo = db.Column(db.String(50), nullable=False)  # 'Ingreso' o 'Gasto'
     fecha = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
-    # Relación con el usuario
-    user = db.relationship('User', backref='registros_users', lazy=True)
+    # Relaciones
+    user = db.relationship('User', back_populates='registros')
+    categoria = db.relationship('Categoria', back_populates='registros')
 
-    # Relación con la categoría
-    categoria = db.relationship('Categoria', backref='registros_categorias', lazy=True)
-
-# Modelo de pagos recurrentes
+# Modelo de Pagos Recurrentes
 class PagoRecurrente(db.Model):
     __tablename__ = 'pagos_recurrentes'
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     categoria_id = db.Column(db.Integer, db.ForeignKey('categorias.id'), nullable=False)
-    cantidad = db.Column(db.Float, nullable=False)  # Monto del pago recurrente
-    concepto = db.Column(db.String(255), nullable=False)  # Descripción del pago
-    tipo = db.Column(db.String(50), nullable=False)  # 'Ingreso' o 'Gasto'
+    cantidad = db.Column(db.Float, nullable=False)
+    concepto = db.Column(db.String(255), nullable=False)
+    tipo = db.Column(db.String(50), nullable=False)
     frecuencia = db.Column(db.String(20), nullable=False)  # 'diario', 'semanal', 'mensual', 'anual'
-    siguiente_pago = db.Column(db.DateTime, nullable=False)  # Fecha del próximo pago automático
-    estado = db.Column(db.Boolean, default=True, nullable=False) # Estado del pago recurrente, si está activo o no
+    siguiente_pago = db.Column(db.DateTime, nullable=False)
+    estado = db.Column(db.Boolean, default=True, nullable=False)
 
-    user = db.relationship('User', backref='pagos_recurrentes_users', lazy=True)
-    categoria = db.relationship('Categoria', backref='pagos_recurrentes_categorias', lazy=True)
-
+    # Relaciones
+    user = db.relationship('User', back_populates='pagos_recurrentes')
+    categoria = db.relationship('Categoria', lazy=True)
