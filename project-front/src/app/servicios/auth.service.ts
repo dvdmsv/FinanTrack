@@ -57,19 +57,19 @@ export class AuthService {
   }
 
   checkLoginStatus() {
-    // Comprueba si el token es valido, si no lo es procede con el logout
-    this.validToken().subscribe({
-      error: (err) => {
-        this.logout();
-      }
-    })
     return !!this.getToken();
   }
 
-  logout() {
-    // Redirigir a la página de login
-    this.router.navigate(['/login']);
+  checkValidToken() {
+    // Comprueba si el token es valido
+    this.validToken().subscribe({
+      error: (err) => {
+        return false
+      },
+    });
+  }
 
+  logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     this.currentUserLoginOn.next(false);
