@@ -86,6 +86,7 @@ export interface Pagos {
   concepto: string;
   estado: boolean;
   frecuencia: string;
+  intervalo: number;
   id: number;
   siguiente_pago: string;
   tipo: string;

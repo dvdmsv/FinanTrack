@@ -30,6 +30,8 @@
         ></button>
       </div>
       <div class="modal-body">
+
+        
         <!-- Formulario dentro del modal -->
         <form
           class="registroForm"
@@ -45,7 +47,7 @@
               [(ngModel)]="categoria"
               name="categoria"
             >
-              <option selected value=""></option>
+              <option selected value="">Categoria</option>
               @for(categoria of categorias; track categoria){
               <option>
                 {{ categoria.nombre }}
@@ -63,13 +65,26 @@
               [(ngModel)]="frecuencia"
               name="frecuencia"
             >
-              <option selected value=""></option>
+              <option selected value="">Frecuencias</option>
               @for(frecuencia of frecuencias; track frecuencia){
               <option>
                 {{ frecuencia }}
               </option>
               }
             </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="intervalo" class="form-label">Intervalo</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              name="intervalo" 
+              id="intervalo" 
+              placeholder="Intervalo de ejecución"
+              min="0"
+              [(ngModel)]="intervalo"
+            >
           </div>
 
           <div class="mb-3">
@@ -81,23 +96,23 @@
               [(ngModel)]="tipo"
               name="tipo"
             >
-              <option selected value=""></option>
+              <option selected value="">Tipo</option>
               <option value="Gasto">Gasto</option>
               <option value="Ingreso">Ingreso</option>
             </select>
           </div>
 
           <div class="mb-3">
-            <label for="inputNumber" class="form-label">Cantidad</label>
+            <label for="inputNumber" class="form-label">Cantidad (€)</label>
             <input
               type="number"
               class="form-control"
               id="inputNumber"
               min="0.01"
               step=".01"
-              required
               [(ngModel)]="cantidad"
               name="cantidad"
+              placeholder="Cantidad"
             />
           </div>
 
@@ -110,6 +125,7 @@
               required
               [(ngModel)]="concepto"
               name="concepto"
+              placeholder="Concepto de la compra"
             />
           </div>
 
@@ -150,6 +166,7 @@
           <th scope="col">Categoria</th>
           <th scope="col">Concepto</th>
           <th scope="col">Frecuencia</th>
+          <th scope="col">Intervalo</th>
           <th scope="col">Tipo</th>
           <th scope="col">Cantidad</th>
           <th scope="col">Siguiente pago</th>
@@ -168,6 +185,9 @@
           </td>
           <td>
             {{ pago.frecuencia }}
+          </td>
+          <td>
+            {{ pago.intervalo }}
           </td>
           <td>
             {{ pago.tipo }}

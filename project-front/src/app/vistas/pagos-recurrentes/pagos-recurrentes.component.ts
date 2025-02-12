@@ -29,6 +29,7 @@ export class PagosRecurrentesComponent {
   cantidad: number = 0;
   concepto: string = '';
   frecuencia: string = '';
+  intervalo: number = 0;
   fecha: string = '';
   estado: boolean = true;
 
@@ -44,7 +45,7 @@ export class PagosRecurrentesComponent {
   }
 
   agregarPagoRecurrente() {
-    this.finanzasPagosService.agregarPagoRecurrente(this.categoria, this.tipo, this.cantidad, this.concepto, this.frecuencia, this.fecha, this.estado).subscribe(() => {
+    this.finanzasPagosService.agregarPagoRecurrente(this.categoria, this.tipo, this.cantidad, this.concepto, this.frecuencia, this.fecha, this.estado, this.intervalo).subscribe(() => {
       this.getPagosRecurrentes();
       Swal.fire({
             position: 'top',

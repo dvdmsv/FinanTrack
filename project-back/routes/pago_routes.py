@@ -26,6 +26,7 @@ def agregar_pago_recurrente(decoded):
         concepto=data["concepto"],
         tipo=data["tipo"],
         frecuencia=data["frecuencia"],
+        intervalo=data["intervalo"],
         siguiente_pago=datetime.strptime(data["fecha"], '%Y-%m-%d')
     )
     
@@ -45,6 +46,7 @@ def getPagosRecurrentes(decoded):
         PagoRecurrente.concepto,
         PagoRecurrente.tipo,
         PagoRecurrente.frecuencia,
+        PagoRecurrente.intervalo,
         PagoRecurrente.siguiente_pago,
         PagoRecurrente.cantidad,
         PagoRecurrente.estado,
@@ -63,6 +65,7 @@ def getPagosRecurrentes(decoded):
             'concepto': pago.concepto,
             'tipo': pago.tipo,
             'frecuencia': pago.frecuencia,
+            'intervalo': pago.intervalo,
             'siguiente_pago': pago.siguiente_pago.strftime('%d-%m-%Y %H:%M'),
             'estado': pago.estado,
             'categoria': pago.categoria,

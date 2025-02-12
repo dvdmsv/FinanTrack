@@ -34,13 +34,13 @@ def procesar_pagos_recurrentes():
 
                 # Actualizar la fecha del siguiente pago
                 if pago.frecuencia == "Diario":
-                    pago.siguiente_pago += timedelta(days=1)
+                    pago.siguiente_pago += timedelta(days=pago.intervalo)
                 elif pago.frecuencia == "Semanal":
-                    pago.siguiente_pago += timedelta(weeks=1)
+                    pago.siguiente_pago += timedelta(weeks=pago.intervalo)
                 elif pago.frecuencia == "Mensual":
-                    pago.siguiente_pago += timedelta(days=30)
+                    pago.siguiente_pago += timedelta(days=(pago.intervalo*30))
                 elif pago.frecuencia == "Anual":
-                    pago.siguiente_pago += timedelta(days=365)
+                    pago.siguiente_pago += timedelta(days=(pago.intervalo*365))
 
                 db.session.commit()
 

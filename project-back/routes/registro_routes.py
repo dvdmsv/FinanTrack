@@ -106,6 +106,8 @@ def getRegistrosUser(decoded):
         Categoria, Categoria.id == Registro.categoria_id  # Realizamos el JOIN entre Registro y Categoria
     ).filter(
         Registro.user_id == userId # Filtramos por el user_id
+    ).order_by(
+        Registro.fecha.desc()
     ).all()
         
     # Convertir los registros a un formato que se pueda retornar

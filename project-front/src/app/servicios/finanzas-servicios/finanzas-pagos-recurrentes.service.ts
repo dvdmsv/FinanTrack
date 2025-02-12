@@ -25,7 +25,7 @@ export class FinanzasPagosRecurrentesService {
     return this.http.delete(`${this.API_URL}${this.PAGOS_RECURRENTES}/eliminarPagoRecurrente/${pagoRecurrenteId}`);
   }
 
-  agregarPagoRecurrente(categoria: string, tipo: string, cantidad: number, concepto: string, frecuencia: string, fecha: string, estado: boolean) {
-    return this.http.post(this.API_URL + this.PAGOS_RECURRENTES + '/agregarPagoRecurrente', { categoria, tipo, cantidad, concepto, frecuencia, fecha, estado });
+  agregarPagoRecurrente(categoria: string, tipo: string, cantidad: number, concepto: string, frecuencia: string, fecha: string, estado: boolean, intervalo: number) {
+    return this.http.post(this.API_URL + this.PAGOS_RECURRENTES + '/agregarPagoRecurrente', { categoria, tipo, cantidad, concepto, frecuencia, fecha, estado, intervalo });
   }
 }
