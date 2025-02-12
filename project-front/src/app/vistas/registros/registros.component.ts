@@ -1,21 +1,32 @@
 import { Component } from '@angular/core';
-import { AnioRegistro, Categoria, MesRegistro, Registro } from '../../interfaces/responses';
-import { CurrencyPipe } from '@angular/common';
+import {
+  AnioRegistro,
+  Categoria,
+  MesRegistro,
+  Registro,
+} from '../../interfaces/responses';
+import { CurrencyPipe, NgFor } from '@angular/common';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { ComunicacionInternaService } from '../../servicios/comunicacion-interna.service';
 import { FinanzasRegistrosService } from '../../servicios/finanzas-servicios/finanzas-registros.service';
 import { FinanzasCategoriasService } from '../../servicios/finanzas-servicios/finanzas-categorias.service';
 import { FinanzasPdfService } from '../../servicios/finanzas-servicios/finanzas-pdf.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-registros',
-  imports: [CurrencyPipe, FormsModule],
+  imports: [CurrencyPipe, FormsModule, NgxPaginationModule, NgFor],
   templateUrl: './registros.component.html',
   styleUrl: './registros.component.css',
 })
 export class RegistrosComponent {
-  constructor(private finanzasPdfService: FinanzasPdfService, private finanzasCategoriasService: FinanzasCategoriasService, private finanzasRegistrosService: FinanzasRegistrosService, private comunicacionInternaService: ComunicacionInternaService) {}
+  constructor(
+    private finanzasPdfService: FinanzasPdfService,
+    private finanzasCategoriasService: FinanzasCategoriasService,
+    private finanzasRegistrosService: FinanzasRegistrosService,
+    private comunicacionInternaService: ComunicacionInternaService
+  ) {}
 
   registros: Registro[] = [];
   categorias: Categoria[] = [];
@@ -27,26 +38,32 @@ export class RegistrosComponent {
 
   //Lista de meses
   lista_meses = [
-    { nombre: "Todos", valor: 0 },
-    { nombre: "Enero", valor: 1 },
-    { nombre: "Febrero", valor: 2 },
-    { nombre: "Marzo", valor: 3 },
-    { nombre: "Abril", valor: 4 },
-    { nombre: "Mayo", valor: 5 },
-    { nombre: "Junio", valor: 6 },
-    { nombre: "Julio", valor: 7 },
-    { nombre: "Agosto", valor: 8 },
-    { nombre: "Septiembre", valor: 9 },
-    { nombre: "Octubre", valor: 10 },
-    { nombre: "Noviembre", valor: 11 },
-    { nombre: "Diciembre", valor: 12 }
+    { nombre: 'Todos', valor: 0 },
+    { nombre: 'Enero', valor: 1 },
+    { nombre: 'Febrero', valor: 2 },
+    { nombre: 'Marzo', valor: 3 },
+    { nombre: 'Abril', valor: 4 },
+    { nombre: 'Mayo', valor: 5 },
+    { nombre: 'Junio', valor: 6 },
+    { nombre: 'Julio', valor: 7 },
+    { nombre: 'Agosto', valor: 8 },
+    { nombre: 'Septiembre', valor: 9 },
+    { nombre: 'Octubre', valor: 10 },
+    { nombre: 'Noviembre', valor: 11 },
+    { nombre: 'Diciembre', valor: 12 },
   ];
 
   anios: AnioRegistro[] = [];
   meses: MesRegistro[] = [];
 
-  mesSeleccionado: number = 0
-  anioSeleccionado: number = 0
+  mesSeleccionado: number = 0;
+  anioSeleccionado: number = 0;
+
+  //Pagina de la paginacion
+  pagina: number = 1;
+
+  //Tamaño de la paginacion
+  selectedPageSize: number = 5;
 
   ngOnInit() {
     this.getRegistrosUser();
@@ -55,14 +72,21 @@ export class RegistrosComponent {
     this.getMesesRegistros();
   }
 
+  //Establece la pagina de la paginacion en 1
+  paginacion() {
+    this.pagina = 1;
+  }
+
   filtrarRegistros() {
-    this.finanzasRegistrosService.filtrarRegistros(this.anioSeleccionado, this.mesSeleccionado).subscribe((data)=>{
-      this.registros = data.registros;
-    })
+    this.finanzasRegistrosService
+      .filtrarRegistros(this.anioSeleccionado, this.mesSeleccionado)
+      .subscribe((data) => {
+        this.registros = data.registros;
+      });
   }
 
   generarPDF() {
-    this.finanzasPdfService.generarPDF(this.registros).subscribe((pdf) =>{
+    this.finanzasPdfService.generarPDF(this.registros).subscribe((pdf) => {
       const pdfURL = window.URL.createObjectURL(pdf);
       window.open(pdfURL, '_blank'); // Abre en una nueva pestaña
     });
@@ -70,43 +94,49 @@ export class RegistrosComponent {
 
   // Resetea los filtros a su valor por defecto
   resetFiltros() {
-    this.mesSeleccionado = 0;  // "Todos" en el mes
+    this.mesSeleccionado = 0; // "Todos" en el mes
     this.anioSeleccionado = 0; // "Todos" en el año
-    this.getRegistrosUser();   // Obtener todos los registros
+    this.getRegistrosUser(); // Obtener todos los registros
   }
 
   getAniosRegistros() {
-    this.finanzasRegistrosService.getAniosRegistros().subscribe((data)=>{
+    this.finanzasRegistrosService.getAniosRegistros().subscribe((data) => {
       this.anios = data.registros;
-    })
+    });
   }
 
   getMesesRegistros() {
-    this.finanzasRegistrosService.getMesesRegistros(this.anioSeleccionado).subscribe((data)=>{
-      this.meses = data.registros;
-    })
+    this.finanzasRegistrosService
+      .getMesesRegistros(this.anioSeleccionado)
+      .subscribe((data) => {
+        this.meses = data.registros;
+      });
   }
 
   getRegistrosPorAnio() {
-    if(this.anioSeleccionado == 0){
+    if (this.anioSeleccionado == 0) {
       this.getRegistrosUser();
     }
-    this.finanzasRegistrosService.getRegistrosPorAnio(this.anioSeleccionado).subscribe({
-      next: (data) => {
-        this.registros = data.registros;
-      }
-    })
+    this.finanzasRegistrosService
+      .getRegistrosPorAnio(this.anioSeleccionado)
+      .subscribe({
+        next: (data) => {
+          this.registros = data.registros;
+        },
+      });
   }
 
   getRegistrosPorMes() {
-    if(this.mesSeleccionado == 0){
+    if (this.mesSeleccionado == 0) {
       this.getRegistrosUser();
     }
-    this.finanzasRegistrosService.getRegistrosPorMes(this.mesSeleccionado).subscribe({
-      next: (data) => {
-        this.registros = data.registros;
-      }
-    })
+    this.finanzasRegistrosService
+      .getRegistrosPorMes(this.mesSeleccionado)
+      .subscribe({
+        next: (data) => {
+          this.registros = data.registros;
+        },
+      });
   }
 
   getRegistrosUser() {
@@ -132,7 +162,7 @@ export class RegistrosComponent {
   }
 
   eliminar(id: number) {
-    this.finanzasRegistrosService.deleteRegistro(id).subscribe(()=>{
+    this.finanzasRegistrosService.deleteRegistro(id).subscribe(() => {
       this.getRegistrosUser();
       this.comunicacionInternaService.setRefreshData();
     });
@@ -171,8 +201,7 @@ export class RegistrosComponent {
             timer: 1500,
             toast: true,
           });
-        }
-
+        },
       });
   }
 }

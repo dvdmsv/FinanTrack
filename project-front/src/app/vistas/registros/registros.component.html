@@ -61,8 +61,7 @@
         </tr>
       </thead>
       <tbody>
-        @for(registro of registros; track registro.id){
-        <tr>
+        <tr *ngFor="let registro of registros | paginate: { itemsPerPage: selectedPageSize, currentPage: pagina}">
           <td>{{ registro.tipo }}</td>
           <td>
             {{ registro.categoria }}
@@ -78,13 +77,30 @@
             <button class="btn btn-danger" (click)="eliminar(registro.id)"><i class="bi bi-trash3"></i></button>
           </td>
         </tr>
-        }
       </tbody>
     </table>
     @if (registros.length == 0) {
       <h4 style="text-align: center;">No hay registros</h4>
     }
   </div>
+</div>
+
+<div class="pagination">
+  <pagination-controls 
+    (pageChange)="pagina = $event" 
+    previousLabel="Anterior"
+    nextLabel="Siguiente"
+    [autoHide]="true"
+    [maxSize]="5"
+  >
+  </pagination-controls>
+  <p>Paginación</p>
+  <select class="form-select form-select-sm" [(ngModel)]="selectedPageSize" (change)="paginacion()">
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="15">15</option>
+    <option value="10000">Todo</option>
+  </select>
 </div>
 
 <!-- Modal -->
