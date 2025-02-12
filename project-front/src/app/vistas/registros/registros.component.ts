@@ -82,6 +82,7 @@ export class RegistrosComponent {
       .filtrarRegistros(this.anioSeleccionado, this.mesSeleccionado)
       .subscribe((data) => {
         this.registros = data.registros;
+        this.paginacion();
       });
   }
 
