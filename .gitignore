@@ -1,3 +1,5 @@
 ideas.txt
 /pycache/*
 project-back/__pycache__/
+project-back/routes/__pycache__/
+**/__pycache__/
