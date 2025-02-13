@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from Modelos import Categoria, Presupuesto, User, Registro
 from db import db
-from sqlalchemy import distinct, text, extract
+from sqlalchemy import distinct, func, text, extract
 import datetime
 from utils import token_required
 
@@ -446,3 +446,30 @@ def getMesesRegistros(decoded, anio):
 
     return {'registros': registros_data}, 200
 
+
+@registro_bp.route('/gastos-por-mes', methods=['GET'])
+@token_required
+def obtener_gastos_por_mes(decoded):
+    data = request.json
+    user_id = decoded['user_id']
+    year = data['year']
+
+    gastos_por_mes = (
+        db.session.query(
+            extract('month', Registro.fecha).label('mes'),
+            func.sum(Registro.cantidad).label('total')
+        )
+        .filter(
+            Registro.user_id == user_id,
+            extract('year', Registro.fecha) == year,
+            Registro.tipo == 'Gasto'  # Solo filtrar gastos
+        )
+        .group_by('mes')
+        .order_by('mes')
+        .all()
+    )
+
+    # Convertir resultado a diccionario
+    resultado = {mes: total for mes, total in gastos_por_mes}
+
+    return jsonify(resultado)
