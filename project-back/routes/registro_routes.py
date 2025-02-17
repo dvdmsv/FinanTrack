@@ -447,12 +447,12 @@ def getMesesRegistros(decoded, anio):
     return {'registros': registros_data}, 200
 
 
-@registro_bp.route('/gastos-por-mes', methods=['GET'])
+@registro_bp.route('/gastos-por-mes', methods=['POST'])
 @token_required
 def obtener_gastos_por_mes(decoded):
     data = request.json
     user_id = decoded['user_id']
-    year = data['year']
+    anio = data['anio']
 
     gastos_por_mes = (
         db.session.query(
@@ -461,7 +461,7 @@ def obtener_gastos_por_mes(decoded):
         )
         .filter(
             Registro.user_id == user_id,
-            extract('year', Registro.fecha) == year,
+            extract('year', Registro.fecha) == anio,
             Registro.tipo == 'Gasto'  # Solo filtrar gastos
         )
         .group_by('mes')
@@ -469,7 +469,8 @@ def obtener_gastos_por_mes(decoded):
         .all()
     )
 
-    # Convertir resultado a diccionario
-    resultado = {mes: total for mes, total in gastos_por_mes}
+    # Convertir resultado a una lista de diccionarios con formato {"mes": mes, "gasto": gasto}
+    resultado = {"gastoPorMes": [{"mes": mes, "gasto": total} for mes, total in gastos_por_mes]}
 
     return jsonify(resultado)
+

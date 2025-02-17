@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
-import { AniosRegistrosResponse, GetPresupuestosResponse, MesesRegistrosResponse, RegistroPorCategoriaResponse, RegistroUserResponse } from '../../interfaces/responses';
+import { AniosRegistrosResponse, GastosPorMesResponse, GetPresupuestosResponse, MesesRegistrosResponse, RegistroPorCategoriaResponse, RegistroUserResponse } from '../../interfaces/responses';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +51,9 @@ export class FinanzasRegistrosService {
 
   getMesesRegistros(anio: number) {
     return this.http.get<MesesRegistrosResponse>(`${this.API_URL}${this.REGISTRO}/getMesesRegistros/${anio}`);
+  }
+
+  getGastosPorMes(anio: number) {
+    return this.http.post<GastosPorMesResponse>(this.API_URL + this.REGISTRO + '/gastos-por-mes', { anio });
   }
 }

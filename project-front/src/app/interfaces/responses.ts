@@ -97,3 +97,12 @@ export interface Pagos {
 export interface PagosResponse {
   pagos: Pagos[];
 }
+
+export interface GastoPorMes {
+  mes: number;
+  gasto: number;
+}
+
+export interface GastosPorMesResponse {
+  gastoPorMes:  []
+}

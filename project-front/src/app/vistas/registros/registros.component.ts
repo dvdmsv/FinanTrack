@@ -13,10 +13,11 @@ import { FinanzasRegistrosService } from '../../servicios/finanzas-servicios/fin
 import { FinanzasCategoriasService } from '../../servicios/finanzas-servicios/finanzas-categorias.service';
 import { FinanzasPdfService } from '../../servicios/finanzas-servicios/finanzas-pdf.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { LineasComponent } from '../graficos/lineas/lineas.component';
 
 @Component({
   selector: 'app-registros',
-  imports: [CurrencyPipe, FormsModule, NgxPaginationModule, NgFor],
+  imports: [CurrencyPipe, FormsModule, NgxPaginationModule, NgFor, LineasComponent],
   templateUrl: './registros.component.html',
   styleUrl: './registros.component.css',
 })
