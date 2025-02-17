@@ -1,49 +1,49 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand">FinanTrack</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-collapse collapse" id="navbarNav">
         <ul class="navbar-nav">
           @if (!isLogged) {
             <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/login']">Login</a>
+              <a class="nav-link" [routerLink]="['/login']" data-bs-toggle="collapse" data-bs-target="#navbarNav">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/registro']">Registro</a>
+              <a class="nav-link" [routerLink]="['/registro']" data-bs-toggle="collapse" data-bs-target="#navbarNav">Registro</a>
             </li>
           }
           @if (isLogged) {
             <li>
-              <a class="nav-link" [routerLink]="['/dashboard']">Dashboard</a>
+              <a class="nav-link" [routerLink]="['/dashboard']" data-bs-toggle="collapse" data-bs-target="#navbarNav">Dashboard</a>
             </li>
             <li>
-              <a class="nav-link" [routerLink]="['/test-dashboard']">Test Dashboard</a>
+              <a class="nav-link" [routerLink]="['/test-dashboard']" data-bs-toggle="collapse" data-bs-target="#navbarNav">Test Dashboard</a>
             </li>
             <li>
-              <a class="nav-link" [routerLink]="['/graficos']">Graficos</a>
+              <a class="nav-link" [routerLink]="['/graficos']" data-bs-toggle="collapse" data-bs-target="#navbarNav">Graficos</a>
             </li>
             <li>
-              <a class="nav-link" [routerLink]="['/registros']">Registros</a>
+              <a class="nav-link" [routerLink]="['/registros']" data-bs-toggle="collapse" data-bs-target="#navbarNav">Registros</a>
             </li>
             <li>
-              <a class="nav-link" [routerLink]="['/presupuestos']">Presupuestos</a>
+              <a class="nav-link" [routerLink]="['/presupuestos']" data-bs-toggle="collapse" data-bs-target="#navbarNav">Presupuestos</a>
             </li>
             
             <li>
-              <a class="nav-link" [routerLink]="['/pagos-recurrentes']">Pagos recurrentes</a>
+              <a class="nav-link" [routerLink]="['/pagos-recurrentes']" data-bs-toggle="collapse" data-bs-target="#navbarNav">Pagos recurrentes</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                 Ajustes
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" [routerLink]="['/perfil']">Perfil</a></li>
-                <li><a class="dropdown-item" [routerLink]="['/saldo']">Saldo</a></li>
-                <li><a class="dropdown-item" [routerLink]="['/categorias-personales']">Categorias personales</a></li>
+                <li><a class="dropdown-item" [routerLink]="['/perfil']" data-bs-toggle="collapse" data-bs-target="#navbarNav">Perfil</a></li>
+                <li><a class="dropdown-item" [routerLink]="['/saldo']" data-bs-toggle="collapse" data-bs-target="#navbarNav">Saldo</a></li>
+                <li><a class="dropdown-item" [routerLink]="['/categorias-personales']" data-bs-toggle="collapse" data-bs-target="#navbarNav">Categorias personales</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li class="nav-item"><a class="dropdown-item" [routerLink]="['/login']" (click)="logout()">Cerrar sesión</a></li>
+                <li class="nav-item"><a class="dropdown-item" [routerLink]="['/login']" (click)="logout()" data-bs-toggle="collapse" data-bs-target="#navbarNav">Cerrar sesión</a></li>
               </ul>
             </li>
           }

@@ -1,37 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
 .login-form {
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Alinea el formulario verticalmente */
-    text-align: center;
-    box-shadow: 10px 10px 20px 0px rgba(0,0,0,0.6);
-    width: 300px;
-    padding: 30px;
-    border-radius: 30px;
-    border: 1px solid grey;
-    margin: auto;
-    margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Alinea el formulario verticalmente */
+  text-align: center;
+  box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.6);
+  width: 300px;
+  padding: 30px;
+  border-radius: 30px;
+  border: 1px solid grey;
+  margin: auto;
+  margin-top: 50px;
 }
 
 .campoVacio {
-    color: red;
-    font-weight: bold;
+  color: red;
+  font-weight: bold;
 }
 
 .btn-primary {
-    background-color: #3C60A8;
-    color: white;
-    border: 0;
+  background-color: #3c60a8;
+  color: white;
+  border: 0;
 }
 
 .btn-success {
-    background-color: #5DA691;
-    color: white;
-    border: 0;
+  background-color: #5da691;
+  color: white;
+  border: 0;
 }
 
 .btn-danger {
-    background-color: #E86E56;
-    color: white;
-    border: 0;
+  background-color: #e86e56;
+  color: white;
+  border: 0;
+}
+
+@media only screen and (max-width: 860px) {
+  body {
+    padding-top: 60px; /* Ajusta según la altura de la navbar */
+  }
 }
