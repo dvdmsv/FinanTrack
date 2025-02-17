@@ -61,7 +61,6 @@ export class LineasComponent {
   getGastosPorMes() {
     this.finanzasRegistrosService.getGastosPorMes(this.anio).subscribe((data) => {
       this.gastosPorMes = data.gastoPorMes;
-      console.log(this.gastosPorMes)
       // Asigna los datos al gráfico
       this.options = { ...this.options, data: this.gastosPorMes };
       
