@@ -37,6 +37,8 @@ export class RegistrosComponent {
   cantidad: number = 0;
   concepto: string = '';
 
+  selectorMeses = false;
+
   //Lista de meses
   lista_meses = [
     { nombre: 'Todos', valor: 0 },
@@ -71,6 +73,17 @@ export class RegistrosComponent {
     this.getCategorias();
     this.getAniosRegistros();
     this.getMesesRegistros();
+    this.habilitarDropdownMeses();
+  }
+
+  // Funcion que comprueba si el dropdown de años está en "Todos", si es así deshabilita el dropdown de meses.
+  // Esto hace que solo se puedan buscar registros de meses en base al año y no registros de meses sin importar el año.
+  habilitarDropdownMeses() {
+    if(this.anioSeleccionado == 0){
+      this.selectorMeses = true;
+    }else{
+      this.selectorMeses = false;
+    }
   }
 
   //Establece la pagina de la paginacion en 1
@@ -78,7 +91,12 @@ export class RegistrosComponent {
     this.pagina = 1;
   }
 
-  filtrarRegistros() {
+  filtrarRegistros(tipo: 'anio' | 'mes') {
+    if (tipo === 'anio') {
+      this.habilitarDropdownMeses();
+      this.mesSeleccionado = 0; // Reiniciar mes al cambiar el año
+      this.getMesesRegistros(); // Actualizar los meses disponibles para el nuevo año
+    }
     this.finanzasRegistrosService
       .filtrarRegistros(this.anioSeleccionado, this.mesSeleccionado)
       .subscribe((data) => {
@@ -99,6 +117,7 @@ export class RegistrosComponent {
     this.mesSeleccionado = 0; // "Todos" en el mes
     this.anioSeleccionado = 0; // "Todos" en el año
     this.getRegistrosUser(); // Obtener todos los registros
+    this.habilitarDropdownMeses();
   }
 
   getAniosRegistros() {

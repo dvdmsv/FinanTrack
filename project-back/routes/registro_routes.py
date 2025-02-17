@@ -223,24 +223,7 @@ def registros_por_categoria2(decoded, anio, mes):
 @token_required
 def registros_por_categoria(decoded):
     user_id = decoded['user_id']
-
-    # # Consulta con JOIN para traer datos de registros y presupuestos
-    # results = db.session.query(
-    #     Categoria.nombre.label('categoria'),
-    #     db.func.sum(Registro.cantidad).label('total_cantidad'),
-    #     Presupuesto.porcentaje,
-    #     Presupuesto.presupuesto_inicial,
-    #     Presupuesto.presupuesto_restante
-    # ).join(Registro, Registro.categoria_id == Categoria.id)\
-    #  .outerjoin(Presupuesto, Presupuesto.categoria_id == Categoria.id)\
-    #  .filter(Registro.user_id == user_id)\
-    #  .group_by(
-    #      Categoria.nombre,
-    #      Presupuesto.porcentaje,
-    #      Presupuesto.presupuesto_inicial,
-    #      Presupuesto.presupuesto_restante
-    #  ).all()
-
+    
     # Escribir una sentencia SQL literal con text()
     sql = text("""
         SELECT 
