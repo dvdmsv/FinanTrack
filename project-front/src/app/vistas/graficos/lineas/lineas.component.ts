@@ -29,6 +29,7 @@ export class LineasComponent {
         type: 'line',
         xKey: 'mes',
         yKey: 'gasto',
+        yName: 'Gasto'
       },
     ],
     axes: [
