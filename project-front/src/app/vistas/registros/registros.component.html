@@ -2,8 +2,6 @@
   <app-lineas [anio]="anioSeleccionado"></app-lineas>
 </div>
 
-
-
 <!-- Botón para abrir el Modal -->
 <div class="container container-button">
   <div class="form dropdown1">
@@ -34,11 +32,6 @@
     Resetear filtros
   </button>
 
-  <!-- Botón de pdf -->
-  <button (click)="generarPDF()" class="btn btn-secondary btn1">
-    Generar PDF
-  </button>
-
   <button
     type="button"
     class="btn btn-primary btn2"
@@ -46,6 +39,11 @@
     data-bs-target="#registroModal"
   >
     Nuevo Registro
+  </button>
+
+  <!-- Botón de pdf -->
+  <button (click)="generarPDF()" class="btn btn-secondary btn3">
+    Generar PDF
   </button>
 </div>
 

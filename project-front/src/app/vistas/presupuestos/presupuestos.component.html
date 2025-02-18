@@ -24,6 +24,7 @@
           <th scope="col">Presupuesto inicial</th>
           <th scope="col">Presupuesto restante</th>
           <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -44,6 +45,9 @@
           <td>
             <button class="btn btn-danger" (click)="eliminar(presupuesto.id)"><i class="bi bi-trash3"></i></button>
           </td>
+          <td>
+            <button class="btn btn-success" (click)="botonEditar(presupuesto.id)" data-bs-toggle="modal" data-bs-target="#actualizarPresupuesto"><i class="bi bi-pencil-square"></i></button>
+          </td>
         </tr>
         }
       </tbody>
@@ -52,7 +56,7 @@
 </div>
 
 
-<!-- Modal -->
+<!-- Modal para crear-->
 <div
 class="modal fade"
 id="registroPresupuesto"
@@ -63,7 +67,7 @@ aria-hidden="true"
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title" id="registroPresupuestoLabel">Nuevo Registro</h5>
+      <h5 class="modal-title" id="registroPresupuestoLabel">Nuevo Presupuesto</h5>
       <button
         type="button"
         class="btn-close"
@@ -114,6 +118,78 @@ aria-hidden="true"
           type="submit"
           class="btn btn-primary"
           [disabled]="registroForm.invalid"
+        >
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Modal para actualizar-->
+<div
+class="modal fade"
+id="actualizarPresupuesto"
+tabindex="-1"
+aria-labelledby="actualizarPresupuestoLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="actualizarPresupuestoLabel">Actualizar Presupuesto</h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <!-- Formulario dentro del modal -->
+      <form
+        class="registroForm"
+        (ngSubmit)="updatePresupuesto()"
+        #registroForm="ngForm"
+      >
+        <div class="mb-3">
+          <label for="categorias" class="form-label">Categoria</label>
+          <select
+            class="form-select"
+            id="categorias"
+            required
+            [(ngModel)]="categoria"
+            name="categoria"
+          >
+            <option selected value=""></option>
+            @for(categoria of categorias; track categoria){
+            <option>
+              {{ categoria.nombre }}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="inputNumber" class="form-label">Cantidad (% sobre el saldo)</label>
+          <input
+            type="number"
+            class="form-control"
+            id="inputNumber"
+            min="0.01"
+            step=".01"
+            required
+            [(ngModel)]="porcentaje"
+            name="cantidad"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="registroForm.invalid"
+          data-bs-dismiss="modal"
         >
           Guardar
         </button>
