@@ -310,7 +310,7 @@ def filtrarRegistros(decoded, anio, mes):
             "cantidad": registro.cantidad,
             "concepto": registro.concepto,
             "tipo": registro.tipo,
-            "fecha": registro.fecha.strftime("%Y-%m-%d"),
+            "fecha": registro.fecha.strftime("%d-%m-%Y %H:%M"),
             "categoria": registro.categoria
         }
         for registro in registros

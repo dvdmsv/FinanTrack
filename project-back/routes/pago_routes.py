@@ -66,7 +66,7 @@ def getPagosRecurrentes(decoded):
             'tipo': pago.tipo,
             'frecuencia': pago.frecuencia,
             'intervalo': pago.intervalo,
-            'siguiente_pago': pago.siguiente_pago.strftime('%d-%m-%Y %H:%M'),
+            'siguiente_pago': pago.siguiente_pago.strftime('%d-%m-%Y'),
             'estado': pago.estado,
             'categoria': pago.categoria,
             'cantidad': pago.cantidad
