@@ -17,7 +17,13 @@ import { LineasComponent } from '../graficos/lineas/lineas.component';
 
 @Component({
   selector: 'app-registros',
-  imports: [CurrencyPipe, FormsModule, NgxPaginationModule, NgFor, LineasComponent],
+  imports: [
+    CurrencyPipe,
+    FormsModule,
+    NgxPaginationModule,
+    NgFor,
+    LineasComponent,
+  ],
   templateUrl: './registros.component.html',
   styleUrl: './registros.component.css',
 })
@@ -79,9 +85,9 @@ export class RegistrosComponent {
   // Funcion que comprueba si el dropdown de años está en "Todos", si es así deshabilita el dropdown de meses.
   // Esto hace que solo se puedan buscar registros de meses en base al año y no registros de meses sin importar el año.
   habilitarDropdownMeses() {
-    if(this.anioSeleccionado == 0){
+    if (this.anioSeleccionado == 0) {
       this.selectorMeses = true;
-    }else{
+    } else {
       this.selectorMeses = false;
     }
   }
@@ -184,7 +190,18 @@ export class RegistrosComponent {
 
   eliminar(id: number) {
     this.finanzasRegistrosService.deleteRegistro(id).subscribe(() => {
-      this.getRegistrosUser();
+
+      // Si el año seleccionado es mayor que 0 se obtienen los registros filtrados por año y mes, si no, se obtiene sin ningun filtrado
+      // esto previene que al eliminar un registro cuando el filtro está seleccionado no se muestren los resultados sin filtrar, si no que se carguen de nuevo los filtrados
+      if (this.anioSeleccionado != 0) {
+        this.finanzasRegistrosService
+          .filtrarRegistros(this.anioSeleccionado, this.mesSeleccionado)
+          .subscribe((data) => {
+            this.registros = data.registros;
+          });
+      }else{
+        this.getRegistrosUser();
+      }
       this.comunicacionInternaService.setRefreshData();
     });
   }

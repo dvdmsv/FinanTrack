@@ -301,6 +301,12 @@ def filtrarRegistros(decoded, anio, mes):
     
     if mes > 0:  # Si se selecciona un mes
         query = query.filter(extract('month', Registro.fecha) == mes)
+    
+    # Ordenacion primero por año y luego por fecha
+    query = query.order_by(
+        extract('year', Registro.fecha).desc(),
+        extract('month', Registro.fecha).desc()
+    )
 
     registros = query.all()
 
