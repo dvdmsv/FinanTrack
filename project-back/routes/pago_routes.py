@@ -74,6 +74,89 @@ def getPagosRecurrentes(decoded):
     # Retornar los registros en formato JSON
     return {'pagos': pagos_data}, 200
 
+@pago_bp.route('/getPagoRecurrente/<int:pagoRecurrenteId>', methods=['GET'])
+@token_required
+def getPagoRecurrente(decoded, pagoRecurrenteId):
+    userId = decoded['user_id']
+
+    # Buscar el pago recurrente del usuario
+    pago_recurrente = PagoRecurrente.query.filter_by(id=pagoRecurrenteId, user_id=userId).first()
+
+    if not pago_recurrente:
+        return jsonify({'error': 'Pago recurrente no encontrado'}), 404
+
+    # Obtener la categoría asociada
+    categoria = Categoria.query.filter_by(id=pago_recurrente.categoria_id).first()
+    categoria_nombre = categoria.nombre if categoria else 'Sin categoría'
+
+    return jsonify({
+        'id': pago_recurrente.id,
+        'concepto': pago_recurrente.concepto,
+        'tipo': pago_recurrente.tipo,
+        'frecuencia': pago_recurrente.frecuencia,
+        'intervalo': pago_recurrente.intervalo,
+        'siguiente_pago': pago_recurrente.siguiente_pago.strftime('%Y-%m-%d'),
+        'estado': pago_recurrente.estado,
+        'categoria': categoria_nombre,
+        'cantidad': pago_recurrente.cantidad
+    }), 200
+
+
+@pago_bp.route('/updatePagoRecurrente', methods=['POST'])
+@token_required
+def updatePagoRecurrente(decoded):
+    userId = decoded['user_id']
+    data = request.json
+
+    pagoRecurrenteId=data['id']
+    categoria_nombre=data['categoria']
+    cantidad=data["cantidad"]
+    concepto=data["concepto"]
+    tipo=data["tipo"]
+    frecuencia=data["frecuencia"]
+    intervalo=data["intervalo"]
+    siguiente_pago=datetime.strptime(data["siguiente_pago"], '%Y-%m-%d')
+    estado=data["estado"]
+
+
+    pago_recurrente = PagoRecurrente.query.filter_by(id=pagoRecurrenteId, user_id=userId).first()
+
+    if pago_recurrente:
+        if categoria_nombre:
+            # Buscar la categoría correspondiente (ya sea global o personalizada)
+            categoria = Categoria.query.filter(
+                (Categoria.nombre == categoria_nombre) & 
+                ((Categoria.es_global == True) | (Categoria.user_id == decoded['user_id']))
+            ).first()
+            pago_recurrente.categoria_id = categoria.id
+        if cantidad:
+            pago_recurrente.cantidad = cantidad
+        if concepto:
+            pago_recurrente.concepto = concepto
+        if tipo:
+            pago_recurrente.tipo = tipo
+        if frecuencia:
+            pago_recurrente.frecuencia = frecuencia
+        if intervalo:
+            pago_recurrente.intervalo = intervalo
+        if siguiente_pago:
+            pago_recurrente.siguiente_pago = siguiente_pago
+        if estado:
+            pago_recurrente.estado = estado
+        db.session.commit()
+
+    return jsonify({
+        'id': pago_recurrente.id,
+        'concepto': pago_recurrente.concepto,
+        'tipo': pago_recurrente.tipo,
+        'frecuencia': pago_recurrente.frecuencia,
+        'intervalo': pago_recurrente.intervalo,
+        'siguiente_pago': pago_recurrente.siguiente_pago.strftime('%d-%m-%Y %H:%M'),
+        'estado': pago_recurrente.estado,
+        'categoria': categoria.nombre,
+        'cantidad': pago_recurrente.cantidad
+        }), 200
+
 @pago_bp.route('/modificarEstadoPagoRecurrente', methods=['PATCH'])
 @token_required
 def modificarEstadoPagoRecurrente(decoded):

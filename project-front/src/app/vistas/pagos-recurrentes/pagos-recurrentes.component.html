@@ -10,7 +10,7 @@
   </button>
 </div>
 
-<!-- Modal -->
+<!-- Modal para crear pago recurrente-->
 <div
   class="modal fade"
   id="registroModal"
@@ -154,6 +154,150 @@
   </div>
 </div>
 
+<!-- Modal para actualizar pago recurrente-->
+<div
+  class="modal fade"
+  id="actualizarModal"
+  tabindex="-1"
+  aria-labelledby="registroModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registroModalLabel">Actualizar Pago recurrente</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+
+        
+        <!-- Formulario dentro del modal -->
+        <form
+          class="registroForm"
+          (ngSubmit)="actualizarPagoRecurrente()"
+          #registroForm="ngForm"
+        >
+          <div class="mb-3">
+            <label for="categorias" class="form-label">Categorias</label>
+            <select
+              class="form-select"
+              id="categorias"
+              required
+              [(ngModel)]="categoria"
+              name="categoria"
+            >
+              <option selected value="">Categoria</option>
+              @for(categoria of categorias; track categoria){
+              <option>
+                {{ categoria.nombre }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="frecuencia" class="form-label">Frecuencia</label>
+            <select
+              class="form-select"
+              id="frecuencia"
+              required
+              [(ngModel)]="frecuencia"
+              name="frecuencia"
+            >
+              <option selected value="">Frecuencias</option>
+              @for(frecuencia of frecuencias; track frecuencia){
+              <option>
+                {{ frecuencia }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="intervalo" class="form-label">Intervalo</label>
+            <input 
+              type="number" 
+              class="form-control" 
+              name="intervalo" 
+              id="intervalo" 
+              placeholder="Intervalo de ejecución"
+              min="0"
+              [(ngModel)]="intervalo"
+            >
+          </div>
+
+          <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo</label>
+            <select
+              class="form-select"
+              id="tipo"
+              required
+              [(ngModel)]="tipo"
+              name="tipo"
+            >
+              <option selected value="">Tipo</option>
+              <option value="Gasto">Gasto</option>
+              <option value="Ingreso">Ingreso</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="inputNumber" class="form-label">Cantidad (€)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="inputNumber"
+              min="0.01"
+              step=".01"
+              [(ngModel)]="cantidad"
+              name="cantidad"
+              placeholder="Cantidad"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="concepto" class="form-label">Concepto</label>
+            <input
+              type="text"
+              class="form-control"
+              id="concepto"
+              required
+              [(ngModel)]="concepto"
+              name="concepto"
+              placeholder="Concepto de la compra"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="fecha" class="form-label">Fecha de inicio</label>
+            <input
+              type="date"
+              class="form-control"
+              id="fecha"
+              required
+              [(ngModel)]="fecha"
+              name="fecha"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="registroForm.invalid"
+          >
+            Guardar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Tabla de los registros -->
 <div class="container">
   <div class="table-responsive">
@@ -171,7 +315,8 @@
           <th scope="col">Cantidad</th>
           <th scope="col">Siguiente pago</th>
           <th scope="col">Activo</th>
-          <th></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -214,6 +359,9 @@
             <button class="btn btn-danger" (click)="eliminar(pago.id)">
               <i class="bi bi-trash3"></i>
             </button>
+          </td>
+          <td>
+            <button class="btn btn-success" (click)="botonEditar(pago.id)" data-bs-toggle="modal" data-bs-target="#actualizarModal"><i class="bi bi-pencil-square"></i></button>
           </td>
         </tr>
         }

@@ -112,8 +112,6 @@ def getPresupuesto(decoded):
     # Obtener el presupuesto del usuario en base al id
     presupuesto_existente = Presupuesto.query.filter_by(user_id=userId, id=presupuestoId).first()
     
-    # Crear la respuesta con los presupuestos
-    presupuesto_data = []
     categoria = Categoria.query.filter_by(id=presupuesto_existente.categoria_id).first()
 
     return jsonify({
@@ -138,7 +136,11 @@ def updatePresupuesto(decoded):
 
     if presupuesto_existente:
         if categoria_nombre:
-            categoria = Categoria.query.filter_by(nombre=categoria_nombre).first()
+            # Buscar la categoría correspondiente (ya sea global o personalizada)
+            categoria = Categoria.query.filter(
+                (Categoria.nombre == categoria_nombre) & 
+                ((Categoria.es_global == True) | (Categoria.user_id == decoded['user_id']))
+            ).first()
             presupuesto_existente.categoria_id = categoria.id
         if porcentaje:
             presupuesto_existente.porcentaje = porcentaje
