@@ -68,6 +68,8 @@ export class RegistrosComponent {
   mesSeleccionado: number = 0;
   anioSeleccionado: number = 0;
 
+  registroId: number = 0;
+
   //Pagina de la paginacion
   pagina: number = 1;
 
@@ -95,6 +97,41 @@ export class RegistrosComponent {
   //Establece la pagina de la paginacion en 1
   paginacion() {
     this.pagina = 1;
+  }
+
+  botonEditar(registroId: number) {
+    this.registroId = registroId;
+    this.finanzasRegistrosService.getRegistro(this.registroId).subscribe((data) => {
+      this.categoria = data.categoria;
+      this.concepto = data.concepto;
+      this.cantidad = data.cantidad;
+      this.tipo = data.tipo;
+    });
+  }
+
+  actualizarRegistro() {
+    this.finanzasRegistrosService.updateRegistro(this.registroId, this.categoria, this.cantidad, this.concepto, this.tipo).subscribe(()=>{
+      // Si el año seleccionado es mayor que 0 se obtienen los registros filtrados por año y mes, si no, se obtiene sin ningun filtrado
+      // esto previene que al actualizar un registro cuando el filtro está seleccionado no se muestren los resultados sin filtrar, si no que se carguen de nuevo los filtrados
+      if (this.anioSeleccionado != 0) {
+        this.finanzasRegistrosService
+          .filtrarRegistros(this.anioSeleccionado, this.mesSeleccionado)
+          .subscribe((data) => {
+            this.registros = data.registros;
+          });
+      }else{
+        this.getRegistrosUser();
+      }
+      Swal.fire({
+        position: 'top',
+        icon: 'success',
+        title: 'Actualizado correctamente',
+        showConfirmButton: false,
+        timer: 1500,
+        toast: true,
+      });
+      this.comunicacionInternaService.setRefreshData();
+    });
   }
 
   filtrarRegistros(tipo: 'anio' | 'mes') {

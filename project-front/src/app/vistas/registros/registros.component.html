@@ -61,7 +61,8 @@
           <th scope="col">Concepto</th>
           <th scope="col">Fecha</th>
           <th scope="col">Cantidad</th>
-          <th></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -79,6 +80,9 @@
           <td>{{ registro.cantidad | currency : "EUR" }}</td>
           <td>
             <button class="btn btn-danger" (click)="eliminar(registro.id)"><i class="bi bi-trash3"></i></button>
+          </td>
+          <td>
+            <button class="btn btn-success" (click)="botonEditar(registro.id)" data-bs-toggle="modal" data-bs-target="#actualizarRegistroModal"><i class="bi bi-pencil-square"></i></button>
           </td>
         </tr>
       </tbody>
@@ -107,7 +111,7 @@
   </select>
 </div>
 
-<!-- Modal -->
+<!-- Modal para crear el registro-->
 <div
   class="modal fade"
   id="registroModal"
@@ -196,6 +200,106 @@
             type="submit"
             class="btn btn-primary"
             [disabled]="registroForm.invalid"
+          >
+            Guardar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal para actualizar el registro-->
+<div
+  class="modal fade"
+  id="actualizarRegistroModal"
+  tabindex="-1"
+  aria-labelledby="registroModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registroModalLabel">Actualizar Registro</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulario dentro del modal -->
+        <form
+          class="registroForm"
+          (ngSubmit)="actualizarRegistro()"
+          #registroForm="ngForm"
+        >
+          <div class="mb-3">
+            <label for="categorias" class="form-label">Categorias</label>
+            <select
+              class="form-select"
+              id="categorias"
+              required
+              [(ngModel)]="categoria"
+              name="categoria"
+            >
+              <option selected value=""></option>
+              @for(categoria of categorias; track categoria){
+              <option>
+                {{ categoria.nombre }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo</label>
+            <select
+              class="form-select"
+              id="tipo"
+              required
+              [(ngModel)]="tipo"
+              name="tipo"
+            >
+              <option selected value=""></option>
+              <option value="Gasto">Gasto</option>
+              <option value="Ingreso">Ingreso</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="inputNumber" class="form-label">Cantidad</label>
+            <input
+              type="number"
+              class="form-control"
+              id="inputNumber"
+              min="0.01"
+              step=".01"
+              required
+              [(ngModel)]="cantidad"
+              name="cantidad"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="concepto" class="form-label">Concepto</label>
+            <input
+              type="text"
+              class="form-control"
+              id="concepto"
+              required
+              [(ngModel)]="concepto"
+              name="concepto"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="registroForm.invalid"
+            data-bs-dismiss="modal"
           >
             Guardar
           </button>
