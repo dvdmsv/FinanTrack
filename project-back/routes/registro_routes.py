@@ -135,7 +135,7 @@ def deleteRegistro(decoded, registroId):
     if not user:
         return jsonify({"message": "User not found"}), 404
 
-    # Verificar si ya existe un presupuesto para esa categoría y usuario
+    # Verificar si ya existe un registro 
     registro_existente = Registro.query.filter_by(user_id=userId, id=registroId).first()
     
     # Buscar el presupuesto del usuario para esa categoría (si existe)
@@ -463,3 +463,95 @@ def obtener_gastos_por_mes(decoded):
 
     return jsonify(resultado)
 
+
+@registro_bp.route('/getRegistro/<int:registroId>', methods=['GET'])
+@token_required
+def getRegistro(decoded, registroId):
+    userId = decoded['user_id']
+
+    # Verificar si ya existe un registro
+    registro = Registro.query.filter_by(user_id=userId, id=registroId).first()
+    
+    
+    if registro:
+        categoria = Categoria.query.filter_by(id=registro.categoria_id).first()
+        return jsonify({
+            'id': registro.id,
+            'cantidad': registro.cantidad,
+            'concepto': registro.concepto,
+            'tipo': registro.tipo,
+            'fecha': registro.fecha.strftime('%d-%m-%Y'),
+            'categoria': categoria.nombre
+        }), 200
+
+    return jsonify({"message": "Registro no encontrado"}), 404
+
+
+@registro_bp.route('/updateRegistro', methods=['POST'])
+@token_required
+def updateRegistro(decoded):
+    userId = decoded['user_id']
+    data = request.json
+
+    # Datos enviados por el usuario
+    registroId = data['id']
+    categoria_nombre = data['categoria']
+    nuevo_tipo = data['tipo']
+    nueva_cantidad = data['cantidad']
+    nuevo_concepto = data['concepto']
+
+    # Obtener la categoria en base al nombre
+    categoria = Categoria.query.filter(
+                (Categoria.nombre == categoria_nombre) & 
+                ((Categoria.es_global == True) | (Categoria.user_id == decoded['user_id']))
+            ).first()
+
+    # Obtener el usuario
+    user = User.query.filter_by(id=userId).first()
+    if not user:
+        return jsonify({"message": "Usuario no encontrado"}), 404
+
+    # Obtener el registro existente
+    registro_existente = Registro.query.filter_by(user_id=userId, id=registroId).first()
+    if not registro_existente:
+        return jsonify({"message": "Registro no encontrado"}), 404
+
+    # Obtener el presupuesto de la categoría anterior (si existe)
+    presupuesto_existente = Presupuesto.query.filter_by(user_id=userId, categoria_id=registro_existente.categoria_id).first()
+
+    # Si el tipo de registro cambia, hay que ajustar el saldo completamente
+    if registro_existente.tipo != nuevo_tipo:
+        # Revertir la cantidad anterior
+        if registro_existente.tipo == 'Ingreso':
+            user.saldo -= registro_existente.cantidad  # Se resta porque era un ingreso
+        else:
+            user.saldo += registro_existente.cantidad  # Se suma porque era un gasto
+
+        # Aplicar la nueva cantidad según el nuevo tipo
+        if nuevo_tipo == 'Ingreso':
+            user.saldo += nueva_cantidad  # Se suma porque ahora es un ingreso
+        else:
+            user.saldo -= nueva_cantidad  # Se resta porque ahora es un gasto
+
+    else:
+        # Si el tipo NO cambia, solo se actualiza la diferencia
+        diferencia = nueva_cantidad - registro_existente.cantidad
+        if registro_existente.tipo == 'Ingreso':
+            user.saldo += diferencia
+        else:
+            user.saldo -= diferencia
+
+    # Si hay un presupuesto asociado, ajustar el presupuesto restante
+    if presupuesto_existente:
+        presupuesto_existente.presupuesto_restante -= (nueva_cantidad - registro_existente.cantidad)
+
+    # Actualizar los datos del registro
+    registro_existente.categoria_id = categoria.id
+    registro_existente.tipo = nuevo_tipo
+    registro_existente.cantidad = nueva_cantidad
+    registro_existente.concepto = nuevo_concepto
+
+    # Guardar cambios
+    db.session.commit()
+
+    return jsonify({"message": "Registro modificado exitosamente"}), 200
