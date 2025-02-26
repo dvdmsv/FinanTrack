@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from Modelos import Categoria, Presupuesto, User, Registro
 from db import db
-from sqlalchemy import distinct, text, extract
+from sqlalchemy import distinct, func, text, extract
 import datetime
 from utils import token_required
 
@@ -106,6 +106,8 @@ def getRegistrosUser(decoded):
         Categoria, Categoria.id == Registro.categoria_id  # Realizamos el JOIN entre Registro y Categoria
     ).filter(
         Registro.user_id == userId # Filtramos por el user_id
+    ).order_by(
+        Registro.fecha.desc()
     ).all()
         
     # Convertir los registros a un formato que se pueda retornar
@@ -133,7 +135,7 @@ def deleteRegistro(decoded, registroId):
     if not user:
         return jsonify({"message": "User not found"}), 404
 
-    # Verificar si ya existe un presupuesto para esa categoría y usuario
+    # Verificar si ya existe un registro 
     registro_existente = Registro.query.filter_by(user_id=userId, id=registroId).first()
     
     # Buscar el presupuesto del usuario para esa categoría (si existe)
@@ -221,24 +223,7 @@ def registros_por_categoria2(decoded, anio, mes):
 @token_required
 def registros_por_categoria(decoded):
     user_id = decoded['user_id']
-
-    # # Consulta con JOIN para traer datos de registros y presupuestos
-    # results = db.session.query(
-    #     Categoria.nombre.label('categoria'),
-    #     db.func.sum(Registro.cantidad).label('total_cantidad'),
-    #     Presupuesto.porcentaje,
-    #     Presupuesto.presupuesto_inicial,
-    #     Presupuesto.presupuesto_restante
-    # ).join(Registro, Registro.categoria_id == Categoria.id)\
-    #  .outerjoin(Presupuesto, Presupuesto.categoria_id == Categoria.id)\
-    #  .filter(Registro.user_id == user_id)\
-    #  .group_by(
-    #      Categoria.nombre,
-    #      Presupuesto.porcentaje,
-    #      Presupuesto.presupuesto_inicial,
-    #      Presupuesto.presupuesto_restante
-    #  ).all()
-
+    
     # Escribir una sentencia SQL literal con text()
     sql = text("""
         SELECT 
@@ -316,6 +301,12 @@ def filtrarRegistros(decoded, anio, mes):
     
     if mes > 0:  # Si se selecciona un mes
         query = query.filter(extract('month', Registro.fecha) == mes)
+    
+    # Ordenacion primero por año y luego por fecha
+    query = query.order_by(
+        extract('year', Registro.fecha).desc(),
+        extract('month', Registro.fecha).desc()
+    )
 
     registros = query.all()
 
@@ -325,7 +316,7 @@ def filtrarRegistros(decoded, anio, mes):
             "cantidad": registro.cantidad,
             "concepto": registro.concepto,
             "tipo": registro.tipo,
-            "fecha": registro.fecha.strftime("%Y-%m-%d"),
+            "fecha": registro.fecha.strftime("%d-%m-%Y %H:%M"),
             "categoria": registro.categoria
         }
         for registro in registros
@@ -444,3 +435,123 @@ def getMesesRegistros(decoded, anio):
 
     return {'registros': registros_data}, 200
 
+
+@registro_bp.route('/gastos-por-mes', methods=['POST'])
+@token_required
+def obtener_gastos_por_mes(decoded):
+    data = request.json
+    user_id = decoded['user_id']
+    anio = data['anio']
+
+    gastos_por_mes = (
+        db.session.query(
+            extract('month', Registro.fecha).label('mes'),
+            func.sum(Registro.cantidad).label('total')
+        )
+        .filter(
+            Registro.user_id == user_id,
+            extract('year', Registro.fecha) == anio,
+            Registro.tipo == 'Gasto'  # Solo filtrar gastos
+        )
+        .group_by('mes')
+        .order_by('mes')
+        .all()
+    )
+
+    # Convertir resultado a una lista de diccionarios con formato {"mes": mes, "gasto": gasto}
+    resultado = {"gastoPorMes": [{"mes": mes, "gasto": total} for mes, total in gastos_por_mes]}
+
+    return jsonify(resultado)
+
+
+@registro_bp.route('/getRegistro/<int:registroId>', methods=['GET'])
+@token_required
+def getRegistro(decoded, registroId):
+    userId = decoded['user_id']
+
+    # Verificar si ya existe un registro
+    registro = Registro.query.filter_by(user_id=userId, id=registroId).first()
+    
+    
+    if registro:
+        categoria = Categoria.query.filter_by(id=registro.categoria_id).first()
+        return jsonify({
+            'id': registro.id,
+            'cantidad': registro.cantidad,
+            'concepto': registro.concepto,
+            'tipo': registro.tipo,
+            'fecha': registro.fecha.strftime('%d-%m-%Y'),
+            'categoria': categoria.nombre
+        }), 200
+
+    return jsonify({"message": "Registro no encontrado"}), 404
+
+
+@registro_bp.route('/updateRegistro', methods=['POST'])
+@token_required
+def updateRegistro(decoded):
+    userId = decoded['user_id']
+    data = request.json
+
+    # Datos enviados por el usuario
+    registroId = data['id']
+    categoria_nombre = data['categoria']
+    nuevo_tipo = data['tipo']
+    nueva_cantidad = data['cantidad']
+    nuevo_concepto = data['concepto']
+
+    # Obtener la categoria en base al nombre
+    categoria = Categoria.query.filter(
+                (Categoria.nombre == categoria_nombre) & 
+                ((Categoria.es_global == True) | (Categoria.user_id == decoded['user_id']))
+            ).first()
+
+    # Obtener el usuario
+    user = User.query.filter_by(id=userId).first()
+    if not user:
+        return jsonify({"message": "Usuario no encontrado"}), 404
+
+    # Obtener el registro existente
+    registro_existente = Registro.query.filter_by(user_id=userId, id=registroId).first()
+    if not registro_existente:
+        return jsonify({"message": "Registro no encontrado"}), 404
+
+    # Obtener el presupuesto de la categoría anterior (si existe)
+    presupuesto_existente = Presupuesto.query.filter_by(user_id=userId, categoria_id=registro_existente.categoria_id).first()
+
+    # Si el tipo de registro cambia, hay que ajustar el saldo completamente
+    if registro_existente.tipo != nuevo_tipo:
+        # Revertir la cantidad anterior
+        if registro_existente.tipo == 'Ingreso':
+            user.saldo -= registro_existente.cantidad  # Se resta porque era un ingreso
+        else:
+            user.saldo += registro_existente.cantidad  # Se suma porque era un gasto
+
+        # Aplicar la nueva cantidad según el nuevo tipo
+        if nuevo_tipo == 'Ingreso':
+            user.saldo += nueva_cantidad  # Se suma porque ahora es un ingreso
+        else:
+            user.saldo -= nueva_cantidad  # Se resta porque ahora es un gasto
+
+    else:
+        # Si el tipo NO cambia, solo se actualiza la diferencia
+        diferencia = nueva_cantidad - registro_existente.cantidad
+        if registro_existente.tipo == 'Ingreso':
+            user.saldo += diferencia
+        else:
+            user.saldo -= diferencia
+
+    # Si hay un presupuesto asociado, ajustar el presupuesto restante
+    if presupuesto_existente:
+        presupuesto_existente.presupuesto_restante -= (nueva_cantidad - registro_existente.cantidad)
+
+    # Actualizar los datos del registro
+    registro_existente.categoria_id = categoria.id
+    registro_existente.tipo = nuevo_tipo
+    registro_existente.cantidad = nueva_cantidad
+    registro_existente.concepto = nuevo_concepto
+
+    # Guardar cambios
+    db.session.commit()
+
+    return jsonify({"message": "Registro modificado exitosamente"}), 200

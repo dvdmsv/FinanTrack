@@ -14,7 +14,7 @@
     </div>
   
     <div class="form dropdown2">
-      <select class="form-select" [(ngModel)]="mesSeleccionado" (change)="filtrarRegistros('mes')">
+      <select class="form-select" [(ngModel)]="mesSeleccionado" (change)="filtrarRegistros('mes')" [disabled]="selectorMeses">
         <option value="0">Todos</option>
         @for (mes of meses; track mes.mes) {
           <option [value]="mes.mes">

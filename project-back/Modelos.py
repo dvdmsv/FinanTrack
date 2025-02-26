@@ -80,6 +80,7 @@ class PagoRecurrente(db.Model):
     concepto = db.Column(db.String(255), nullable=False)
     tipo = db.Column(db.String(50), nullable=False)
     frecuencia = db.Column(db.String(20), nullable=False)  # 'diario', 'semanal', 'mensual', 'anual'
+    intervalo = db.Column(db.Integer, nullable=False) # Intervalo entre la frecuencia (cada 1 dia/semana/mes/anio, cada 2...)
     siguiente_pago = db.Column(db.DateTime, nullable=False)
     estado = db.Column(db.Boolean, default=True, nullable=False)
 

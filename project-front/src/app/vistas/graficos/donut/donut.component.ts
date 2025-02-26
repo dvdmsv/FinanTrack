@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { AgChartOptions } from 'ag-charts-community';
-import { AgCharts } from "ag-charts-angular";
+import { AgCharts } from 'ag-charts-angular';
 import { RegistroPorCategoria } from '../../../interfaces/responses';
 import { ComunicacionInternaService } from '../../../servicios/comunicacion-interna.service';
 import { FinanzasRegistrosService } from '../../../servicios/finanzas-servicios/finanzas-registros.service';
@@ -32,24 +32,27 @@ export class DonutComponent implements OnInit {
     ],
   };
 
-  constructor(private finanzasRegistrosService: FinanzasRegistrosService, private comunicacionInternaService: ComunicacionInternaService) {}
+  constructor(
+    private finanzasRegistrosService: FinanzasRegistrosService,
+    private comunicacionInternaService: ComunicacionInternaService
+  ) {}
 
   ngOnInit(): void {
     this.filtrarRegistros();
     this.refrescarValores();
   }
 
-   // Detecta cambios en anio o mes y actualiza el gráfico automáticamente
-   ngOnChanges(changes: SimpleChanges): void {
+  // Detecta cambios en anio o mes y actualiza el gráfico automáticamente
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes['anio'] || changes['mes']) {
       this.filtrarRegistros();
     }
   }
 
   filtrarRegistros() {
-    this.finanzasRegistrosService.getRegistrosPorCategoria2(this.anio, this.mes)
+    this.finanzasRegistrosService
+      .getRegistrosPorCategoria2(this.anio, this.mes)
       .subscribe((data) => {
-  
         this.registrosPorCategoria = data.categorias;
 
         // Reasignamos el objeto para que Angular detecte el cambio
@@ -61,8 +64,8 @@ export class DonutComponent implements OnInit {
   }
 
   private refrescarValores() {
-    this.comunicacionInternaService.refreshData.subscribe(data => {
-      if(data == true){
+    this.comunicacionInternaService.refreshData.subscribe((data) => {
+      if (data == true) {
         this.filtrarRegistros();
       }
     });

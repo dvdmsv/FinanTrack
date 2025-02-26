@@ -21,11 +21,36 @@ export class PresupuestosComponent {
 
   categoria: string = '';
   porcentaje: number = 0;
+  presupuestoId: number = 0;
 
   ngOnInit() {
     this.getPresupuestos();
     this.getCategorias();
     this.refrescarValores();
+  }
+
+  botonEditar(presupuestoId: number) {
+    this.finanzasPresupuestosService.getPresupuesto(presupuestoId).subscribe({
+      next: data => {
+        this.presupuestoId = presupuestoId;
+        this.categoria = data.categoria;
+        this.porcentaje = data.porcentaje;
+      }
+    });
+  }
+
+  updatePresupuesto() {
+    this.finanzasPresupuestosService.updatePresupuesto(this.categoria, this.presupuestoId, this.porcentaje).subscribe((data) => {
+      Swal.fire({
+        position: 'top',
+        icon: 'success',
+        title: 'Actualizado correctamente',
+        showConfirmButton: false,
+        timer: 1500,
+        toast: true,
+      });
+      this.getPresupuestos();
+    })
   }
 
   getPresupuestos() {

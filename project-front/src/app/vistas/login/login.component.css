@@ -1,3 +1,84 @@
-input {
+/* Fondo claro y moderno */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinea arriba en lugar de centrar */
+    height: 100vh;
+    padding-top: 10vh; /* Empuja la tarjeta hacia arriba */
+  }
+  
+  /* Tarjeta de login */
+  .login-card {
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
     text-align: center;
-}
+    margin-top: 5vh; /* Subir la tarjeta un poco más */
+  }
+  
+  /* Título y subtítulo */
+  .login-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+  
+  .login-subtitle {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* Inputs */
+  .form-control {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #d1d1e0;
+    background: #f9f9fc;
+    color: #333;
+    outline: none;
+    transition: 0.3s;
+  }
+  
+  .form-control::placeholder {
+    color: #aaa;
+  }
+  
+  .form-control:focus {
+    border-color: #4c77ff;
+    box-shadow: 0 0 8px rgba(76, 119, 255, 0.5);
+  }
+  
+  /* Botón con efecto neón */
+  .btn-login {
+    width: 100%;
+    margin-top: 1rem;
+    background: #4c77ff;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 4px 15px rgba(76, 119, 255, 0.3);
+  }
+  
+  .btn-login:hover {
+    background: #3a5cd6;
+    box-shadow: 0 4px 20px rgba(76, 119, 255, 0.6);
+  }
+  
+  /* Mensajes de error */
+  .error-message {
+    color: #ff3b3b;
+    font-size: 0.875rem;
+    margin-top: 5px;
+  }
+  

@@ -44,6 +44,8 @@ export class DashboardComponent implements OnInit {
   mesSeleccionado: number = 0
   anioSeleccionado: number = 0
 
+  selectorMeses = false;
+
   constructor(private finanzasRegistrosService: FinanzasRegistrosService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   ngOnInit(): void {
@@ -51,11 +53,13 @@ export class DashboardComponent implements OnInit {
     this.getAniosRegistros();
     this.getMesesRegistros();
     this.refrescarValores();
+    this.habilitarDropdownMeses()
   }
 
   // Funcion que filtra los registros por categoría en base al año y al mes seleccionado
   filtrarRegistros(tipo: 'anio' | 'mes') {
     if (tipo === 'anio') {
+      this.habilitarDropdownMeses();
       this.mesSeleccionado = 0; // Reiniciar mes al cambiar el año
       this.getMesesRegistros(); // Actualizar los meses disponibles para el nuevo año
     }
@@ -69,13 +73,23 @@ export class DashboardComponent implements OnInit {
         this.gastoTotal = this.registrosPorCategoria.reduce((acc, registro) => acc + registro.total_cantidad, 0);
       });
   }
-  
 
+  // Funcion que comprueba si el dropdown de años está en "Todos", si es así deshabilita el dropdown de meses.
+  // Esto hace que solo se puedan buscar registros de meses en base al año y no registros de meses sin importar el año.
+  habilitarDropdownMeses() {
+    if(this.anioSeleccionado == 0){
+      this.selectorMeses = true;
+    }else{
+      this.selectorMeses = false;
+    }
+  }
+  
   // Resetea los filtros a su valor por defecto
   resetFiltros() {
     this.mesSeleccionado = 0;  // "Todos" en el mes
     this.anioSeleccionado = 0; // "Todos" en el año
     this.cargarRegistrosPorCategoria();   // Obtener todos los registros
+    this.habilitarDropdownMeses();
   }
 
   // Obtiene los años donde hay registros disponibles

@@ -70,9 +70,9 @@ def setPresupuesto(decoded):
         db.session.commit()
         return jsonify({"message": "Presupuesto creado exitosamente"}), 201
 
-@presupuesto_bp.route('/getPresupuesto', methods=['GET'])
+@presupuesto_bp.route('/getPresupuestos', methods=['GET'])
 @token_required
-def getPresupuesto(decoded):
+def getPresupuestos(decoded):
     userId = decoded['user_id']
     
     # Obtener el usuario
@@ -101,3 +101,66 @@ def getPresupuesto(decoded):
     return jsonify({
         'presupuestos': presupuesto_data
     }), 200
+
+@presupuesto_bp.route('/getPresupuesto', methods=['POST'])
+@token_required
+def getPresupuesto(decoded):
+    userId = decoded['user_id']
+    data = request.json
+    presupuestoId = data['id']
+    
+    # Obtener el presupuesto del usuario en base al id
+    presupuesto_existente = Presupuesto.query.filter_by(user_id=userId, id=presupuestoId).first()
+    
+    categoria = Categoria.query.filter_by(id=presupuesto_existente.categoria_id).first()
+
+    return jsonify({
+        'id': presupuesto_existente.id,
+        'categoria': categoria.nombre,
+        'porcentaje': presupuesto_existente.porcentaje,
+        'presupuesto_inicial': presupuesto_existente.presupuesto_inicial,
+        'presupuesto_restante': presupuesto_existente.presupuesto_restante
+    }), 200
+
+@presupuesto_bp.route('/updatePresupuesto', methods=['POST'])
+@token_required
+def updatePresupuesto(decoded):
+    data = request.json
+    presupuestoId = data['id']
+    categoria_nombre = data['categoria']
+    porcentaje = data['porcentaje']
+    userId = decoded['user_id']
+
+    # Obtener el presupuesto
+    presupuesto_existente = Presupuesto.query.filter_by(user_id=userId, id=presupuestoId).first()
+
+    if presupuesto_existente:
+        if categoria_nombre:
+            # Buscar la categoría correspondiente (ya sea global o personalizada)
+            categoria = Categoria.query.filter(
+                (Categoria.nombre == categoria_nombre) & 
+                ((Categoria.es_global == True) | (Categoria.user_id == decoded['user_id']))
+            ).first()
+            presupuesto_existente.categoria_id = categoria.id
+        if porcentaje:
+            presupuesto_existente.porcentaje = porcentaje
+            # Obtener el usuario
+            user = User.query.filter_by(id=userId).first()
+            # Calcular el presupuesto inicial
+            presupuestoInicial = user.saldo * (porcentaje / 100)
+            presupuesto_existente.presupuesto_inicial = presupuestoInicial
+            presupuesto_existente.presupuesto_restante = presupuestoInicial
+    db.session.commit()
+    presupuesto_data = []
+    presupuesto_data.append({
+        'id': presupuesto_existente.id,
+        'categoria': categoria.nombre,
+        'porcentaje': presupuesto_existente.porcentaje,
+        'presupuesto_inicial': presupuesto_existente.presupuesto_inicial,
+        'presupuesto_restante': presupuesto_existente.presupuesto_restante
+    })
+
+    return jsonify({
+        'presupuestos': presupuesto_data
+    }), 200
+    

@@ -1,24 +1,45 @@
-<div>
-  <div class="login-form">
-      <form>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" [(ngModel)]="username" name="username" required>
-            @if (username == "") {
-              <p class="campoVacio">{{ userVacio }}</p>
-            }
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password">
-          </div>
-          @if (username == "") {
-            <p class="campoVacio">{{ passwordVacio }}</p>
-          }
-          @if (error) {
-            <p class="campoVacio">Nombre de usuario no existe</p>
-          }
-          <button class="btn btn-primary" (click)="login()">Login</button>
-      </form>
+<div class="login-container">
+  <div class="login-card">
+    <h2 class="login-title">Bienvenido</h2>
+    <p class="login-subtitle">Inicia sesión para continuar</p>
+
+    <form>
+      <div class="form-group">
+        <label for="username" class="form-label">Usuario</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="username" 
+          [(ngModel)]="username" 
+          name="username" 
+          required 
+          placeholder="Ingresa tu usuario"
+        />
+        @if (username == "") {
+          <p class="error-message">{{ userVacio }}</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Contraseña</label>
+        <input 
+          type="password" 
+          class="form-control" 
+          id="password" 
+          [(ngModel)]="password" 
+          name="password"
+          placeholder="Ingresa tu contraseña"
+        />
+      </div>
+
+      @if (username == "") {
+        <p class="error-message">{{ passwordVacio }}</p>
+      }
+      @if (error) {
+        <p class="error-message">Nombre de usuario no existe</p>
+      }
+
+      <button class="btn-login" (click)="login()">Ingresar</button>
+    </form>
   </div>
 </div>

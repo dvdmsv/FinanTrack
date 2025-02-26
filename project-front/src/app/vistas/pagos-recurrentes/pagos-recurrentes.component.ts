@@ -29,12 +29,43 @@ export class PagosRecurrentesComponent {
   cantidad: number = 0;
   concepto: string = '';
   frecuencia: string = '';
+  intervalo: number = 0;
   fecha: string = '';
   estado: boolean = true;
+  pagoRecurrenteId: number = 0;
+
 
   ngOnInit() {
     this.getPagosRecurrentes();
     this.getCategorias();
+  }
+
+  botonEditar(pagoRecurrenteId: number) {
+    this.finanzasPagosService.getPagoRecurrente(pagoRecurrenteId).subscribe((data) => {
+      this.pagoRecurrenteId = pagoRecurrenteId;
+      this.categoria = data.categoria;
+      this.tipo = data.tipo;
+      this.cantidad = data.cantidad;
+      this.concepto = data.concepto;
+      this.frecuencia = data.frecuencia;
+      this.intervalo = data.intervalo;
+      this.fecha = data.siguiente_pago;
+      this.estado = data.estado;
+    });
+  }
+
+  actualizarPagoRecurrente() {
+    this.finanzasPagosService.updatePagoRecurrente(this.pagoRecurrenteId, this.categoria, this.tipo, this.cantidad, this.concepto, this.frecuencia, this.intervalo, this.fecha, this.estado).subscribe((data) => {
+      Swal.fire({
+        position: 'top',
+        icon: 'success',
+        title: 'Actualizado correctamente',
+        showConfirmButton: false,
+        timer: 1500,
+        toast: true,
+      });
+      this.getPagosRecurrentes();
+    });
   }
 
   getPagosRecurrentes() {
@@ -44,7 +75,7 @@ export class PagosRecurrentesComponent {
   }
 
   agregarPagoRecurrente() {
-    this.finanzasPagosService.agregarPagoRecurrente(this.categoria, this.tipo, this.cantidad, this.concepto, this.frecuencia, this.fecha, this.estado).subscribe(() => {
+    this.finanzasPagosService.agregarPagoRecurrente(this.categoria, this.tipo, this.cantidad, this.concepto, this.frecuencia, this.fecha, this.estado, this.intervalo).subscribe(() => {
       this.getPagosRecurrentes();
       Swal.fire({
             position: 'top',

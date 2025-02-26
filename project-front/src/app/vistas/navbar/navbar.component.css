@@ -1,11 +1,26 @@
-nav, ul {
-    background-color: #3A7CBA;
+nav,
+ul {
+  background-color: #3a7cba;
 }
 
 a {
-    color: white
+  color: white;
 }
 
 a:hover {
-    background-color: #3A7CBA;
+  background-color: #3a7cba;
+}
+
+@media only screen and (max-width: 860px) {
+  .navbar-collapse {
+    transition: height 0.4s ease-in-out;
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1050; /* Asegura que esté por encima del contenido */
+  }
 }

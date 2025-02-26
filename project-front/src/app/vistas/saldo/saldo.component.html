@@ -1,20 +1,28 @@
-<div>
-    <div class="login-form">
-        <form>
-            <div class="mb-3">
-              <label for="nuevoSaldo" class="form-label">Saldo</label>
-              @if (editar) {
-                <input type="text" class="form-control" id="nuevoSaldo" [(ngModel)]="nuevoSaldo" name="nuevoSaldo" required>
-              }
-              @if (!editar) {
-                <p id="saldo">{{ saldo }}</p>
-              }
-            </div>
-            <button class="btn btn-primary" (click)="setEditar()"><i class="bi bi-pencil-square"></i></button>
-            @if (editar) {
-                <button class="btn btn-success" (click)="setSaldo()"><i class="bi bi-floppy"></i></button>
-            }
-        </form>
-    </div>
+<div class="saldo-container">
+  <div class="saldo-card">
+    <h2 class="saldo-title">Saldo Actual</h2>
+
+    <form class="saldo-form">
+      <div class="saldo-input-container">
+        <label for="nuevoSaldo" class="form-label">Saldo</label>
+        @if (editar) {
+          <input type="text" class="form-control saldo-input" id="nuevoSaldo" [(ngModel)]="nuevoSaldo" name="nuevoSaldo" required />
+        }
+        @if (!editar) {
+          <p id="saldo" class="saldo-display">{{ saldo }}</p>
+        }
+      </div>
+
+      <div class="button-group">
+        <button class="btn-edit" (click)="setEditar()">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+        @if (editar) {
+          <button class="btn-save" (click)="setSaldo()">
+            <i class="bi bi-floppy"></i>
+          </button>
+        }
+      </div>
+    </form>
   </div>
-  
+</div>

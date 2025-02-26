@@ -21,8 +21,10 @@ caption {
 }
 
 .container-button {
+  display: flex;
   margin-top: 50px;
-  text-align: end;
+  justify-content: center;
+  gap: 10px;
 }
 
 .modal-dialog {
@@ -42,4 +44,12 @@ select {
   text-align: center;
 }
 
-
+@media only screen and (max-width: 860px) {
+  .container-button {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 8px;
+  }
+}

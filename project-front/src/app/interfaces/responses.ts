@@ -86,6 +86,7 @@ export interface Pagos {
   concepto: string;
   estado: boolean;
   frecuencia: string;
+  intervalo: number;
   id: number;
   siguiente_pago: string;
   tipo: string;
@@ -95,4 +96,13 @@ export interface Pagos {
 
 export interface PagosResponse {
   pagos: Pagos[];
+}
+
+export interface GastoPorMes {
+  mes: number;
+  gasto: number;
+}
+
+export interface GastosPorMesResponse {
+  gastoPorMes:  []
 }

@@ -49,4 +49,4 @@ def generarPdf(decoded):
     pdf.output(pdf_path)
 
      # Devolver el archivo PDF
-    return send_file(pdf_path, as_attachment=False)
+    return send_file(pdf_path, as_attachment=True)

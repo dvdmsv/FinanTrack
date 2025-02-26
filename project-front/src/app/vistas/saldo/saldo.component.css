@@ -1,15 +1,92 @@
-input {
+/* Fondo */
+.saldo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-top: 5vh; /* Eleva la tarjeta */
+  }
+  
+  /* Tarjeta */
+  .saldo-card {
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
     text-align: center;
-    padding: 0;
-    margin: 0;
-}
-
-#saldo {
-    padding: 0;
-    margin: 0;
-}
-button {
-    margin: 5px;
-}
-
-
+    margin-top: -50vh; /* Mueve la tarjeta más arriba */
+  }
+  
+  /* Título */
+  .saldo-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  /* Contenedor de saldo */
+  .saldo-input-container {
+    margin-bottom: 1rem;
+  }
+  
+  /* Texto del saldo */
+  .saldo-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4c77ff;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  /* Input de edición */
+  .saldo-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d1e0;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    text-align: center;
+    transition: 0.3s;
+  }
+  
+  .saldo-input:focus {
+    border-color: #4c77ff;
+    box-shadow: 0 0 8px rgba(76, 119, 255, 0.5);
+  }
+  
+  /* Botones */
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .btn-edit,
+  .btn-save {
+    background: #4c77ff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(76, 119, 255, 0.3);
+  }
+  
+  .btn-edit:hover {
+    background: #3a5cd6;
+    box-shadow: 0 4px 15px rgba(76, 119, 255, 0.5);
+  }
+  
+  .btn-save {
+    background: #28a745;
+  }
+  
+  .btn-save:hover {
+    background: #218838;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.5);
+  }
+  
