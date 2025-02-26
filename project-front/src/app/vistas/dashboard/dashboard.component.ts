@@ -46,6 +46,8 @@ export class DashboardComponent implements OnInit {
 
   selectorMeses = false;
 
+  darkMode: boolean = false;
+
   constructor(private finanzasRegistrosService: FinanzasRegistrosService, private comunicacionInternaService: ComunicacionInternaService) {}
 
   ngOnInit(): void {
@@ -54,6 +56,10 @@ export class DashboardComponent implements OnInit {
     this.getMesesRegistros();
     this.refrescarValores();
     this.habilitarDropdownMeses()
+    
+    this.comunicacionInternaService.getDarkMode().subscribe(darkMode =>{
+      this.darkMode = darkMode
+    });
   }
 
   // Funcion que filtra los registros por categoría en base al año y al mes seleccionado
