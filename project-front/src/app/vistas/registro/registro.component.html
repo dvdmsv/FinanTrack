@@ -1,25 +1,30 @@
-<div>
-    <div class="login-form">
-        <form>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" [(ngModel)]="username" name="username" required>
-              @if (username == "") {
-                <p class="campoVacio">{{ userVacio }}</p>
-              }
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password">
-            </div>
-            @if (username == "") {
-              <p class="campoVacio">{{ passwordVacio }}</p>
-            }
-            @if (error) {
-              <p class="campoVacio">El nombre de usuario ya existe</p>
-            }
-            <button class="btn btn-primary" (click)="registro()">Registro</button>
-        </form>
-    </div>
+<div class="register-container">
+  <div class="register-card">
+    <h2 class="register-title">Crea tu cuenta</h2>
+    <p class="register-subtitle">Únete y empieza a gestionar tus finanzas</p>
+
+    <form>
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" [(ngModel)]="username" name="username" placeholder="Ingresa tu usuario" required />
+        @if (username == "") {
+          <p class="error-message">{{ userVacio }}</p>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password" placeholder="Ingresa tu contraseña" required />
+      </div>
+
+      @if (username == "") {
+        <p class="error-message">{{ passwordVacio }}</p>
+      }
+      @if (error) {
+        <p class="error-message">El nombre de usuario ya existe</p>
+      }
+
+      <button class="btn-register" (click)="registro()">Registrarse</button>
+    </form>
   </div>
-  
+</div>
