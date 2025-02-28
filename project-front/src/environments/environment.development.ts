@@ -1,5 +1,5 @@
 export const environment = {
-    API_URL: 'http://127.0.0.1:5000',
+    API_URL: 'https://dvdmsv.pythonanywhere.com',
     AUTH: '/auth',
     CATEGORIA: '/categoria',
     PRESUPUESTO: '/presupuesto',
