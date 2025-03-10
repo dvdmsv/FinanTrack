@@ -18,6 +18,7 @@ def generarRegistro(decoded):
     cantidad = data.get('cantidad')
     concepto = data.get('concepto')
     tipo = data.get('tipo')
+    fecha = data.get('fecha')
 
     # Buscar la categoría correspondiente (ya sea global o personalizada)
     categoria = Categoria.query.filter(
@@ -50,7 +51,7 @@ def generarRegistro(decoded):
         cantidad=cantidad,
         concepto=concepto,
         tipo=tipo,
-        fecha=datetime.datetime.now()
+        fecha=fecha
     )
 
     try:
@@ -118,7 +119,7 @@ def getRegistrosUser(decoded):
             'cantidad': registro.cantidad,
             'concepto': registro.concepto,
             'tipo': registro.tipo,
-            'fecha': registro.fecha.strftime('%d-%m-%Y %H:%M'),
+            'fecha': registro.fecha.strftime('%d-%m-%Y'),
             'categoria': registro.categoria
         })
     
@@ -277,9 +278,9 @@ def registros_por_categoria(decoded):
 
     return jsonify(response), 200
 
-@registro_bp.route('/filtrarRegistros/<int:anio>/<int:mes>', methods=['GET'])
+@registro_bp.route('/filtrarRegistros/<int:anio>/<int:tipo>/<int:mes>', methods=['GET'])
 @token_required
-def filtrarRegistros(decoded, anio, mes):
+def filtrarRegistros(decoded, anio, mes, tipo):
     user_id = decoded['user_id']
 
     query = db.session.query(
@@ -298,6 +299,11 @@ def filtrarRegistros(decoded, anio, mes):
     # Aplicar filtros según los parámetros seleccionados
     if anio > 0:  # Si se selecciona un año
         query = query.filter(extract('year', Registro.fecha) == anio)
+    
+    if tipo == 1: # Tipo 0 = Todos, Tipo 1 = Gastos, Tipo 2 = Ingresos
+        query = query.filter(Registro.tipo == 'Gasto')
+    elif tipo == 2: 
+        query = query.filter(Registro.tipo == 'Ingreso')
     
     if mes > 0:  # Si se selecciona un mes
         query = query.filter(extract('month', Registro.fecha) == mes)
@@ -480,7 +486,7 @@ def getRegistro(decoded, registroId):
             'cantidad': registro.cantidad,
             'concepto': registro.concepto,
             'tipo': registro.tipo,
-            'fecha': registro.fecha.strftime('%d-%m-%Y'),
+            'fecha': registro.fecha.strftime('%Y-%m-%d'),
             'categoria': categoria.nombre
         }), 200
 

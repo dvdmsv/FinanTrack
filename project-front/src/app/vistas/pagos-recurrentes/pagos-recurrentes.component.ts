@@ -40,6 +40,16 @@ export class PagosRecurrentesComponent {
     this.getCategorias();
   }
 
+  resetearVariables() {
+    this.categoria = '';
+    this.frecuencia = '';
+    this.intervalo = 0;
+    this.tipo = '';
+    this.cantidad = 0;
+    this.concepto = '';
+    this.fecha = '';
+  }
+
   botonEditar(pagoRecurrenteId: number) {
     this.finanzasPagosService.getPagoRecurrente(pagoRecurrenteId).subscribe((data) => {
       this.pagoRecurrenteId = pagoRecurrenteId;
@@ -64,6 +74,7 @@ export class PagosRecurrentesComponent {
         timer: 1500,
         toast: true,
       });
+      this.resetearVariables();
       this.getPagosRecurrentes();
     });
   }

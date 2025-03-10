@@ -41,12 +41,12 @@ export class FinanzasRegistrosService {
     return this.http.get<RegistroUserResponse>(`${this.API_URL}${this.REGISTRO}/getRegistrosPorAnio/${anio}`);
   }
 
-  filtrarRegistros(anio: number, mes: number) {
-    return this.http.get<RegistroUserResponse>(`${this.API_URL}${this.REGISTRO}/filtrarRegistros/${anio}/${mes}`);
+  filtrarRegistros(anio: number, tipo: number, mes: number) {
+    return this.http.get<RegistroUserResponse>(`${this.API_URL}${this.REGISTRO}/filtrarRegistros/${anio}/${tipo}/${mes}`);
   }
 
-  generarRegistro(categoria: string, tipo: string, cantidad: number, concepto: string) {
-    return this.http.post(this.API_URL + this.REGISTRO + "/generarRegistro", {categoria, tipo, cantidad, concepto});
+  generarRegistro(categoria: string, tipo: string, cantidad: number, concepto: string, fecha: string) {
+    return this.http.post(this.API_URL + this.REGISTRO + "/generarRegistro", {categoria, tipo, cantidad, concepto, fecha});
   }
 
   deleteRegistro(id: number) {
