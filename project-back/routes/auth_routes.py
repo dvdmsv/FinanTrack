@@ -42,10 +42,10 @@ def registro():
     saldo = data.get('saldo')
 
     if not username or not password:
-        return jsonify({'messaje': 'Username and password are required'}), 400
+        return jsonify({'message': 'Username and password are required'}), 400
 
     if User.query.filter_by(username=username).first():
-        return jsonify({'messaje': 'Username already exists'}), 409
+        return jsonify({'message': 'Username already exists'}), 409
 
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     user = User(username=username, password=hashed_password, saldo=saldo)
@@ -60,9 +60,9 @@ def registro():
         }, Config.SECRET_KEY, algorithm='HS256')
 
         return jsonify({
-            'messaje': 'User registered successfully',
+            'message': 'User registered successfully',
             'token': token
-        }), 200
+        }), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Error creating user: {str(e)}"}), 500
