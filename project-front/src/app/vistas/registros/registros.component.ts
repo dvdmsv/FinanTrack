@@ -190,32 +190,6 @@ export class RegistrosComponent {
       });
   }
 
-  getRegistrosPorAnio() {
-    if (this.anioSeleccionado == 0) {
-      this.getRegistrosUser();
-    }
-    this.finanzasRegistrosService
-      .getRegistrosPorAnio(this.anioSeleccionado)
-      .subscribe({
-        next: (data) => {
-          this.registros = data.registros;
-        },
-      });
-  }
-
-  getRegistrosPorMes() {
-    if (this.mesSeleccionado == 0) {
-      this.getRegistrosUser();
-    }
-    this.finanzasRegistrosService
-      .getRegistrosPorMes(this.mesSeleccionado)
-      .subscribe({
-        next: (data) => {
-          this.registros = data.registros;
-        },
-      });
-  }
-
   getRegistrosUser() {
     this.finanzasRegistrosService.getRegistrosUser().subscribe({
       next: (data) => {
