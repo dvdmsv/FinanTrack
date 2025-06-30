@@ -78,6 +78,8 @@ export class RegistrosComponent {
   //Tamaño de la paginacion
   selectedPageSize: number = 5;
 
+  registroSeleccionado: Registro;
+
   ngOnInit() {
     this.getRegistrosUser();
     this.getCategorias();
@@ -112,6 +114,8 @@ export class RegistrosComponent {
   botonEditar(registroId: number) {
     this.registroId = registroId;
     this.finanzasRegistrosService.getRegistro(this.registroId).subscribe((data) => {
+      this.registroSeleccionado = data;
+
       this.categoria = data.categoria;
       this.concepto = data.concepto;
       this.cantidad = data.cantidad;
