@@ -16,6 +16,14 @@
   </div>
 
   <div class="form dropdown2">
+    <select class="form-select" [(ngModel)]="tipoSeleccionado" (change)="filtrarRegistros('anio')">
+      <option value="0">Todos</option>
+      <option value="1">Gasto</option>
+      <option value="2">Ingreso</option>
+    </select>
+  </div>
+
+  <div class="form dropdown3">
     <select class="form-select" [(ngModel)]="mesSeleccionado" (change)="filtrarRegistros('mes')" [disabled]="selectorMeses">
       <option value="0">Todos</option>
       @for (mes of meses; track mes.mes) {
@@ -171,6 +179,18 @@
           </div>
 
           <div class="mb-3">
+            <label for="fecha" class="form-label">Fecha</label>
+            <input
+              type="date"
+              class="form-control"
+              id="fecha"
+              required
+              [(ngModel)]="fecha"
+              name="fecha"
+            />
+          </div>
+
+          <div class="mb-3">
             <label for="inputNumber" class="form-label">Cantidad</label>
             <input
               type="number"
@@ -227,6 +247,7 @@
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          (click)="resetearVariables()"
         ></button>
       </div>
       <div class="modal-body">
@@ -267,6 +288,18 @@
               <option value="Gasto">Gasto</option>
               <option value="Ingreso">Ingreso</option>
             </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="fecha" class="form-label">Fecha</label>
+            <input
+              type="date"
+              class="form-control"
+              id="fecha"
+              required
+              [(ngModel)]="fecha"
+              name="fecha"
+            />
           </div>
 
           <div class="mb-3">

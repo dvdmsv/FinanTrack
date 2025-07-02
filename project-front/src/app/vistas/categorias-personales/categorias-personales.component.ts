@@ -55,7 +55,7 @@ export class CategoriasPersonalesComponent {
         Swal.fire({
             position: 'top',
             icon: 'error',
-            title: err.error['messaje'],
+            title: err.error['message'],
             showConfirmButton: false,
             timer: 1500,
             toast: true,

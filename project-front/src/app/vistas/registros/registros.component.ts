@@ -42,6 +42,7 @@ export class RegistrosComponent {
   tipo: string = '';
   cantidad: number = 0;
   concepto: string = '';
+  fecha: string = '';
 
   selectorMeses = false;
 
@@ -67,6 +68,7 @@ export class RegistrosComponent {
 
   mesSeleccionado: number = 0;
   anioSeleccionado: number = 0;
+  tipoSeleccionado: number = 0;
 
   registroId: number = 0;
 
@@ -76,12 +78,22 @@ export class RegistrosComponent {
   //Tamaño de la paginacion
   selectedPageSize: number = 5;
 
+  registroSeleccionado: Registro;
+
   ngOnInit() {
     this.getRegistrosUser();
     this.getCategorias();
     this.getAniosRegistros();
     this.getMesesRegistros();
     this.habilitarDropdownMeses();
+  }
+
+  resetearVariables() {
+    this.categoria = '';
+    this.concepto = '';
+    this.cantidad = 0;
+    this.tipo = '';
+    this.fecha = '';
   }
 
   // Funcion que comprueba si el dropdown de años está en "Todos", si es así deshabilita el dropdown de meses.
@@ -102,10 +114,13 @@ export class RegistrosComponent {
   botonEditar(registroId: number) {
     this.registroId = registroId;
     this.finanzasRegistrosService.getRegistro(this.registroId).subscribe((data) => {
+      this.registroSeleccionado = data;
+
       this.categoria = data.categoria;
       this.concepto = data.concepto;
       this.cantidad = data.cantidad;
       this.tipo = data.tipo;
+      this.fecha = data.fecha;
     });
   }
 
@@ -115,7 +130,7 @@ export class RegistrosComponent {
       // esto previene que al actualizar un registro cuando el filtro está seleccionado no se muestren los resultados sin filtrar, si no que se carguen de nuevo los filtrados
       if (this.anioSeleccionado != 0) {
         this.finanzasRegistrosService
-          .filtrarRegistros(this.anioSeleccionado, this.mesSeleccionado)
+          .filtrarRegistros(this.anioSeleccionado, this.tipoSeleccionado, this.mesSeleccionado)
           .subscribe((data) => {
             this.registros = data.registros;
           });
@@ -130,18 +145,19 @@ export class RegistrosComponent {
         timer: 1500,
         toast: true,
       });
+      this.resetearVariables();
       this.comunicacionInternaService.setRefreshData();
     });
   }
 
-  filtrarRegistros(tipo: 'anio' | 'mes') {
-    if (tipo === 'anio') {
+  filtrarRegistros(periodo: 'anio' | 'mes') {
+    if (periodo === 'anio') {
       this.habilitarDropdownMeses();
       this.mesSeleccionado = 0; // Reiniciar mes al cambiar el año
       this.getMesesRegistros(); // Actualizar los meses disponibles para el nuevo año
     }
     this.finanzasRegistrosService
-      .filtrarRegistros(this.anioSeleccionado, this.mesSeleccionado)
+      .filtrarRegistros(this.anioSeleccionado, this.tipoSeleccionado, this.mesSeleccionado)
       .subscribe((data) => {
         this.registros = data.registros;
         this.paginacion();
@@ -159,6 +175,7 @@ export class RegistrosComponent {
   resetFiltros() {
     this.mesSeleccionado = 0; // "Todos" en el mes
     this.anioSeleccionado = 0; // "Todos" en el año
+    this.tipoSeleccionado = 0;
     this.getRegistrosUser(); // Obtener todos los registros
     this.habilitarDropdownMeses();
   }
@@ -174,32 +191,6 @@ export class RegistrosComponent {
       .getMesesRegistros(this.anioSeleccionado)
       .subscribe((data) => {
         this.meses = data.registros;
-      });
-  }
-
-  getRegistrosPorAnio() {
-    if (this.anioSeleccionado == 0) {
-      this.getRegistrosUser();
-    }
-    this.finanzasRegistrosService
-      .getRegistrosPorAnio(this.anioSeleccionado)
-      .subscribe({
-        next: (data) => {
-          this.registros = data.registros;
-        },
-      });
-  }
-
-  getRegistrosPorMes() {
-    if (this.mesSeleccionado == 0) {
-      this.getRegistrosUser();
-    }
-    this.finanzasRegistrosService
-      .getRegistrosPorMes(this.mesSeleccionado)
-      .subscribe({
-        next: (data) => {
-          this.registros = data.registros;
-        },
       });
   }
 
@@ -232,7 +223,7 @@ export class RegistrosComponent {
       // esto previene que al eliminar un registro cuando el filtro está seleccionado no se muestren los resultados sin filtrar, si no que se carguen de nuevo los filtrados
       if (this.anioSeleccionado != 0) {
         this.finanzasRegistrosService
-          .filtrarRegistros(this.anioSeleccionado, this.mesSeleccionado)
+          .filtrarRegistros(this.anioSeleccionado, this.tipoSeleccionado, this.mesSeleccionado)
           .subscribe((data) => {
             this.registros = data.registros;
           });
@@ -249,7 +240,7 @@ export class RegistrosComponent {
       return;
     }
     this.finanzasRegistrosService
-      .generarRegistro(this.categoria, this.tipo, this.cantidad, this.concepto)
+      .generarRegistro(this.categoria, this.tipo, this.cantidad, this.concepto, this.fecha)
       .subscribe({
         next: (data) => {
           Swal.fire({

@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from Modelos import Categoria, User
+from sqlalchemy.exc import SQLAlchemyError
 from db import db
 from utils import token_required
 
@@ -8,60 +9,106 @@ category_bp = Blueprint('categoria', __name__)
 @category_bp.route('/getCategorias', methods=['GET'])
 @token_required
 def getCategorias(decoded):
-    userId = decoded['user_id']
-    categoriasGlobales = Categoria.query.filter_by(user_id=None).all()
-    categoriasUnicas = Categoria.query.filter_by(user_id=userId, es_global=False).all()
+    try:
+        user_id = decoded.get('user_id')
 
-    return jsonify({
-        'categoriasGlobales': [categoria.to_dict() for categoria in categoriasGlobales],
-        'categoriasUnicas': [categoria.to_dict() for categoria in categoriasUnicas]
-    }), 200
+        if not user_id:
+            return jsonify({'message': 'Usuario no válido', 'status': 'error'}), 403
+
+        # Obtener categorías globales y únicas del usuario
+        categorias_globales = Categoria.query.filter_by(user_id=None).all()
+        categorias_unicas = Categoria.query.filter_by(user_id=user_id, es_global=False).all()
+
+        return jsonify({
+            'categoriasGlobales': [categoria.to_dict() for categoria in categorias_globales],
+            'categoriasUnicas': [categoria.to_dict() for categoria in categorias_unicas]
+        }), 200
+
+    except SQLAlchemyError as e:
+        return jsonify({'message': 'Error al obtener categorías', 'status': 'error', 'error': str(e)}), 500
+
+    except Exception as e:
+        return jsonify({'message': 'Error en el servidor', 'status': 'error', 'error': str(e)}), 500
 
 @category_bp.route('/getCategoriasUnicas', methods=['GET'])
 @token_required
-def getCategoriasUnicas(decoded):
-    userId = decoded['user_id']
-    categoriasUnicas = Categoria.query.filter_by(user_id=userId).all()
+def get_categorias_unicas(decoded):
+    try:
+        user_id = decoded.get('user_id')
 
-    return jsonify({
-        'categoriasUnicas': [categoria.to_dict() for categoria in categoriasUnicas]
-    }), 200
+        if not user_id:
+            return jsonify({'message': 'Usuario no válido', 'status': 'error'}), 403
+
+        # Obtener las categorías únicas del usuario
+        categorias_unicas = Categoria.query.filter_by(user_id=user_id).all()
+
+        return jsonify({
+            'categoriasUnicas': [categoria.to_dict() for categoria in categorias_unicas]
+        }), 200
+
+    except SQLAlchemyError as e:
+        return jsonify({'message': 'Error al obtener categorías únicas', 'status': 'error', 'error': str(e)}), 500
+
+    except Exception as e:
+        return jsonify({'message': 'Error interno del servidor', 'status': 'error', 'error': str(e)}), 500
 
 @category_bp.route('/deleteCategoria/<int:categoriaId>', methods=['DELETE'])
 @token_required
-def deleteCategoria(decoded, categoriaId):
-    userId = decoded['user_id']
+def delete_categoria(decoded, categoriaId):
+    try:
+        user_id = decoded.get('user_id')
 
-    # Obtener el usuario
-    user = User.query.filter_by(id=userId).first()
-    if not user:
-        return jsonify({"message": "User not found"}), 404
-    
-    categoria_existente = Categoria.query.filter_by(user_id=userId, id=categoriaId).first()
+        # Buscar la categoría y verificar que pertenece al usuario
+        categoria = Categoria.query.filter_by(id=categoriaId, user_id=user_id).first()
 
-    if categoria_existente:
-        db.session.delete(categoria_existente)
+        if not categoria:
+            return jsonify({"message": "Categoría no encontrada o no pertenece al usuario", "status": "error"}), 404
+
+        # Eliminar la categoría
+        db.session.delete(categoria)
         db.session.commit()
-        return jsonify({"message": "Categoria eliminada exitosamente"}), 200
-    
-    return jsonify({"message": "Categoria no encontrada"}), 404
+
+        return jsonify({"message": "Categoría eliminada exitosamente", "status": "success"}), 200
+
+    except SQLAlchemyError as e:
+        db.session.rollback()  # Revertir cambios si ocurre un error
+        return jsonify({"message": "Error al eliminar la categoría", "status": "error", "error": str(e)}), 500
+
+    except Exception as e:
+        return jsonify({"message": "Error interno del servidor", "status": "error", "error": str(e)}), 500
 
 @category_bp.route('/setCategoria', methods=['POST'])
 @token_required
-def setCategoria(decoded):
-    data = request.json
-    userId = decoded['user_id']
-    nombreCategoriaNueva = data.get('nombre')
-    esGlobal = data.get("es_global")
-    categoria = Categoria(nombre=nombreCategoriaNueva, user_id=userId, es_global=esGlobal)
-
-    if Categoria.query.filter_by(nombre=nombreCategoriaNueva).first():
-        return jsonify({'messaje': 'Categoria already exists'}), 409
-    
+def set_categoria(decoded):
     try:
-        db.session.add(categoria)
+        data = request.get_json()
+
+        # Validar que los datos requeridos estén presentes
+        if not data or 'nombre' not in data or 'es_global' not in data:
+            return jsonify({"message": "Datos incompletos", "status": "error"}), 400
+
+        user_id = decoded.get('user_id')
+        nombre_categoria = data['nombre'].strip()
+        es_global = bool(data['es_global'])  # Convertir a booleano
+
+        # Verificar si la categoría ya existe para evitar duplicados
+        if Categoria.query.filter_by(nombre=nombre_categoria, user_id=user_id, es_global=es_global).first():
+            return jsonify({"message": "La categoría ya existe", "status": "error"}), 409
+
+        # Crear nueva categoría
+        nueva_categoria = Categoria(nombre=nombre_categoria, user_id=user_id, es_global=es_global)
+        db.session.add(nueva_categoria)
         db.session.commit()
-        return jsonify({"message": "Categoria created successfully"}), 200
+
+        return jsonify({
+            "message": "Categoría creada exitosamente",
+            "status": "success",
+            "categoria_id": nueva_categoria.id
+        }), 201
+
+    except SQLAlchemyError as e:
+        db.session.rollback()  # Revertir cambios en caso de error
+        return jsonify({"message": "Error al crear la categoría", "status": "error", "error": str(e)}), 500
+
     except Exception as e:
-        db.session.rollback()
-        return jsonify({"error": f"Error creating categoria: {str(e)}"}), 500
+        return jsonify({"message": "Error interno del servidor", "status": "error", "error": str(e)}), 500

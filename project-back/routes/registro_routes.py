@@ -10,57 +10,69 @@ registro_bp = Blueprint('registro', __name__)
 @registro_bp.route('/generarRegistro', methods=['POST'])
 @token_required
 def generarRegistro(decoded):
-    
     data = request.json
     userId = decoded['user_id']
 
+    # Obtener y validar los datos
     categoria_nombre = data.get('categoria')
     cantidad = data.get('cantidad')
     concepto = data.get('concepto')
     tipo = data.get('tipo')
+    fecha = data.get('fecha')
 
-    # Buscar la categoría correspondiente (ya sea global o personalizada)
+    if not all([categoria_nombre, cantidad, concepto, tipo, fecha]):
+        return jsonify({'error': 'Todos los campos son obligatorios'}), 400
+
+    if tipo not in ['Gasto', 'Ingreso']:
+        return jsonify({'error': 'Tipo de registro inválido (debe ser "Gasto" o "Ingreso")'}), 400
+
+    if cantidad <= 0:
+        return jsonify({'error': 'La cantidad debe ser mayor a 0'}), 400
+
+    # Buscar la categoría (global o personalizada)
     categoria = Categoria.query.filter(
         (Categoria.nombre == categoria_nombre) & 
         ((Categoria.es_global == True) | (Categoria.user_id == userId))
     ).first()
 
     if not categoria:
-        return jsonify({'error': 'Categoría no encontrada', 'info': request.json}), 400
+        return jsonify({'error': 'Categoría no encontrada'}), 404
 
     # Buscar el presupuesto del usuario para esa categoría (si existe)
     presupuesto = Presupuesto.query.filter_by(user_id=userId, categoria_id=categoria.id).first()
 
-    # Si existe un presupuesto y el presupuesto restante es None, inicializarlo con el valor de presupuesto_inicial
     if presupuesto:
+        # Inicializar el presupuesto restante si es None
         if presupuesto.presupuesto_restante is None:
             presupuesto.presupuesto_restante = presupuesto.presupuesto_inicial
 
-        # Verificar que el gasto no exceda el presupuesto restante
-        if cantidad > presupuesto.presupuesto_restante:
+        # Validar si el gasto supera el presupuesto restante
+        if tipo == "Gasto" and cantidad > presupuesto.presupuesto_restante:
             return jsonify({'error': 'La cantidad excede el presupuesto disponible'}), 400
 
-        # Actualizar el presupuesto restante
-        presupuesto.presupuesto_restante = presupuesto.presupuesto_restante - cantidad
+        # Actualizar el presupuesto restante si es un gasto
+        if tipo == "Gasto":
+            presupuesto.presupuesto_restante -= cantidad
 
-    # Crear el registro de gasto (independientemente de si hay presupuesto o no)
+    # Crear el registro de gasto o ingreso
     registro = Registro(
         user_id=userId,
         categoria_id=categoria.id,
         cantidad=cantidad,
         concepto=concepto,
         tipo=tipo,
-        fecha=datetime.datetime.now()
+        fecha=fecha
     )
 
     try:
-        # Actualizar el saldo del usuario
-        user = User.query.filter_by(id=userId).first()
+        # Obtener y actualizar el saldo del usuario
+        user = User.query.get(userId)
         if tipo == 'Gasto':
-            user.saldo = user.saldo - cantidad
-        if tipo == 'Ingreso': 
-            user.saldo = user.saldo + cantidad
-        # Guardar cambios en la base de datos
+            user.saldo -= cantidad
+        elif tipo == 'Ingreso':
+            user.saldo += cantidad
+
+        # Guardar en la base de datos
         db.session.add(registro)
         db.session.commit()
 
@@ -69,9 +81,10 @@ def generarRegistro(decoded):
             'registro': {
                 'id': registro.id,
                 'categoria': categoria.nombre,
-                'cantidad': registro.cantidad,  
+                'cantidad': registro.cantidad,
                 'fecha': registro.fecha,
-                'concepto': registro.concepto
+                'concepto': registro.concepto,
+                'tipo': registro.tipo
             },
             'nuevo_saldo': user.saldo,
             'presupuesto_restante': presupuesto.presupuesto_restante if presupuesto else None
@@ -80,318 +93,255 @@ def generarRegistro(decoded):
         db.session.rollback()
         return jsonify({'error': f'Error al crear el registro: {str(e)}'}), 500
 
+
 @registro_bp.route('/getRegistrosUser', methods=['GET'])
 @token_required
 def getRegistrosUser(decoded):
-    # Obtener el ID del usuario desde el token decodificado
     userId = decoded['user_id']
     
-    # Obtener al usuario desde la base de datos
-    user = User.query.filter_by(id=userId).first()
+    try:
+        # Obtener registros del usuario con JOIN a la categoría
+        registros = db.session.query(
+            Registro.id,
+            Registro.cantidad,
+            Registro.concepto,
+            Registro.tipo,
+            Registro.fecha,
+            Categoria.nombre.label('categoria')
+        ).join(
+            Categoria, Categoria.id == Registro.categoria_id
+        ).filter(
+            Registro.user_id == userId
+        ).order_by(
+            Registro.fecha.desc()
+        ).all()
+
+        # Si no hay registros, retornar mensaje claro
+        if not registros:
+            return jsonify({'message': 'No hay registros para este usuario'}), 404
+
+        # Convertir los registros a formato JSON
+        registros_data = [{
+            'id': reg.id,
+            'cantidad': reg.cantidad,
+            'concepto': reg.concepto,
+            'tipo': reg.tipo,
+            'fecha': reg.fecha.strftime('%d-%m-%Y'),
+            'categoria': reg.categoria
+        } for reg in registros]
+
+        return jsonify({'registros': registros_data}), 200
     
-    # Verificar si el usuario existe
-    if not user:
-        return {'message': 'Usuario no encontrado'}, 404
-    
-    # Obtener los registros asociados al usuario
-    # registros = Registro.query.filter_by(user_id=userId).all()
-    registros = db.session.query(
-        Registro.id,
-        Registro.cantidad,
-        Registro.concepto,
-        Registro.tipo,
-        Registro.fecha,
-        Categoria.nombre.label('categoria')  # Añadimos el nombre de la categoría
-    ).join(
-        Categoria, Categoria.id == Registro.categoria_id  # Realizamos el JOIN entre Registro y Categoria
-    ).filter(
-        Registro.user_id == userId # Filtramos por el user_id
-    ).order_by(
-        Registro.fecha.desc()
-    ).all()
-        
-    # Convertir los registros a un formato que se pueda retornar
-    registros_data = []
-    for registro in registros:
-        registros_data.append({
-            'id': registro.id,
-            'cantidad': registro.cantidad,
-            'concepto': registro.concepto,
-            'tipo': registro.tipo,
-            'fecha': registro.fecha.strftime('%d-%m-%Y %H:%M'),
-            'categoria': registro.categoria
-        })
-    
-    # Retornar los registros en formato JSON
-    return {'registros': registros_data}, 200
+    except Exception as e:
+        return jsonify({'error': f'Error al obtener registros: {str(e)}'}), 500
+
 
 @registro_bp.route('/deleteRegistro/<int:registroId>', methods=['DELETE'])
 @token_required
 def deleteRegistro(decoded, registroId):
     userId = decoded['user_id']
 
-    # Obtener el usuario
-    user = User.query.filter_by(id=userId).first()
-    if not user:
-        return jsonify({"message": "User not found"}), 404
+    try:
+        # Verificar si el registro existe
+        registro_existente = Registro.query.filter_by(user_id=userId, id=registroId).first()
+        if not registro_existente:
+            return jsonify({"message": "Registro no encontrado"}), 404
 
-    # Verificar si ya existe un registro 
-    registro_existente = Registro.query.filter_by(user_id=userId, id=registroId).first()
-    
-    # Buscar el presupuesto del usuario para esa categoría (si existe)
-    presupuesto_existente = Presupuesto.query.filter_by(user_id=userId, categoria_id=registro_existente.categoria_id).first()
-
-    if registro_existente:
-        # Si el registro que se va a eliminar es un ingreso, se resta del saldo del usuario. Si es un gasto se suma al saldo del usuario
+        # Obtener el usuario directamente
+        user = User.query.get(userId)
+        
+        # Ajustar el saldo del usuario según el tipo de registro
         if registro_existente.tipo == 'Ingreso':
-            user.saldo = user.saldo - registro_existente.cantidad
+            user.saldo -= registro_existente.cantidad
         elif registro_existente.tipo == 'Gasto':
-            user.saldo = user.saldo + registro_existente.cantidad
+            user.saldo += registro_existente.cantidad
 
-        # Si el registro tiene un presupuesto se suma la cantidad del registro a eliminar a el presupuesto
+        # Buscar el presupuesto asociado a la categoría (si existe)
+        presupuesto_existente = Presupuesto.query.filter_by(user_id=userId, categoria_id=registro_existente.categoria_id).first()
+        
+        # Si el registro tiene un presupuesto, sumar la cantidad eliminada al presupuesto restante
         if presupuesto_existente:
-            presupuesto_existente.presupuesto_restante = presupuesto_existente.presupuesto_restante + registro_existente.cantidad
+            presupuesto_existente.presupuesto_restante += registro_existente.cantidad
 
+        # Eliminar el registro
         db.session.delete(registro_existente)
         db.session.commit()
-        return jsonify({"message": "Registro eliminado exitosamente"}), 200
 
-    return jsonify({"message": "Registro no encontrado"}), 404
+        return jsonify({
+            "message": "Registro eliminado exitosamente",
+            "nuevo_saldo": user.saldo,
+            "presupuesto_restante": presupuesto_existente.presupuesto_restante if presupuesto_existente else None
+        }), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Error al eliminar el registro: {str(e)}"}), 500
+
 
 @registro_bp.route('/getRegistrosPorCategoria2/<int:anio>/<int:mes>', methods=['GET'])
 @token_required
 def registros_por_categoria2(decoded, anio, mes):
     user_id = decoded['user_id']
 
-    # Escribir una sentencia SQL literal con text()
-    sql = text("""
-        SELECT 
-            r.user_id,
-            r.categoria_id, 
-            c.nombre AS categoria,  -- Se añade el nombre de la categoría
-            SUM(r.cantidad) AS total_cantidad, 
-            p.porcentaje, 
-            p.presupuesto_inicial, 
-            p.presupuesto_restante
-        FROM 
-            registros r
-        LEFT JOIN 
-            presupuestos p  -- Cambiamos a LEFT JOIN para incluir los registros sin presupuesto
-        ON 
-            r.categoria_id = p.categoria_id
-            AND r.user_id = p.user_id  -- Aseguramos que el user_id también coincida en ambas tablas
-        JOIN 
-            categorias c  -- Se hace un JOIN con la tabla de categorías
-        ON 
-            r.categoria_id = c.id  -- Relacionamos la categoría con la tabla categorias
-        WHERE 
-            r.user_id = :user_id AND r.tipo = 'Gasto'
-            AND (:anio = 0 OR EXTRACT(YEAR FROM r.fecha) = :anio)  -- Filtro opcional para el año
-            AND (:mes = 0 OR EXTRACT(MONTH FROM r.fecha) = :mes)  -- Filtro opcional para el mes
-        GROUP BY 
-            r.user_id,
-            r.categoria_id,
-            c.nombre,  -- Añadimos el nombre de la categoría en el GROUP BY
-            p.porcentaje, 
-            p.presupuesto_inicial, 
-            p.presupuesto_restante;
+    try:
+        # Sentencia SQL optimizada
+        sql = text("""
+            SELECT 
+                r.categoria_id, 
+                c.nombre AS categoria,  
+                COALESCE(SUM(r.cantidad), 0) AS total_cantidad, 
+                p.porcentaje, 
+                p.presupuesto_inicial, 
+                p.presupuesto_restante
+            FROM 
+                registros r
+            JOIN 
+                categorias c ON r.categoria_id = c.id  
+            LEFT JOIN 
+                presupuestos p ON r.categoria_id = p.categoria_id AND r.user_id = p.user_id
+            WHERE 
+                r.user_id = :user_id AND r.tipo = 'Gasto'
+                AND (:anio = 0 OR EXTRACT(YEAR FROM r.fecha) = :anio)  
+                AND (:mes = 0 OR EXTRACT(MONTH FROM r.fecha) = :mes)  
+            GROUP BY 
+                r.categoria_id, c.nombre, p.porcentaje, p.presupuesto_inicial, p.presupuesto_restante
+            ORDER BY 
+                total_cantidad DESC;
         """)
 
-    # Ejecutar la consulta con el valor de user_id
-    results = db.session.execute(sql, {'user_id': user_id, 'anio': anio, 'mes': mes}).fetchall()
+        # Ejecutar la consulta con parámetros seguros
+        results = db.session.execute(sql, {'user_id': user_id, 'anio': anio, 'mes': mes}).fetchall()
 
+        # Construcción eficiente del JSON
+        response = {
+            "categorias": [
+                {
+                    "categoria": row.categoria,
+                    "total_cantidad": float(row.total_cantidad),  # Asegura formato JSON válido
+                    "presupuesto": {
+                        "porcentaje": row.porcentaje,
+                        "presupuesto_inicial": float(row.presupuesto_inicial) if row.presupuesto_inicial else None,
+                        "presupuesto_restante": float(row.presupuesto_restante) if row.presupuesto_restante else None
+                    } if row.porcentaje is not None else None
+                } for row in results
+            ]
+        }
 
-    # Convertir resultados a JSON
-    response = {
-        "categorias": []
-    }
+        return jsonify(response), 200
 
-    for row in results:
-        response["categorias"].append({
-            "categoria": row.categoria,
-            "total_cantidad": row.total_cantidad,
-            "presupuesto": {
-                "porcentaje": row.porcentaje,
-                "presupuesto_inicial": row.presupuesto_inicial,
-                "presupuesto_restante": row.presupuesto_restante
-            } if row.porcentaje is not None else None
-        })
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Error al obtener registros: {str(e)}"}), 500
 
-    return jsonify(response), 200
 
 @registro_bp.route('/getRegistrosPorCategoria', methods=['GET'])
 @token_required
 def registros_por_categoria(decoded):
     user_id = decoded['user_id']
-    
-    # Escribir una sentencia SQL literal con text()
-    sql = text("""
-        SELECT 
-            r.user_id,
-            r.categoria_id, 
-            c.nombre AS categoria,  -- Se añade el nombre de la categoría
-            SUM(r.cantidad) AS total_cantidad, 
-            p.porcentaje, 
-            p.presupuesto_inicial, 
-            p.presupuesto_restante
-        FROM 
-            registros r
-        LEFT JOIN 
-            presupuestos p  -- Cambiamos a LEFT JOIN para incluir los registros sin presupuesto
-        ON 
-            r.categoria_id = p.categoria_id
-            AND r.user_id = p.user_id  -- Aseguramos que el user_id también coincida en ambas tablas
-        JOIN 
-            categorias c  -- Se hace un JOIN con la tabla de categorías
-        ON 
-            r.categoria_id = c.id  -- Relacionamos la categoría con la tabla categorias
-        WHERE 
-            r.user_id = :user_id AND r.tipo = 'Gasto'
-        GROUP BY 
-            r.user_id,
-            r.categoria_id,
-            c.nombre,  -- Añadimos el nombre de la categoría en el GROUP BY
-            p.porcentaje, 
-            p.presupuesto_inicial, 
-            p.presupuesto_restante;
+
+    try:
+        # Consulta SQL optimizada
+        sql = text("""
+            SELECT 
+                r.categoria_id, 
+                c.nombre AS categoria,  
+                COALESCE(SUM(r.cantidad), 0) AS total_cantidad, 
+                p.porcentaje, 
+                p.presupuesto_inicial, 
+                p.presupuesto_restante
+            FROM 
+                registros r
+            JOIN 
+                categorias c ON r.categoria_id = c.id  
+            LEFT JOIN 
+                presupuestos p ON r.categoria_id = p.categoria_id AND r.user_id = p.user_id
+            WHERE 
+                r.user_id = :user_id AND r.tipo = 'Gasto'
+            GROUP BY 
+                r.categoria_id, c.nombre, p.porcentaje, p.presupuesto_inicial, p.presupuesto_restante
+            ORDER BY 
+                total_cantidad DESC;
         """)
 
-    # Ejecutar la consulta con el valor de user_id
-    results = db.session.execute(sql, {'user_id': user_id}).fetchall()
+        # Ejecutar la consulta
+        results = db.session.execute(sql, {'user_id': user_id}).fetchall()
 
-    # Convertir resultados a JSON
-    response = {
-        "categorias": []
-    }
-
-    for row in results:
-        response["categorias"].append({
-            "categoria": row.categoria,
-            "total_cantidad": row.total_cantidad,
-            "presupuesto": {
-                "porcentaje": row.porcentaje,
-                "presupuesto_inicial": row.presupuesto_inicial,
-                "presupuesto_restante": row.presupuesto_restante
-            } if row.porcentaje is not None else None
-        })
-
-    return jsonify(response), 200
-
-@registro_bp.route('/filtrarRegistros/<int:anio>/<int:mes>', methods=['GET'])
-@token_required
-def filtrarRegistros(decoded, anio, mes):
-    user_id = decoded['user_id']
-
-    query = db.session.query(
-        Registro.id,
-        Registro.cantidad,
-        Registro.concepto,
-        Registro.tipo,
-        Registro.fecha,
-        Categoria.nombre.label('categoria')
-    ).join(
-        Categoria, Categoria.id == Registro.categoria_id
-    ).filter(
-        Registro.user_id == user_id
-    )
-
-    # Aplicar filtros según los parámetros seleccionados
-    if anio > 0:  # Si se selecciona un año
-        query = query.filter(extract('year', Registro.fecha) == anio)
-    
-    if mes > 0:  # Si se selecciona un mes
-        query = query.filter(extract('month', Registro.fecha) == mes)
-    
-    # Ordenacion primero por año y luego por fecha
-    query = query.order_by(
-        extract('year', Registro.fecha).desc(),
-        extract('month', Registro.fecha).desc()
-    )
-
-    registros = query.all()
-
-    registros_data = [
-        {
-            "id": registro.id,
-            "cantidad": registro.cantidad,
-            "concepto": registro.concepto,
-            "tipo": registro.tipo,
-            "fecha": registro.fecha.strftime("%d-%m-%Y %H:%M"),
-            "categoria": registro.categoria
+        # Construcción eficiente del JSON
+        response = {
+            "categorias": [
+                {
+                    "categoria": row.categoria,
+                    "total_cantidad": float(row.total_cantidad),  # Asegura formato JSON válido
+                    "presupuesto": {
+                        "porcentaje": row.porcentaje,
+                        "presupuesto_inicial": float(row.presupuesto_inicial) if row.presupuesto_inicial else None,
+                        "presupuesto_restante": float(row.presupuesto_restante) if row.presupuesto_restante else None
+                    } if row.porcentaje is not None else None
+                } for row in results
+            ]
         }
-        for registro in registros
-    ]
 
-    return {"registros": registros_data}, 200
+        return jsonify(response), 200
 
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Error al obtener registros: {str(e)}"}), 500
 
-@registro_bp.route('/getRegistrosPorMes/<int:mes>', methods=['GET'])
+@registro_bp.route('/filtrarRegistros/<int:anio>/<int:tipo>/<int:mes>', methods=['GET'])
 @token_required
-def getRegistrosPorMes(decoded, mes):
+def filtrarRegistros(decoded, anio, tipo, mes):
     user_id = decoded['user_id']
 
-    registros = db.session.query(
-        Registro.id,
-        Registro.cantidad,
-        Registro.concepto,
-        Registro.tipo,
-        Registro.fecha,
-        Categoria.nombre.label('categoria')  # Añadimos el nombre de la categoría
-    ).join(
-        Categoria, Categoria.id == Registro.categoria_id  # Realizamos el JOIN entre Registro y Categoria
-    ).filter(
-        extract('month', Registro.fecha) == mes,
-        Registro.user_id == user_id
-    ).all()
+    try:
+        # Construcción de la consulta con filtros dinámicos
+        query = db.session.query(
+            Registro.id,
+            Registro.cantidad,
+            Registro.concepto,
+            Registro.tipo,
+            Registro.fecha,
+            Categoria.nombre.label('categoria')
+        ).join(
+            Categoria, Categoria.id == Registro.categoria_id
+        ).filter(
+            Registro.user_id == user_id
+        )
 
-    # Convertir los registros a un formato que se pueda retornar
-    registros_data = []
-    for registro in registros:
-        registros_data.append({
-            'id': registro.id,
-            'cantidad': registro.cantidad,
-            'concepto': registro.concepto,
-            'tipo': registro.tipo,
-            'fecha': registro.fecha.strftime('%d-%m-%Y %H:%M'),
-            'categoria': registro.categoria
-        })
-    
-    # Retornar los registros en formato JSON
-    return {'registros': registros_data}, 200
+        # Aplicar filtros si son distintos de 0
+        if anio > 0:
+            query = query.filter(extract('year', Registro.fecha) == anio)
 
-@registro_bp.route('/getRegistrosPorAnio/<int:anio>', methods=['GET'])
-@token_required
-def getRegistrosPorAnyo(decoded, anio):
-    user_id = decoded['user_id']
+        if tipo == 1:  # 1 = Gastos, 2 = Ingresos, 0 = Todos
+            query = query.filter(Registro.tipo == 'Gasto')
+        elif tipo == 2:
+            query = query.filter(Registro.tipo == 'Ingreso')
 
-    registros = db.session.query(
-        Registro.id,
-        Registro.cantidad,
-        Registro.concepto,
-        Registro.tipo,
-        Registro.fecha,
-        Categoria.nombre.label('categoria')  # Añadimos el nombre de la categoría
-    ).join(
-        Categoria, Categoria.id == Registro.categoria_id  # Realizamos el JOIN entre Registro y Categoria
-    ).filter(
-        extract('year', Registro.fecha) == anio,
-        Registro.user_id == user_id
-    ).all()
+        if mes > 0:
+            query = query.filter(extract('month', Registro.fecha) == mes)
 
-    # Convertir los registros a un formato que se pueda retornar
-    registros_data = []
-    for registro in registros:
-        registros_data.append({
-            'id': registro.id,
-            'cantidad': registro.cantidad,
-            'concepto': registro.concepto,
-            'tipo': registro.tipo,
-            'fecha': registro.fecha.strftime('%d-%m-%Y %H:%M'),
-            'categoria': registro.categoria
-        })
-    
-    # Retornar los registros en formato JSON
-    return {'registros': registros_data}, 200
+        # Optimización en ordenación por fecha completa
+        query = query.order_by(Registro.fecha.desc())
+
+        registros = query.all()
+
+        # Construcción eficiente del JSON
+        registros_data = [
+            {
+                "id": r.id,
+                "cantidad": float(r.cantidad),
+                "concepto": r.concepto,
+                "tipo": r.tipo,
+                "fecha": r.fecha.strftime("%d-%m-%Y"),
+                "categoria": r.categoria
+            }
+            for r in registros
+        ]
+
+        return jsonify({"registros": registros_data}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Error al filtrar registros: {str(e)}"}), 500
 
 # Se obtiene una lista de los años en los que hay registros
 @registro_bp.route('/getAniosRegistros', methods=['GET'])
@@ -469,89 +419,111 @@ def obtener_gastos_por_mes(decoded):
 def getRegistro(decoded, registroId):
     userId = decoded['user_id']
 
-    # Verificar si ya existe un registro
-    registro = Registro.query.filter_by(user_id=userId, id=registroId).first()
-    
-    
-    if registro:
-        categoria = Categoria.query.filter_by(id=registro.categoria_id).first()
-        return jsonify({
-            'id': registro.id,
-            'cantidad': registro.cantidad,
-            'concepto': registro.concepto,
-            'tipo': registro.tipo,
-            'fecha': registro.fecha.strftime('%d-%m-%Y'),
-            'categoria': categoria.nombre
-        }), 200
+    # Obtener el registro junto con la categoría en una sola consulta
+    registro = db.session.query(
+        Registro.id,
+        Registro.cantidad,
+        Registro.concepto,
+        Registro.tipo,
+        Registro.fecha,
+        Categoria.nombre.label('categoria')
+    ).join(Categoria, Categoria.id == Registro.categoria_id
+    ).filter(Registro.user_id == userId, Registro.id == registroId
+    ).first()
 
-    return jsonify({"message": "Registro no encontrado"}), 404
+    if not registro:
+        return jsonify({"message": "Registro no encontrado"}), 404
+
+    return {
+        "id": registro.id,
+        "cantidad": registro.cantidad,
+        "concepto": registro.concepto,
+        "tipo": registro.tipo,
+        "fecha": registro.fecha.strftime('%Y-%m-%d'),
+        "categoria": registro.categoria
+    }, 200
 
 
 @registro_bp.route('/updateRegistro', methods=['POST'])
 @token_required
 def updateRegistro(decoded):
-    userId = decoded['user_id']
-    data = request.json
+    try:
+        userId = decoded['user_id']
+        data = request.json
 
-    # Datos enviados por el usuario
-    registroId = data['id']
-    categoria_nombre = data['categoria']
-    nuevo_tipo = data['tipo']
-    nueva_cantidad = data['cantidad']
-    nuevo_concepto = data['concepto']
+        # Validar datos obligatorios
+        required_fields = ['id', 'categoria', 'tipo', 'cantidad', 'concepto']
+        if not all(field in data for field in required_fields):
+            return jsonify({"message": "Faltan datos obligatorios"}), 400
 
-    # Obtener la categoria en base al nombre
-    categoria = Categoria.query.filter(
-                (Categoria.nombre == categoria_nombre) & 
-                ((Categoria.es_global == True) | (Categoria.user_id == decoded['user_id']))
-            ).first()
+        registroId = data['id']
+        categoria_nombre = data['categoria']
+        nuevo_tipo = data['tipo']
+        nueva_cantidad = data['cantidad']
+        nuevo_concepto = data['concepto']
 
-    # Obtener el usuario
-    user = User.query.filter_by(id=userId).first()
-    if not user:
-        return jsonify({"message": "Usuario no encontrado"}), 404
+        # Obtener el usuario
+        user = User.query.filter_by(id=userId).first()
+        if not user:
+            return jsonify({"message": "Usuario no encontrado"}), 404
 
-    # Obtener el registro existente
-    registro_existente = Registro.query.filter_by(user_id=userId, id=registroId).first()
-    if not registro_existente:
-        return jsonify({"message": "Registro no encontrado"}), 404
+        # Obtener el registro existente
+        registro_existente = Registro.query.filter_by(user_id=userId, id=registroId).first()
+        if not registro_existente:
+            return jsonify({"message": "Registro no encontrado"}), 404
 
-    # Obtener el presupuesto de la categoría anterior (si existe)
-    presupuesto_existente = Presupuesto.query.filter_by(user_id=userId, categoria_id=registro_existente.categoria_id).first()
+        # Obtener la categoría en base al nombre
+        categoria = Categoria.query.filter(
+            (Categoria.nombre == categoria_nombre) & 
+            ((Categoria.es_global == True) | (Categoria.user_id == userId))
+        ).first()
+        if not categoria:
+            return jsonify({"message": "Categoría no encontrada"}), 404
 
-    # Si el tipo de registro cambia, hay que ajustar el saldo completamente
-    if registro_existente.tipo != nuevo_tipo:
-        # Revertir la cantidad anterior
-        if registro_existente.tipo == 'Ingreso':
-            user.saldo -= registro_existente.cantidad  # Se resta porque era un ingreso
+        # Obtener el presupuesto de la categoría anterior (si existe)
+        presupuesto_existente = Presupuesto.query.filter_by(user_id=userId, categoria_id=registro_existente.categoria_id).first()
+
+        # Ajustar saldo si el tipo cambia
+        if registro_existente.tipo != nuevo_tipo:
+            if registro_existente.tipo == 'Ingreso':
+                user.saldo -= registro_existente.cantidad
+            else:
+                user.saldo += registro_existente.cantidad
+
+            if nuevo_tipo == 'Ingreso':
+                user.saldo += nueva_cantidad
+            else:
+                user.saldo -= nueva_cantidad
         else:
-            user.saldo += registro_existente.cantidad  # Se suma porque era un gasto
+            # Si el tipo NO cambia, solo se ajusta la diferencia de cantidad
+            diferencia = nueva_cantidad - registro_existente.cantidad
+            if registro_existente.tipo == 'Ingreso':
+                user.saldo += diferencia
+            else:
+                user.saldo -= diferencia
 
-        # Aplicar la nueva cantidad según el nuevo tipo
-        if nuevo_tipo == 'Ingreso':
-            user.saldo += nueva_cantidad  # Se suma porque ahora es un ingreso
-        else:
-            user.saldo -= nueva_cantidad  # Se resta porque ahora es un gasto
+        # Ajustar presupuesto si la categoría no cambió
+        if presupuesto_existente and registro_existente.categoria_id == categoria.id:
+            presupuesto_existente.presupuesto_restante -= (nueva_cantidad - registro_existente.cantidad)
 
-    else:
-        # Si el tipo NO cambia, solo se actualiza la diferencia
-        diferencia = nueva_cantidad - registro_existente.cantidad
-        if registro_existente.tipo == 'Ingreso':
-            user.saldo += diferencia
-        else:
-            user.saldo -= diferencia
+        # Si no hay cambios, evitar actualización innecesaria
+        if (registro_existente.categoria_id == categoria.id and
+            registro_existente.tipo == nuevo_tipo and
+            registro_existente.cantidad == nueva_cantidad and
+            registro_existente.concepto == nuevo_concepto):
+            return jsonify({"message": "No hay cambios para actualizar"}), 200
 
-    # Si hay un presupuesto asociado, ajustar el presupuesto restante
-    if presupuesto_existente:
-        presupuesto_existente.presupuesto_restante -= (nueva_cantidad - registro_existente.cantidad)
+        # Actualizar los datos del registro
+        registro_existente.categoria_id = categoria.id
+        registro_existente.tipo = nuevo_tipo
+        registro_existente.cantidad = nueva_cantidad
+        registro_existente.concepto = nuevo_concepto
 
-    # Actualizar los datos del registro
-    registro_existente.categoria_id = categoria.id
-    registro_existente.tipo = nuevo_tipo
-    registro_existente.cantidad = nueva_cantidad
-    registro_existente.concepto = nuevo_concepto
+        # Guardar cambios
+        db.session.commit()
 
-    # Guardar cambios
-    db.session.commit()
+        return jsonify({"message": "Registro modificado exitosamente"}), 200
 
-    return jsonify({"message": "Registro modificado exitosamente"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": f"Error al actualizar el registro: {str(e)}"}), 500
