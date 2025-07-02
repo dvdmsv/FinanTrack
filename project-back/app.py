@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import logging
 from scheduler import scheduler
@@ -13,7 +13,7 @@ from routes.pdf_routes import pdf_bp
 from routes.pago_routes import pago_bp
 from config import Config
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="project-front")
 app.config.from_object(Config)
 db.init_app(app)
 CORS(app, origins=Config.CORS_ORIGINS, methods=Config.METHODS, allow_headers=Config.HEADERS)
@@ -45,7 +45,15 @@ def before_request():
         return jsonify(headers), 200
     if request.method == 'OPTIONS':
         return jsonify({'message': 'Preflight check passed'}), 200
-    
+
+@app.route("/")
+def serve_index():
+    return send_from_directory("project-front", "index.html")
+
+@app.route("/<path:path>")
+def serve_static(path):
+    return send_from_directory("project-front", path)
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Crea las tablas si no existen
