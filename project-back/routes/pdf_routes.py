@@ -1,4 +1,5 @@
-from flask import Blueprint, request, jsonify, send_file
+import os
+from flask import Blueprint, request, jsonify, send_file, current_app
 from utils import token_required
 from fpdf import FPDF
 
@@ -36,17 +37,18 @@ def generarPdf(decoded):
 
     pdf = PDF()
     pdf.add_page()
-    
-    # Agregar encabezado de la tabla
     pdf.table_header()
-    
-    # Agregar registros a la tabla
+
     for registro in registros:
         pdf.add_row(registro)
 
-    # Guardar el PDF
-    pdf_path = "reporte_registros.pdf"
-    pdf.output(pdf_path)
+    # Construir ruta absoluta dentro de la carpeta estática del proyecto
+    folder_path = os.path.join(current_app.root_path, 'static')
+    os.makedirs(folder_path, exist_ok=True)  # crear carpeta si no existe
+    pdf_path = os.path.join(folder_path, 'reporte_registros.pdf')
 
-     # Devolver el archivo PDF
-    return send_file(pdf_path, as_attachment=True)
+    try:
+        pdf.output(pdf_path)
+        return send_file(pdf_path, as_attachment=True, download_name='reporte_registros.pdf', mimetype='application/pdf')
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
